@@ -23,7 +23,7 @@ class EyePiThriftHandler():
 
     def handleRequest(self, input):
 
-        facePiOutput = FacePiThriftClient.send_request(self, input.image)
+        facePiOutput = FacePiThriftClient.handle_request(self, input.image)
         eyeOutput = EyePiOutput()
         eyeOutput.personCollection = facePiOutput
         if not facePiOutput:
@@ -31,6 +31,9 @@ class EyePiThriftHandler():
         else:
             eyeOutput.ok = True
         return eyeOutput
+
+    def confimFace(self, input):
+        FacePiThriftClient.confim_face(self, input)
 
     def writeLog(self, input):
         print ("sayMsg(" + input + ")")

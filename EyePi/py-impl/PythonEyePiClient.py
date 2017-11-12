@@ -54,8 +54,14 @@ try:
 
     output = client.handleRequest(input)
     print(output)
+    if output.ok:
+        for face in output.personCollection:
+            confirm_input = ConfirmInput()
+            confirm_input.image = face.image
+            confirm_input.person = face.person
+            client.confimFace(confirm_input)
     client.writeLog(input)
- 
+
     transport.close()
  
 except Thrift.TException as tx:

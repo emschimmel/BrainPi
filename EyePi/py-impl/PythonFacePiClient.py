@@ -17,22 +17,13 @@ class FacePiThriftClient():
     def __init__(self):
         self.log = {}
 
-    def send_request(self, image):
+    def handle_request(self, image):
         try:
-                # Make socket
-            transport = TSocket.TSocket('localhost', 30303)
-
-            # Buffering is critical. Raw sockets are very slow
-            transport = TTransport.TBufferedTransport(transport)
-
-            # Wrap in a protocol
-            protocol = TBinaryProtocol.TBinaryProtocol(transport)
-
-            # Create a client to use the protocol encoder
-            client = FacePiThriftService.Client(protocol)
-
-            # Connect!
-            transport.open()
+            transport = TSocket.TSocket('localhost', 30303)     # Make socket
+            transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
+            protocol = TBinaryProtocol.TBinaryProtocol(transport) # Wrap in a protocol
+            client = FacePiThriftService.Client(protocol) # Create a client to use the protocol encoder
+            transport.open()        # Connect!
 
             input = FacePiInput()
             input.image = image
@@ -41,5 +32,21 @@ class FacePiThriftClient():
             transport.close()
             return output.personCollection
 
+        except Thrift.TException as tx:
+            print ("%s" % (tx.message))
+
+    def confim_face(self, input):
+        try:
+            transport = TSocket.TSocket('localhost', 30303)     # Make socket
+            transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
+            protocol = TBinaryProtocol.TBinaryProtocol(transport) # Wrap in a protocol
+            client = FacePiThriftService.Client(protocol) # Create a client to use the protocol encoder
+            transport.open()        # Connect!
+
+            # input = ConfirmInput()
+            # input.image = image
+            # input.person = person
+            client.confimFace(input)
+            transport.close()
         except Thrift.TException as tx:
             print ("%s" % (tx.message))

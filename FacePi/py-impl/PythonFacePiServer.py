@@ -15,7 +15,7 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
-import socket
+# import cv2
 
 
 class FacePiThriftHandler:
@@ -31,13 +31,19 @@ class FacePiThriftHandler:
         if (faces is not None):
             for face in faces:
                 person = PersonEntry()
-                person.person = 'Hans'
+                person.person = '== Hans =='
                 person.chance = 90.0
+            #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
                 personList.append(person)
         output = FacePiOutput()
         output.personCollection = personList
         print(output)
         return output
+
+    def confirmFace(self, input):
+        print(input)
+        # train the network with the found face with name
+        print(input.person)
 
 
 handler = FacePiThriftHandler()
