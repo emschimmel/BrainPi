@@ -7,3 +7,9 @@ sudo xcode-select --install
 
 
 https://realpython.com/blog/python/face-recognition-with-python/
+
+
+
+
+PIP install packages in virtual environment:
+pip install -Iv numpy scipy matplotlib ipython jupyter pandas sympy nose opencv-python
