@@ -21,7 +21,7 @@ struct EyePiInput {
 
 struct EyePiOutput {
 	1 : required bool ok
-	2 : optional set<PersonEntry> personCollection
+	2 : optional list<PersonEntry> personCollection
 }
 
 service EyePiThriftService {

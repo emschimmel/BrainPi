@@ -13,3 +13,22 @@ https://realpython.com/blog/python/face-recognition-with-python/
 
 PIP install packages in virtual environment:
 pip install -Iv numpy scipy matplotlib ipython jupyter pandas sympy nose opencv-python
+
+
+# generate thrift
+thrift -gen py EyePi.thrift
+thrift -gen py FacePi.thrift
+
+### startup instruction thrift tree
+### FacePi Server
+$ cd BrainPi/FacePi/py-impl
+$ python3 PythonFacePiServer.py
+
+### EyePi Server
+$ cd BrainPi/EyePi/py-impl
+$ python3 PythonEyePiServer.py
+
+### EyePi Start client
+$ cd BrainPi/EyePi/py-impl
+$ python3 PythonEyePiClient.py
+

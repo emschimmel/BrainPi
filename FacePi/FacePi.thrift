@@ -8,7 +8,7 @@ struct FacePiInput {
 }
 
 struct FacePiOutput {
-	1 : optional set<PersonEntry> personCollection
+	1 : optional list<PersonEntry> personCollection
 }
 
 service FacePiThriftService {

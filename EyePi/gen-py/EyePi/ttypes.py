@@ -252,7 +252,7 @@ class EyePiOutput(object):
     thrift_spec = (
         None,  # 0
         (1, TType.BOOL, 'ok', None, None, ),  # 1
-        (2, TType.SET, 'personCollection', (TType.STRUCT, (PersonEntry, PersonEntry.thrift_spec), False), None, ),  # 2
+        (2, TType.LIST, 'personCollection', (TType.STRUCT, (PersonEntry, PersonEntry.thrift_spec), False), None, ),  # 2
     )
 
     def __init__(self, ok=None, personCollection=None,):
@@ -274,14 +274,14 @@ class EyePiOutput(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.SET:
-                    self.personCollection = set()
-                    (_etype10, _size7) = iprot.readSetBegin()
+                if ftype == TType.LIST:
+                    self.personCollection = []
+                    (_etype10, _size7) = iprot.readListBegin()
                     for _i11 in range(_size7):
                         _elem12 = PersonEntry()
                         _elem12.read(iprot)
-                        self.personCollection.add(_elem12)
-                    iprot.readSetEnd()
+                        self.personCollection.append(_elem12)
+                    iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             else:
@@ -299,11 +299,11 @@ class EyePiOutput(object):
             oprot.writeBool(self.ok)
             oprot.writeFieldEnd()
         if self.personCollection is not None:
-            oprot.writeFieldBegin('personCollection', TType.SET, 2)
-            oprot.writeSetBegin(TType.STRUCT, len(self.personCollection))
+            oprot.writeFieldBegin('personCollection', TType.LIST, 2)
+            oprot.writeListBegin(TType.STRUCT, len(self.personCollection))
             for iter13 in self.personCollection:
                 iter13.write(oprot)
-            oprot.writeSetEnd()
+            oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
