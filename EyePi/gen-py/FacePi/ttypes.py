@@ -18,17 +18,20 @@ class PersonEntry(object):
     Attributes:
      - person
      - chance
+     - image
     """
 
     thrift_spec = (
         None,  # 0
         (1, TType.STRING, 'person', 'UTF8', None, ),  # 1
         (2, TType.DOUBLE, 'chance', None, None, ),  # 2
+        (3, TType.STRING, 'image', 'BINARY', None, ),  # 3
     )
 
-    def __init__(self, person=None, chance=None,):
+    def __init__(self, person=None, chance=None, image=None,):
         self.person = person
         self.chance = chance
+        self.image = image
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -49,6 +52,11 @@ class PersonEntry(object):
                     self.chance = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRING:
+                    self.image = iprot.readBinary()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -66,6 +74,10 @@ class PersonEntry(object):
         if self.chance is not None:
             oprot.writeFieldBegin('chance', TType.DOUBLE, 2)
             oprot.writeDouble(self.chance)
+            oprot.writeFieldEnd()
+        if self.image is not None:
+            oprot.writeFieldBegin('image', TType.STRING, 3)
+            oprot.writeBinary(self.image)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -206,6 +218,82 @@ class FacePiOutput(object):
         oprot.writeStructEnd()
 
     def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ConfirmInput(object):
+    """
+    Attributes:
+     - image
+     - person
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'image', 'BINARY', None, ),  # 1
+        (2, TType.STRING, 'person', 'UTF8', None, ),  # 2
+    )
+
+    def __init__(self, image=None, person=None,):
+        self.image = image
+        self.person = person
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.image = iprot.readBinary()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.person = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('ConfirmInput')
+        if self.image is not None:
+            oprot.writeFieldBegin('image', TType.STRING, 1)
+            oprot.writeBinary(self.image)
+            oprot.writeFieldEnd()
+        if self.person is not None:
+            oprot.writeFieldBegin('person', TType.STRING, 2)
+            oprot.writeString(self.person.encode('utf-8') if sys.version_info[0] == 2 else self.person)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.image is None:
+            raise TProtocolException(message='Required field image is unset!')
+        if self.person is None:
+            raise TProtocolException(message='Required field person is unset!')
         return
 
     def __repr__(self):

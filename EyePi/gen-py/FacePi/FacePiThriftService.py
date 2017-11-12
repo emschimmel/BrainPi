@@ -23,6 +23,13 @@ class Iface(object):
         """
         pass
 
+    def confimFace(self, input):
+        """
+        Parameters:
+         - input
+        """
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -62,12 +69,28 @@ class Client(Iface):
             return result.success
         raise TApplicationException(TApplicationException.MISSING_RESULT, "handleRequest failed: unknown result")
 
+    def confimFace(self, input):
+        """
+        Parameters:
+         - input
+        """
+        self.send_confimFace(input)
+
+    def send_confimFace(self, input):
+        self._oprot.writeMessageBegin('confimFace', TMessageType.ONEWAY, self._seqid)
+        args = confimFace_args()
+        args.input = input
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
         self._handler = handler
         self._processMap = {}
         self._processMap["handleRequest"] = Processor.process_handleRequest
+        self._processMap["confimFace"] = Processor.process_confimFace
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -102,6 +125,17 @@ class Processor(Iface, TProcessor):
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
+
+    def process_confimFace(self, seqid, iprot, oprot):
+        args = confimFace_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        try:
+            self._handler.confimFace(args.input)
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except:
+            pass
 
 # HELPER FUNCTIONS AND STRUCTURES
 
@@ -208,6 +242,67 @@ class handleRequest_result(object):
         if self.success is not None:
             oprot.writeFieldBegin('success', TType.STRUCT, 0)
             self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class confimFace_args(object):
+    """
+    Attributes:
+     - input
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRUCT, 'input', (ConfirmInput, ConfirmInput.thrift_spec), None, ),  # 1
+    )
+
+    def __init__(self, input=None,):
+        self.input = input
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.input = ConfirmInput()
+                    self.input.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('confimFace_args')
+        if self.input is not None:
+            oprot.writeFieldBegin('input', TType.STRUCT, 1)
+            self.input.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()

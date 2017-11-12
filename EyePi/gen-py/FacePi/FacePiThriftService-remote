@@ -25,6 +25,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('')
     print('Functions:')
     print('  FacePiOutput handleRequest(FacePiInput input)')
+    print('  void confimFace(ConfirmInput input)')
     print('')
     sys.exit(0)
 
@@ -109,6 +110,12 @@ if cmd == 'handleRequest':
         print('handleRequest requires 1 args')
         sys.exit(1)
     pp.pprint(client.handleRequest(eval(args[0]),))
+
+elif cmd == 'confimFace':
+    if len(args) != 1:
+        print('confimFace requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.confimFace(eval(args[0]),))
 
 else:
     print('Unrecognized method %s' % cmd)
