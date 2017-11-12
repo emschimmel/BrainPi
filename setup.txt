@@ -1,0 +1,9 @@
+pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+brew tap homebrew/science
+brew install opencv
+
+#xcode dev tools
+sudo xcode-select --install
+
+
+https://realpython.com/blog/python/face-recognition-with-python/
