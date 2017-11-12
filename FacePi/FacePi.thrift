@@ -1,13 +1,19 @@
 struct PersonEntry {
-	1 : string person
-	2 : double chance
+	1 : required string person
+	2 : required double chance
 }
 
 struct FacePiInput {
-	1 : binary image
+	1 : required binary image
 }
 
 struct FacePiOutput {
-	1 : set<PersonEntry> personCollection	
+	1 : optional set<PersonEntry> personCollection
+}
+
+service FacePiThriftService {
+
+    FacePiOutput handleRequest(1: FacePiInput input)
+
 }
 

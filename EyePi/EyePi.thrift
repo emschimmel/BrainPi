@@ -6,21 +6,27 @@ enum ActionEnum {
 }
 
 struct PersonEntry {
-	1 : string person
-	2 : double chance
+	1 : required string person
+	2 : required double chance
 }
 
 struct EyePiInput {
-	1 : ActionEnum action
-	2 : list<string> actionParameters
-	3 : string deviceToken
-	4 : string person
-	5 : string token
-	6 : binary image
+	1 : required ActionEnum action
+	2 : optional list<string> actionParameters
+	3 : required string deviceToken
+	4 : optional string person
+	5 : optional string token
+	6 : optional binary image
 }
 
 struct EyePiOutput {
-	1 : bool ok
-	2 : set<PersonEntry> personCollection
+	1 : required bool ok
+	2 : optional set<PersonEntry> personCollection
 }
 
+service EyePiThriftService {
+
+    EyePiOutput handleRequest(1: EyePiInput input)
+    oneway void writeLog(1: EyePiInput input)
+
+}
