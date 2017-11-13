@@ -3,3 +3,4 @@ FacePi/img/*
 EyePi/img/*
 *.iml
 *idea
+Thrift/gen-py/
