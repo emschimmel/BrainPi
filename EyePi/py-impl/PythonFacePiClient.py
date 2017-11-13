@@ -12,6 +12,9 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
+sys.path.append('../../')
+import config
+
 class FacePiThriftClient():
 
     def __init__(self):
@@ -19,7 +22,7 @@ class FacePiThriftClient():
 
     def handle_request(self, image):
         try:
-            transport = TSocket.TSocket('localhost', 30303)     # Make socket
+            transport = TSocket.TSocket(config.face_pi_ip, config.face_pi_port)     # Make socket
             transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport) # Wrap in a protocol
             client = FacePiThriftService.Client(protocol) # Create a client to use the protocol encoder
@@ -37,7 +40,7 @@ class FacePiThriftClient():
 
     def confim_face(self, input):
         try:
-            transport = TSocket.TSocket('localhost', 30303)     # Make socket
+            transport = TSocket.TSocket(config.face_pi_ip, config.face_pi_port)     # Make socket
             transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport) # Wrap in a protocol
             client = FacePiThriftService.Client(protocol) # Create a client to use the protocol encoder

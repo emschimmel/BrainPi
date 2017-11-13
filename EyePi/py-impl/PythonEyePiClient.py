@@ -17,10 +17,12 @@ from thrift.protocol import TBinaryProtocol
 import os.path
 import random # test
 
+sys.path.append('../../')
+import config
+
 ### test
-file_path = '../img/'
 def read_image():
-    root, dirs, files=next(os.walk(file_path))
+    root, dirs, files=next(os.walk(config.file_path))
     imageCollection=list(filter(lambda filename:filename.endswith('.jpg'), files))
     return random.choice(imageCollection)
 
@@ -29,7 +31,7 @@ def read_image():
 
 try:
         # Make socket
-    transport = TSocket.TSocket('localhost', 30302)
+    transport = TSocket.TSocket(config.eye_pi_ip, config.eye_pi_port)
  
     # Buffering is critical. Raw sockets are very slow
     transport = TTransport.TBufferedTransport(transport)
@@ -44,7 +46,7 @@ try:
     transport.open()
 
     input = EyePiInput()
-    filename = file_path +read_image()
+    filename = config.file_path +read_image()
     print('image == '+filename)
     file = open(filename, 'rb')
     input.image = file.read()

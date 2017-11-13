@@ -12,14 +12,13 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
- 
-import socket
+
+sys.path.append('../../')
+import config
  
 class EyePiThriftHandler():
     def __init__(self):
         self.log = {}
-
-
 
     def handleRequest(self, input):
 
@@ -41,7 +40,7 @@ class EyePiThriftHandler():
  
 handler = EyePiThriftHandler()
 processor = EyePiThriftService.Processor(handler)
-transport = TSocket.TServerSocket(port=30302)
+transport = TSocket.TServerSocket(port=config.eye_pi_port)
 tfactory = TTransport.TBufferedTransportFactory()
 pfactory = TBinaryProtocol.TBinaryProtocolFactory()
  

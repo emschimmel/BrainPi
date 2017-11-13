@@ -16,6 +16,8 @@ from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
 # import cv2
+sys.path.append('../../')
+import config
 
 
 class FacePiThriftHandler:
@@ -48,7 +50,7 @@ class FacePiThriftHandler:
 
 handler = FacePiThriftHandler()
 processor = FacePiThriftService.Processor(handler)
-transport = TSocket.TServerSocket(port=30303)
+transport = TSocket.TServerSocket(port=config.face_pi_port)
 
 tfactory = TTransport.TBufferedTransportFactory()
 pfactory = TBinaryProtocol.TBinaryProtocolFactory()
