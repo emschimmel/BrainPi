@@ -3,6 +3,7 @@ enum ActionEnum {
 	KAKU
 	AGENDA
 	MUSIC
+	WEATHER
 }
 
 struct PersonEntry {
