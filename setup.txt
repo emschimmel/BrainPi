@@ -1,6 +1,7 @@
 pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 brew tap homebrew/science
 brew install opencv
+brew install thrift
 
 #xcode dev tools
 sudo xcode-select --install
@@ -23,6 +24,10 @@ thrift -gen py FacePi.thrift
 ### FacePi Server
 $ cd BrainPi/FacePi/py-impl
 $ python3 PythonFacePiServer.py
+
+### WeatherPi Server
+$ cd BrainPi/WeatherPi/py-impl
+$ python3 PythonWeatherPiServer.py
 
 ### EyePi Server
 $ cd BrainPi/EyePi/py-impl
