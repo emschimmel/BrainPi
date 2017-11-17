@@ -18,12 +18,14 @@ class ActionEnum(object):
     KAKU = 1
     AGENDA = 2
     MUSIC = 3
+    WEATHER = 4
 
     _VALUES_TO_NAMES = {
         0: "LOGIN",
         1: "KAKU",
         2: "AGENDA",
         3: "MUSIC",
+        4: "WEATHER",
     }
 
     _NAMES_TO_VALUES = {
@@ -31,6 +33,7 @@ class ActionEnum(object):
         "KAKU": 1,
         "AGENDA": 2,
         "MUSIC": 3,
+        "WEATHER": 4,
     }
 
 
@@ -335,17 +338,20 @@ class EyePiOutput(object):
     Attributes:
      - ok
      - personCollection
+     - token
     """
 
     thrift_spec = (
         None,  # 0
         (1, TType.BOOL, 'ok', None, None, ),  # 1
         (2, TType.LIST, 'personCollection', (TType.STRUCT, (PersonEntry, PersonEntry.thrift_spec), False), None, ),  # 2
+        (3, TType.STRING, 'token', 'UTF8', None, ),  # 3
     )
 
-    def __init__(self, ok=None, personCollection=None,):
+    def __init__(self, ok=None, personCollection=None, token=None,):
         self.ok = ok
         self.personCollection = personCollection
+        self.token = token
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -372,6 +378,11 @@ class EyePiOutput(object):
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRING:
+                    self.token = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -392,6 +403,10 @@ class EyePiOutput(object):
             for iter13 in self.personCollection:
                 iter13.write(oprot)
             oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.token is not None:
+            oprot.writeFieldBegin('token', TType.STRING, 3)
+            oprot.writeString(self.token.encode('utf-8') if sys.version_info[0] == 2 else self.token)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()

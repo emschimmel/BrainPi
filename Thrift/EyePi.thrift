@@ -29,6 +29,7 @@ struct ConfirmInput {
 struct EyePiOutput {
 	1 : required bool ok
 	2 : optional list<PersonEntry> personCollection
+	3 : optional string token
 }
 
 service EyePiThriftService {

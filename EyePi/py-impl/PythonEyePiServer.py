@@ -35,7 +35,7 @@ class EyePiThriftHandler():
             cases = {
                 ActionEnum.MUSIC: lambda: self.make_music(input.actionParameters),
                 ActionEnum.AGENDA: lambda: self.make_agenda(input.actionParameters),
-                ActionEnum.KAKU: lambda: self.make_kaku(input.actionParameters)
+                ActionEnum.KAKU: lambda: self.make_kaku(input.actionParameters),
                 ActionEnum.WEATHER: lambda: self.make_weather(input.actionParameters)
             }
             cases[input.action]()
