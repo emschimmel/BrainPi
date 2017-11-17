@@ -3,4 +3,7 @@ FacePi/img/*
 EyePi/img/*
 *.iml
 *idea
-Thrift/gen-py/
+Thrift/gen-py/*
+EyePi/gen-py/*
+FacePi/gen-py/*
+WeatherPi/gen-py/*
