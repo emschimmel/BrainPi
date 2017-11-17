@@ -21,14 +21,24 @@ class EyePiThriftHandler():
         self.log = {}
 
     def handleRequest(self, input):
-
-        facePiOutput = FacePiThriftClient.handle_request(self, input.image)
         eyeOutput = EyePiOutput()
-        eyeOutput.personCollection = facePiOutput
-        if not facePiOutput:
+        if input.image:
+            facePiOutput = FacePiThriftClient.handle_request(self, input.image)
+            eyeOutput.personCollection = facePiOutput
+            if not facePiOutput:
+                eyeOutput.ok = False
+            else:
+                eyeOutput.ok = True
+        if not input.token and not input.image:
             eyeOutput.ok = False
-        else:
-            eyeOutput.ok = True
+        if eyeOutput.ok:
+            if input.action is ActionEnum.MUSIC:
+                print('MUSIC')
+            if input.action is ActionEnum.AGENDA:
+                print('AGENDA')
+            if input.action is ActionEnum.KAKU:
+                print('KAKU')
+
         return eyeOutput
 
     def confimFace(self, input):
