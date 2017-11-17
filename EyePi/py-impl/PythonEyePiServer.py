@@ -32,13 +32,12 @@ class EyePiThriftHandler():
         if not input.token and not input.image:
             eyeOutput.ok = False
         if eyeOutput.ok:
-            if input.action is ActionEnum.MUSIC:
-                print('MUSIC')
-            if input.action is ActionEnum.AGENDA:
-                print('AGENDA')
-            if input.action is ActionEnum.KAKU:
-                print('KAKU')
-
+            cases = {
+                ActionEnum.MUSIC: lambda: self.make_music(input.actionParameters),
+                ActionEnum.AGENDA: lambda: self.make_agenda(input.actionParameters),
+                ActionEnum.KAKU: lambda: self.make_kaku(input.actionParameters)
+            }
+            cases[input.action]()
         return eyeOutput
 
     def confimFace(self, input):
@@ -47,7 +46,15 @@ class EyePiThriftHandler():
     def writeLog(self, input):
         print ("sayMsg(" + input + ")")
 
- 
+    def make_music(self, parameters):
+        print('MUSIC')
+
+    def make_agenda(self, parameters):
+        print('AGENDA')
+
+    def make_kaku(self, parameters):
+        print('KAKU')
+
 handler = EyePiThriftHandler()
 processor = EyePiThriftService.Processor(handler)
 transport = TSocket.TServerSocket(port=config.eye_pi_port)
