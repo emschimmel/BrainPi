@@ -3,24 +3,6 @@
 import numpy as np
 import cv2
 import os.path
-import random # test
-
-
-##------------------------
-##     Config
-##------------------------
-#imageCollection = []
-#file_path = './img/'
-
-# def read_image():
-#     global imageCollection
-#
-#     root, dirs, files=next(os.walk(file_path))
-#     imageCollection=list(filter(lambda filename:filename.endswith('.jpg'), files))
-#     return random.choice(imageCollection)
-#
-# filename = read_image()
-# print (filename)
 
 class DetectFaces():
 

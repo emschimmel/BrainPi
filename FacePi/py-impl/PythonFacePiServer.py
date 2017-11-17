@@ -3,7 +3,8 @@
 import sys
 
 sys.path.append('../gen-py')
-sys.path.append('../')
+sys.path.append('./FaceDetection')
+sys.path.append('./FaceRecognition')
 
 from FacePi import FacePiThriftService
 from FacePi.ttypes import *
