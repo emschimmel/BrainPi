@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Kill PythonFacePiServer if running
+FacePiServerPID=$(ps | awk -F" " '/PythonFacePiServer.py/ && !/awk/{print $1}')
+[[ !  -z  $FacePiServerPID  ]] && kill -9 $FacePiServerPID
+
+# Kill PythonFacePiServer if running
+WeatherPiServerPID=$(ps | awk -F" " '/PythonWeatherPiServer.py/ && !/awk/{print $1}')
+[[ !  -z  $WeatherPiServerPID  ]] && kill -9 $WeatherPiServerPID
+
+# Kill PythonFacePiServer if running
+EyePiServerPID=$(ps | awk -F" " '/PythonEyePiServer.py/ && !/awk/{print $1}')
+[[ !  -z  $EyePiServerPID  ]] && kill -9 $EyePiServerPID
