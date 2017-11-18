@@ -9,6 +9,7 @@
 from thrift.Thrift import TType, TMessageType, TFrozenDict, TException, TApplicationException
 from thrift.protocol.TProtocol import TProtocolException
 import sys
+import GenericStruct.ttypes
 
 from thrift.transport import TTransport
 
@@ -139,7 +140,7 @@ class EyePiInput(object):
     thrift_spec = (
         None,  # 0
         (1, TType.I32, 'action', None, None, ),  # 1
-        (2, TType.LIST, 'actionParameters', (TType.STRING, 'UTF8', False), None, ),  # 2
+        (2, TType.STRUCT, 'actionParameters', (GenericStruct.ttypes.GenericObject, GenericStruct.ttypes.GenericObject.thrift_spec), None, ),  # 2
         (3, TType.STRING, 'deviceToken', 'UTF8', None, ),  # 3
         (4, TType.STRING, 'person', 'UTF8', None, ),  # 4
         (5, TType.STRING, 'token', 'UTF8', None, ),  # 5
@@ -169,13 +170,9 @@ class EyePiInput(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.LIST:
-                    self.actionParameters = []
-                    (_etype3, _size0) = iprot.readListBegin()
-                    for _i4 in range(_size0):
-                        _elem5 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.actionParameters.append(_elem5)
-                    iprot.readListEnd()
+                if ftype == TType.STRUCT:
+                    self.actionParameters = GenericStruct.ttypes.GenericObject()
+                    self.actionParameters.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
@@ -213,11 +210,8 @@ class EyePiInput(object):
             oprot.writeI32(self.action)
             oprot.writeFieldEnd()
         if self.actionParameters is not None:
-            oprot.writeFieldBegin('actionParameters', TType.LIST, 2)
-            oprot.writeListBegin(TType.STRING, len(self.actionParameters))
-            for iter6 in self.actionParameters:
-                oprot.writeString(iter6.encode('utf-8') if sys.version_info[0] == 2 else iter6)
-            oprot.writeListEnd()
+            oprot.writeFieldBegin('actionParameters', TType.STRUCT, 2)
+            self.actionParameters.write(oprot)
             oprot.writeFieldEnd()
         if self.deviceToken is not None:
             oprot.writeFieldBegin('deviceToken', TType.STRING, 3)
@@ -339,6 +333,7 @@ class EyePiOutput(object):
      - ok
      - personCollection
      - token
+     - data
     """
 
     thrift_spec = (
@@ -346,12 +341,14 @@ class EyePiOutput(object):
         (1, TType.BOOL, 'ok', None, None, ),  # 1
         (2, TType.LIST, 'personCollection', (TType.STRUCT, (PersonEntry, PersonEntry.thrift_spec), False), None, ),  # 2
         (3, TType.STRING, 'token', 'UTF8', None, ),  # 3
+        (4, TType.STRUCT, 'data', (GenericStruct.ttypes.GenericObject, GenericStruct.ttypes.GenericObject.thrift_spec), None, ),  # 4
     )
 
-    def __init__(self, ok=None, personCollection=None, token=None,):
+    def __init__(self, ok=None, personCollection=None, token=None, data=None,):
         self.ok = ok
         self.personCollection = personCollection
         self.token = token
+        self.data = data
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -370,17 +367,23 @@ class EyePiOutput(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.personCollection = []
-                    (_etype10, _size7) = iprot.readListBegin()
-                    for _i11 in range(_size7):
-                        _elem12 = PersonEntry()
-                        _elem12.read(iprot)
-                        self.personCollection.append(_elem12)
+                    (_etype3, _size0) = iprot.readListBegin()
+                    for _i4 in range(_size0):
+                        _elem5 = PersonEntry()
+                        _elem5.read(iprot)
+                        self.personCollection.append(_elem5)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.STRING:
                     self.token = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRUCT:
+                    self.data = GenericStruct.ttypes.GenericObject()
+                    self.data.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -400,13 +403,17 @@ class EyePiOutput(object):
         if self.personCollection is not None:
             oprot.writeFieldBegin('personCollection', TType.LIST, 2)
             oprot.writeListBegin(TType.STRUCT, len(self.personCollection))
-            for iter13 in self.personCollection:
-                iter13.write(oprot)
+            for iter6 in self.personCollection:
+                iter6.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.token is not None:
             oprot.writeFieldBegin('token', TType.STRING, 3)
             oprot.writeString(self.token.encode('utf-8') if sys.version_info[0] == 2 else self.token)
+            oprot.writeFieldEnd()
+        if self.data is not None:
+            oprot.writeFieldBegin('data', TType.STRUCT, 4)
+            self.data.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()

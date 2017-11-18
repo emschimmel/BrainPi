@@ -4,6 +4,7 @@ import sys
 sys.path.append('../gen-py')
 
 from PythonFacePiClient import FacePiThriftClient
+from GenericThriftClient import GenericThriftClient
 
 from EyePi import EyePiThriftService
 from EyePi.ttypes import *
@@ -20,6 +21,7 @@ class EyePiThriftHandler():
     def __init__(self):
         self.log = {}
 
+    ### External ###
     def handleRequest(self, input):
         eyeOutput = EyePiOutput()
         if input.image:
@@ -33,31 +35,24 @@ class EyePiThriftHandler():
             eyeOutput.ok = False
         if eyeOutput.ok:
             cases = {
-                ActionEnum.MUSIC: lambda: self.make_music(input.actionParameters),
-                ActionEnum.AGENDA: lambda: self.make_agenda(input.actionParameters),
-                ActionEnum.KAKU: lambda: self.make_kaku(input.actionParameters),
-                ActionEnum.WEATHER: lambda: self.make_weather(input.actionParameters)
+                ActionEnum.MUSIC: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.music_pi_ip, config.music_pi_port),
+                ActionEnum.AGENDA: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.agenda_pi_ip, config.agenda_pi_port),
+                ActionEnum.KAKU: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.kaku_pi_ip, config.kaku_pi_port),
+                ActionEnum.WEATHER: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.weather_pi_ip, config.weather_pi_port)
             }
             cases[input.action]()
         return eyeOutput
 
+    ### External ###
     def confimFace(self, input):
         FacePiThriftClient.confim_face(self, input)
 
+
+    ### External ###
     def writeLog(self, input):
         print ("sayMsg(" + input + ")")
 
-    def make_music(self, parameters):
-        print('MUSIC')
 
-    def make_agenda(self, parameters):
-        print('AGENDA')
-
-    def make_kaku(self, parameters):
-        print('KAKU')
-
-    def make_weather(self, parameters):
-        print('WEATHER')
 
 handler = EyePiThriftHandler()
 processor = EyePiThriftService.Processor(handler)

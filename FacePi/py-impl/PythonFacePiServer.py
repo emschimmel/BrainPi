@@ -26,7 +26,6 @@ class FacePiThriftHandler:
         self.log = {}
 
     def handleRequest(self, input):
-
         inputImage = input.image
         faces = DetectFaces.DetectFromBinary(self, inputImage)
         print("Found {0} faces!".format(len(faces)))

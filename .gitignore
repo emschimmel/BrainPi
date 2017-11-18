@@ -1,10 +1,12 @@
 .DS_Store
 *.pyc
+ClientPi/img/*
 FacePi/img/*
 EyePi/img/*
 *.iml
 *idea
 Thrift/gen-py/*
+ClientPi/gen-py/*
 EyePi/gen-py/*
 FacePi/gen-py/*
 WeatherPi/gen-py/*

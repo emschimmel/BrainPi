@@ -1,3 +1,5 @@
+include "GenericStruct.thrift"
+
 enum ActionEnum {
 	LOGIN
 	KAKU
@@ -14,7 +16,7 @@ struct PersonEntry {
 
 struct EyePiInput {
 	1 : required ActionEnum action
-	2 : optional list<string> actionParameters
+	2 : optional GenericStruct.GenericObject actionParameters
 	3 : required string deviceToken
 	4 : optional string person
 	5 : optional string token
@@ -30,6 +32,7 @@ struct EyePiOutput {
 	1 : required bool ok
 	2 : optional list<PersonEntry> personCollection
 	3 : optional string token
+	4 : optional GenericStruct.GenericObject data
 }
 
 service EyePiThriftService {
