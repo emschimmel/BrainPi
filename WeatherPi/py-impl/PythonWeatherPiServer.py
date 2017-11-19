@@ -5,8 +5,9 @@ import sys
 sys.path.append('../gen-py')
 sys.path.append('../')
 
-from WeatherPi import WeatherPiThriftService
-from WeatherPi.ttypes import *
+from GenericServerPi import GenericPiThriftService
+from GenericServerPi.ttypes import *
+from GenericStruct.ttypes import *
 from ThriftException.ttypes import *
 
 from thrift.transport import TSocket
@@ -26,8 +27,17 @@ class WeatherPiThriftHandler:
     def handleRequest(self, input):
         try:
             print(input)
-            output = WeatherPiOutput()
-            output.temperature = 12
+            output = GenericObject()
+            
+            ### if map structure ###
+            key = GenericObject()
+            key.stringValue = 'temperature'
+            value = GenericObject()
+            value.intValue = 12
+            output.mapValue = {key, value}
+
+            ### if int structure ###
+            output.intValue = 12
             print(output)
             return output
 
@@ -37,7 +47,7 @@ class WeatherPiThriftHandler:
 
 
 handler = WeatherPiThriftHandler()
-processor = WeatherPiThriftService.Processor(handler)
+processor = GenericPiThriftService.Processor(handler)
 transport = TSocket.TServerSocket(port=config.weather_pi_port)
 
 tfactory = TTransport.TBufferedTransportFactory()
