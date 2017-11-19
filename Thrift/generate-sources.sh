@@ -25,4 +25,4 @@ cp -Rf ./gen-py/ThriftException ../FacePi/gen-py/
 # GenericServerPi for WeatherPi
 cp -Rf ./gen-py/GenericStruct   ../WeatherPi/gen-py/
 cp -Rf ./gen-py/GenericServerPi ../WeatherPi/gen-py/
-cp -Rf ./gen-py/ThriftException ../EyePi/gen-py/
+cp -Rf ./gen-py/ThriftException ../WeatherPi/gen-py/
