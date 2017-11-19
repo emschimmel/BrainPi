@@ -29,5 +29,5 @@ python3 PythonEyePiServer.py &
 ### EyePi Start client
 ### Execute dummy client
 sleep 1
-cd ${home}/EyePi/py-impl
+cd ${home}/ClientPi/py-impl
 python3 PythonEyePiClient.py
