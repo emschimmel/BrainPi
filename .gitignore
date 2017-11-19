@@ -10,3 +10,4 @@ ClientPi/gen-py/*
 EyePi/gen-py/*
 FacePi/gen-py/*
 WeatherPi/gen-py/*
+WeatherPi/api-key/api-key.txt
