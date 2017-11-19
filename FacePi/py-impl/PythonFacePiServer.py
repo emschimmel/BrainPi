@@ -6,8 +6,10 @@ sys.path.append('../gen-py')
 sys.path.append('./FaceDetection')
 sys.path.append('./FaceRecognition')
 
+
 from FacePi import FacePiThriftService
 from FacePi.ttypes import *
+from ThriftException.ttypes import *
 
 from DetectFaces import DetectFaces
 
@@ -44,7 +46,7 @@ class FacePiThriftHandler:
             return output
         except Exception as ex:
             print('invalid request %s' % ex)
-
+            raise ThriftServiceException('FacePi', 'invalid request %s' % ex)
 
     def confirmFace(self, input):
         print(input)

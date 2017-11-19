@@ -7,6 +7,7 @@ sys.path.append('../')
 
 from WeatherPi import WeatherPiThriftService
 from WeatherPi.ttypes import *
+from ThriftException.ttypes import *
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -23,11 +24,17 @@ class WeatherPiThriftHandler:
         self.log = {}
 
     def handleRequest(self, input):
-        print(input)
-        output = WeatherPiOutput()
-        output.temperature = 12
-        print(output)
-        return output
+        try:
+            print(input)
+            output = WeatherPiOutput()
+            output.temperature = 12
+            print(output)
+            return output
+
+        except Exception as ex:
+            print('invalid request %s' % ex)
+            raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
+
 
 handler = WeatherPiThriftHandler()
 processor = WeatherPiThriftService.Processor(handler)

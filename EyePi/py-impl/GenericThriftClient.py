@@ -9,6 +9,7 @@ from GenericStruct.constants import *
 from GenericServerPi import GenericPiThriftService
 from GenericServerPi.ttypes import *
 from GenericServerPi.constants import *
+from ThriftException.ttypes import *
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -37,4 +38,11 @@ class GenericThriftClient():
 
         except Thrift.TException as tx:
             print('%s' % (tx.message))
+            raise ThriftServiceException('generic', tx.message)
+        except ThriftServiceException as tex:
+            print('thrift exception request %s' % tex)
+        except ExternalEndpointUnavailable as endEx:
+            print('endpoint exception request %s' % endEx)
+        except Exception as ex:
+            print('whot??? %s' % ex)
 

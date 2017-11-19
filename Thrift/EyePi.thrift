@@ -1,4 +1,5 @@
 include "GenericStruct.thrift"
+include "ThriftException.thrift"
 
 enum ActionEnum {
 	LOGIN
@@ -36,7 +37,7 @@ struct EyePiOutput {
 }
 
 service EyePiThriftService {
-    EyePiOutput handleRequest(1: EyePiInput input)
+    EyePiOutput handleRequest(1: EyePiInput input) throws (1: ThriftException.ExternalEndpointUnavailable endPointUnavailiable 2: ThriftException.ThriftServiceException thriftException)
     oneway void confimFace(1: ConfirmInput input)
     oneway void writeLog(1: EyePiInput input)
 

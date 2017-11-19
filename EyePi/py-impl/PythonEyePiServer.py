@@ -8,6 +8,7 @@ from GenericThriftClient import GenericThriftClient
 
 from EyePi import EyePiThriftService
 from EyePi.ttypes import *
+from ThriftException.ttypes import *
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -45,6 +46,7 @@ class EyePiThriftHandler():
             return eyeOutput
         except Exception as ex:
             print('invalid request %s' % ex)
+            raise ThriftServiceException('FacePi', 'invalid request %s' % ex)
 
     ### External ###
     def confimFace(self, input):

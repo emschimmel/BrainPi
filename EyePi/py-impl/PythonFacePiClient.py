@@ -52,4 +52,10 @@ class FacePiThriftClient():
             client.confimFace(input)
             transport.close()
         except Thrift.TException as tx:
-            print ("%s" % (tx.message))
+            print('%s' % (tx.message))
+        except ThriftServiceException as tex:
+            print('thrift exception request %s' % tex)
+        except ExternalEndpointUnavailable as endEx:
+            print('endpoint exception request %s' % endEx)
+        except Exception as ex:
+            print('whot??? %s' % ex)
