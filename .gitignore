@@ -11,3 +11,5 @@ EyePi/gen-py/*
 FacePi/gen-py/*
 WeatherPi/gen-py/*
 ShortTermMemory/gen-py/*
+WeatherPi/api-key/api-key.txt
+
