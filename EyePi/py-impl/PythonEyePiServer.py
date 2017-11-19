@@ -23,25 +23,28 @@ class EyePiThriftHandler():
 
     ### External ###
     def handleRequest(self, input):
-        eyeOutput = EyePiOutput()
-        if input.image:
-            facePiOutput = FacePiThriftClient.handle_request(self, input.image)
-            eyeOutput.personCollection = facePiOutput
-            if not facePiOutput:
+        try:
+            eyeOutput = EyePiOutput()
+            if input.image:
+                facePiOutput = FacePiThriftClient.handle_request(self, input.image)
+                eyeOutput.personCollection = facePiOutput
+                if not facePiOutput:
+                    eyeOutput.ok = False
+                else:
+                    eyeOutput.ok = True
+            if not input.token and not input.image:
                 eyeOutput.ok = False
-            else:
-                eyeOutput.ok = True
-        if not input.token and not input.image:
-            eyeOutput.ok = False
-        if eyeOutput.ok:
-            cases = {
-                ActionEnum.MUSIC: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.music_pi_ip, config.music_pi_port),
-                ActionEnum.AGENDA: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.agenda_pi_ip, config.agenda_pi_port),
-                ActionEnum.KAKU: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.kaku_pi_ip, config.kaku_pi_port),
-                ActionEnum.WEATHER: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.weather_pi_ip, config.weather_pi_port)
-            }
-            cases[input.action]()
-        return eyeOutput
+            if eyeOutput.ok:
+                cases = {
+                    ActionEnum.MUSIC: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.music_pi_ip, config.music_pi_port),
+                    ActionEnum.AGENDA: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.agenda_pi_ip, config.agenda_pi_port),
+                    ActionEnum.KAKU: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.kaku_pi_ip, config.kaku_pi_port),
+                    ActionEnum.WEATHER: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.weather_pi_ip, config.weather_pi_port)
+                }
+                cases[input.action]()
+            return eyeOutput
+        except Exception as ex:
+            print('invalid request %s' % ex)
 
     ### External ###
     def confimFace(self, input):

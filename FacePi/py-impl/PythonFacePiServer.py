@@ -26,21 +26,25 @@ class FacePiThriftHandler:
         self.log = {}
 
     def handleRequest(self, input):
-        inputImage = input.image
-        faces = DetectFaces.DetectFromBinary(self, inputImage)
-        print("Found {0} faces!".format(len(faces)))
-        personList = []
-        if (faces is not None):
-            for face in faces:
-                person = PersonEntry()
-                person.person = '== Hans =='
-                person.chance = 90.0
-            #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
-                personList.append(person)
-        output = FacePiOutput()
-        output.personCollection = personList
-        print(output)
-        return output
+        try:
+            inputImage = input.image
+            faces = DetectFaces.DetectFromBinary(self, inputImage)
+            print("Found {0} faces!".format(len(faces)))
+            personList = []
+            if (faces is not None):
+                for face in faces:
+                    person = PersonEntry()
+                    person.person = '== Hans =='
+                    person.chance = 90.0
+                #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
+                    personList.append(person)
+            output = FacePiOutput()
+            output.personCollection = personList
+            print(output)
+            return output
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
 
     def confirmFace(self, input):
         print(input)

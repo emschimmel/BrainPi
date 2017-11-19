@@ -22,6 +22,7 @@ class GenericThriftClient():
         self.log = {}
 
     def handle_request(self, input, ip, port):
+        print('generic handler')
         try:
             transport = TSocket.TSocket(ip, port)  # Make socket
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
@@ -35,5 +36,5 @@ class GenericThriftClient():
             return output
 
         except Thrift.TException as tx:
-            print("%s" % (tx.message))
+            print('%s' % (tx.message))
 

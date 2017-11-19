@@ -36,7 +36,7 @@ class FacePiThriftClient():
             return output.personCollection
 
         except Thrift.TException as tx:
-            print ("%s" % (tx.message))
+            print ('%s' % (tx.message))
 
     def confim_face(self, input):
         try:
