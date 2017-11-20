@@ -52,7 +52,7 @@ try:
     input.image = file.read()
 
     input.deviceToken = 'myLaptop'
-    input.action = ActionEnum.MUSIC
+    input.action = ActionEnum.WEATHER
 
     output = client.handleRequest(input)
     print(output)

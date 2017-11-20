@@ -15,7 +15,7 @@ from thrift.protocol import TBinaryProtocol
 sys.path.append('../../')
 import config
 
-class FacePiThriftClient():
+class FacePiThriftClient:
 
     def __init__(self):
         self.log = {}
@@ -53,9 +53,11 @@ class FacePiThriftClient():
             transport.close()
         except Thrift.TException as tx:
             print('%s' % (tx.message))
+            raise ThriftServiceException('FacePi', tx.message)
         except ThriftServiceException as tex:
             print('thrift exception request %s' % tex)
         except ExternalEndpointUnavailable as endEx:
             print('endpoint exception request %s' % endEx)
         except Exception as ex:
             print('whot??? %s' % ex)
+

@@ -13,7 +13,7 @@ agenda_pi_port      = 30306
 kaku_pi_ip          = 'localhost'
 kaku_pi_port        = 30307
 
-short_storate_ip    = 'localhost'
-short_storate_port  = 30202
-long_storate_ip     = 'localhost'
-long_storate_port   = 30203
+short_storage_ip    = 'localhost'
+short_storage_port  = 30202
+long_storage_ip     = 'localhost'
+long_storage_port   = 30203

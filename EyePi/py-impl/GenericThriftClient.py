@@ -18,7 +18,7 @@ from thrift.protocol import TBinaryProtocol
 
 
 
-class GenericThriftClient():
+class GenericThriftClient:
     def __init__(self):
         self.log = {}
 

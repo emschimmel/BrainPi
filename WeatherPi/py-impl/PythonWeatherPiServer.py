@@ -28,13 +28,11 @@ class WeatherPiThriftHandler:
         try:
             print(input)
             output = GenericObject()
-            
+
             ### if map structure ###
-            key = GenericObject()
-            key.stringValue = 'temperature'
             value = GenericObject()
             value.intValue = 12
-            output.mapValue = {key, value}
+            output.mapValue = {'temperature', value}
 
             ### if int structure ###
             output.intValue = 12

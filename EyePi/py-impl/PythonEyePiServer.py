@@ -5,6 +5,7 @@ sys.path.append('../gen-py')
 
 from PythonFacePiClient import FacePiThriftClient
 from GenericThriftClient import GenericThriftClient
+from ShortTermMemoryClient import ShortTermMemoryClient
 
 from EyePi import EyePiThriftService
 from EyePi.ttypes import *
@@ -18,16 +19,17 @@ from thrift.server import TServer
 sys.path.append('../../')
 import config
  
-class EyePiThriftHandler():
+class EyePiThriftHandler:
     def __init__(self):
         self.log = {}
 
     ### External ###
     def handleRequest(self, input):
         try:
+            ShortTermMemoryClient().log_event(input, message='start eyepi')
             eyeOutput = EyePiOutput()
             if input.image:
-                facePiOutput = FacePiThriftClient.handle_request(self, input.image)
+                facePiOutput = FacePiThriftClient().handle_request(input.image)
                 eyeOutput.personCollection = facePiOutput
                 if not facePiOutput:
                     eyeOutput.ok = False
@@ -37,16 +39,17 @@ class EyePiThriftHandler():
                 eyeOutput.ok = False
             if eyeOutput.ok:
                 cases = {
-                    ActionEnum.MUSIC: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.music_pi_ip, config.music_pi_port),
-                    ActionEnum.AGENDA: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.agenda_pi_ip, config.agenda_pi_port),
-                    ActionEnum.KAKU: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.kaku_pi_ip, config.kaku_pi_port),
-                    ActionEnum.WEATHER: lambda: GenericThriftClient.handle_request(self, input.actionParameters, config.weather_pi_ip, config.weather_pi_port)
+                    ActionEnum.MUSIC: lambda: GenericThriftClient().handle_request(input.actionParameters, config.music_pi_ip, config.music_pi_port),
+                    ActionEnum.AGENDA: lambda: GenericThriftClient().handle_request(input.actionParameters, config.agenda_pi_ip, config.agenda_pi_port),
+                    ActionEnum.KAKU: lambda: GenericThriftClient().handle_request(input.actionParameters, config.kaku_pi_ip, config.kaku_pi_port),
+                    ActionEnum.WEATHER: lambda: GenericThriftClient().handle_request(input.actionParameters, config.weather_pi_ip, config.weather_pi_port)
                 }
                 cases[input.action]()
             return eyeOutput
         except Exception as ex:
+            ShortTermMemoryClient().log_exception(input, ex)
             print('invalid request %s' % ex)
-            raise ThriftServiceException('FacePi', 'invalid request %s' % ex)
+            raise ThriftServiceException('EyePi', 'invalid request %s' % ex)
 
     ### External ###
     def confimFace(self, input):
