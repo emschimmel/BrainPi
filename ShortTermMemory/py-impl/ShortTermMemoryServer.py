@@ -4,6 +4,9 @@ sys.path.append('../gen-py')
 from ShortMemory import ShortMemoryService
 from ShortMemory.ttypes import *
 
+from TokenMemory import TokenMemory
+from LogMemory import LogMemory
+
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
@@ -16,37 +19,28 @@ class ShortTermMemoryThriftServer:
     def __init__(self):
         self.log = {}
 
-    def getPerson(self, token):
+    def getToken(self, tokenObject):
         try:
-            print(token)
-            return token
+            return TokenMemory().generateToken(tokenObject)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    def getToken(self, token):
+    def validateToken(self, stringToken, deviceToken):
         try:
-            print(token)
-            return token
-        except Exception as ex:
-            print('invalid request %s' % ex)
-
-    def writeToken(self, token):
-        try:
-            print(token)
+            return TokenMemory().validateToken(stringToken, deviceToken)
         except Exception as ex:
             print('invalid request %s' % ex)
 
     def writeLog(self, log):
+        print('----> writeLog')
         try:
-            print(log.key)
+            LogMemory().storeLog(log)
         except Exception as ex:
             print('invalid request %s' % ex)
 
     def readLog(self, starttime, endtime, amount):
         try:
-            print(starttime)
-            print(endtime)
-            print(amount)
+            return LogMemory().getLog(starttime, endtime, amount)
         except Exception as ex:
             print('invalid request %s' % ex)
 

@@ -30,7 +30,7 @@ class FacePiThriftHandler:
     def handleRequest(self, input):
         try:
             inputImage = input.image
-            faces = DetectFaces.DetectFromBinary(self, inputImage)
+            faces = DetectFaces().DetectFromBinary(inputImage)
             print("Found {0} faces!".format(len(faces)))
             personList = []
             if (faces is not None):

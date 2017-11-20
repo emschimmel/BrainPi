@@ -29,7 +29,8 @@ class ShortTermMemoryClient:
         logObject.person = input.person
         logObject.deviceToken = input.deviceToken
         ts = time.time()
-        log.key = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        log.key = datetime.datetime.utcnow()
         log.value = logObject
         self.write_log(input)
 
@@ -44,7 +45,8 @@ class ShortTermMemoryClient:
         logObject.person = input.person
         logObject.deviceToken = input.deviceToken
         ts = time.time()
-        log.key = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        log.key = datetime.datetime.utcnow()
         log.value = logObject
         self.write_log(input)
 
@@ -58,7 +60,8 @@ class ShortTermMemoryClient:
         logObject.person = input.person
         logObject.deviceToken = input.deviceToken
         ts = time.time()
-        log.key = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        log.key = datetime.datetime.utcnow()
         log.value = logObject
         self.write_log(input)
 
