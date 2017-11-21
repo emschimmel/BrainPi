@@ -30,9 +30,9 @@ class ShortTermMemoryClient:
         logObject.deviceToken = input.deviceToken
         ts = time.time()
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
-        log.key = datetime.datetime.utcnow()
+        log.key = ts
         log.value = logObject
-        self.write_log(input)
+        self.write_log(log)
 
     def log_thrift_exception(self, input, exception):
         log = Log()
@@ -46,9 +46,9 @@ class ShortTermMemoryClient:
         logObject.deviceToken = input.deviceToken
         ts = time.time()
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
-        log.key = datetime.datetime.utcnow()
+        log.key = ts
         log.value = logObject
-        self.write_log(input)
+        self.write_log(log)
 
     def log_event(self, input, message):
         log = Log()
@@ -61,9 +61,10 @@ class ShortTermMemoryClient:
         logObject.deviceToken = input.deviceToken
         ts = time.time()
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
-        log.key = datetime.datetime.utcnow()
+        log.key = ts
         log.value = logObject
-        self.write_log(input)
+        print(log)
+        self.write_log(log)
 
     def write_log(self, input):
         print('short term memory handler')

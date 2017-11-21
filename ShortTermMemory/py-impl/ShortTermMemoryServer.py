@@ -32,7 +32,7 @@ class ShortTermMemoryThriftServer:
             print('invalid request %s' % ex)
 
     def writeLog(self, log):
-        print('----> writeLog')
+        print('----> writeLog ')
         try:
             LogMemory().storeLog(log)
         except Exception as ex:

@@ -1,7 +1,5 @@
 include "GenericStruct.thrift"
 
-typedef string Timestamp
-
 enum ActionEnum {
 	LOGIN
 	KAKU
@@ -15,7 +13,7 @@ struct TokenObject {
 	2: optional string person
 	3: required string token
 	4: optional binary image
-	5: optional Timestamp date
+	5: optional string date
     6: optional i64 time
 }
 
@@ -27,17 +25,17 @@ struct LogObject {
     5: optional string endpoint
     6: optional string person
     7: optional string deviceToken
-    8: optional Timestamp date
+    8: optional string date
 }
 
 struct Log {
-    1: required Timestamp key
+    1: required double key
     2: optional LogObject value
 }
 
 service ShortMemoryService {
     string generateToken(1: TokenObject token)
-    list<Log> readLog(1: Timestamp starttime, 2: Timestamp endtime, 3: i32 amount)
+    list<Log> readLog(1: double starttime, 2: double endtime, 3: i32 amount)
     bool validateToken(1: string token, 2: string deviceToken)
     oneway void writeLog(1: Log log)
 }

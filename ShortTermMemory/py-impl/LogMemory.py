@@ -7,13 +7,14 @@ class LogMemory:
 
     logMemory = dict()
 
+
     def __init__(self):
         self.log = {}
 
     def storeLog(self, logInput):
         global logMemory
         print(logInput)
-        logMemory.update({logInput.key, logInput.value})
+        logMemory[logInput.key] = logInput.value
 
     def getLog(self, starttime, endtime, amount):
         global logMemory
