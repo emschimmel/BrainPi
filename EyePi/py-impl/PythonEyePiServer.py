@@ -46,6 +46,13 @@ class EyePiThriftHandler:
                 }
                 cases[input.action]()
             return eyeOutput
+        # except Thrift.TException as tx:
+        #     ShortTermMemoryClient().log_thrift_exception(input, tx)
+        #except ThriftServiceException as tex:
+        #     ShortTermMemoryClient().log_thrift_exception(input, tex)
+        # except ExternalEndpointUnavailable as endEx:
+        #     ShortTermMemoryClient().log_thrift_exception(input, endEx)
+            # probably try again
         except Exception as ex:
             ShortTermMemoryClient().log_exception(input, ex)
             print('invalid request %s' % ex)

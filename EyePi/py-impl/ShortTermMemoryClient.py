@@ -39,7 +39,7 @@ class ShortTermMemoryClient:
         logObject = LogObject()
         logObject.action = input.action
         logObject.actionParameters = input.actionParameters
-        # logObject.serviceName = exception.serviceName
+        logObject.serviceName = exception.serviceName
         logObject.message = exception.message
         logObject.endpoint = exception.endpoint
         logObject.person = input.person

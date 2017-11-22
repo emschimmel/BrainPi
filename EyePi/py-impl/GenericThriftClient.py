@@ -41,8 +41,11 @@ class GenericThriftClient:
             raise ThriftServiceException('generic', tx.message)
         except ThriftServiceException as tex:
             print('thrift exception request %s' % tex)
+            raise tex
         except ExternalEndpointUnavailable as endEx:
             print('endpoint exception request %s' % endEx)
+            raise endEx
         except Exception as ex:
             print('whot??? %s' % ex)
+            raise ex
 
