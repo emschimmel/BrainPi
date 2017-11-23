@@ -17,6 +17,10 @@ class TokenMemory:
         self.log = {}
 
     def generateToken(self, tokenObject):
+        if tokenObject.token:
+            oldKey = self.generateKey(tokenObject.token, tokenObject.deviceToken)
+            if self.tokenMemory.get(oldKey):
+                del self.tokenMemory[oldKey]
         newToken, key = self.generateNewToken(tokenObject.deviceToken)
         tokenObject.time = datetime.datetime.utcnow()
         ts = time.time()
