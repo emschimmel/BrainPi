@@ -2,17 +2,7 @@
 
 export home="$PWD"
 
-# Kill PythonFacePiServer if running
-FacePiServerPID=$(ps | awk -F" " '/PythonFacePiServer.py/ && !/awk/{print $1}')
-[[ !  -z  $FacePiServerPID  ]] && kill -9 $FacePiServerPID
-
-# Kill PythonFacePiServer if running
-WeatherPiServerPID=$(ps | awk -F" " '/PythonWeatherPiServer.py/ && !/awk/{print $1}')
-[[ !  -z  $WeatherPiServerPID  ]] && kill -9 $WeatherPiServerPID
-
-# Kill PythonFacePiServer if running
-EyePiServerPID=$(ps | awk -F" " '/PythonEyePiServer.py/ && !/awk/{print $1}')
-[[ !  -z  $EyePiServerPID  ]] && kill -9 $EyePiServerPID
+source kill_all.sh
 
 ### FacePi Server
 cd ${home}/FacePi/py-impl
@@ -25,6 +15,10 @@ python3 PythonWeatherPiServer.py &
 ### EyePi Server
 cd ${home}/EyePi/py-impl
 python3 PythonEyePiServer.py &
+
+### ShortTermMemory Server
+cd ${home}/ShortTermMemory/py-impl
+python3 ShortTermMemoryServer.py &
 
 ### EyePi Start client
 ### Execute dummy client

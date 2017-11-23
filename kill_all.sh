@@ -11,3 +11,7 @@ WeatherPiServerPID=$(ps | awk -F" " '/PythonWeatherPiServer.py/ && !/awk/{print 
 # Kill PythonFacePiServer if running
 EyePiServerPID=$(ps | awk -F" " '/PythonEyePiServer.py/ && !/awk/{print $1}')
 [[ !  -z  $EyePiServerPID  ]] && kill -9 $EyePiServerPID
+
+# Kill PythonFacePiServer if running
+ShortTermMemoryServerPID=$(ps | awk -F" " '/ShortTermMemoryServer.py/ && !/awk/{print $1}')
+[[ !  -z  $ShortTermMemoryServerPID  ]] && kill -9 $ShortTermMemoryServerPID
