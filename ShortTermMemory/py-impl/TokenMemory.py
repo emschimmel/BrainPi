@@ -17,8 +17,7 @@ class TokenMemory:
         self.log = {}
 
     def generateToken(self, tokenObject):
-        newToken = self.generateNewToken()
-        key = self.generateKey(newToken, tokenObject.deviceToken)
+        newToken, key = self.generateNewToken(tokenObject.deviceToken)
         tokenObject.time = datetime.datetime.utcnow()
         ts = time.time()
         tokenObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
@@ -40,8 +39,13 @@ class TokenMemory:
 
 
     def generateKey(self, token, deviceToken):
-        return token.join(':').join(deviceToken)
+        return ''.join([token, ':', deviceToken])
 
-    def generateNewToken(self):
-        return ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
+    def generateNewToken(self, deviceToken):
+        newToken = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
+        key = self.generateKey(newToken, deviceToken)
+        if self.tokenMemory.get(key):
+            self.generateNewToken(deviceToken)
+        else:
+            return newToken, key
 
