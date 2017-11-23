@@ -15,7 +15,7 @@ import time
 import datetime
 # ShortTermMemoryClient.py
 
-class ShortTermMemoryClient:
+class ShortTermLogMemoryClient:
     def __init__(self):
         self.log = {}
 
@@ -25,7 +25,7 @@ class ShortTermMemoryClient:
         logObject.action = input.action
         logObject.actionParameters = input.actionParameters
         logObject.serviceName = 'EyePi'
-        logObject.message = exception
+        logObject.message = ('%s' % exception)
         logObject.person = input.person
         logObject.deviceToken = input.deviceToken
         ts = time.time()
@@ -83,57 +83,3 @@ class ShortTermMemoryClient:
         except Exception as ex:
             print('whot??? %s' % ex)
 
-    def write_token(self, input):
-        print('short term memory handler')
-        try:
-            transport = TSocket.TSocket(config.short_storage_ip, config.short_storage_port)  # Make socket
-            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
-            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
-            client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
-            transport.open()  # Connect!
-
-            client.writeToken(input)
-            transport.close()
-
-        except Thrift.TException as tx:
-            print('%s' % (tx.message))
-        except Exception as ex:
-            print('whot??? %s' % ex)
-
-    def get_token(self, input):
-        print('short term memory handler')
-        try:
-            transport = TSocket.TSocket(config.short_storage_ip, config.short_storage_port)  # Make socket
-            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
-            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
-            client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
-            transport.open()  # Connect!
-
-            output = client.getToken(input)
-            print(output)
-            transport.close()
-            return output
-
-        except Thrift.TException as tx:
-            print('%s' % (tx.message))
-        except Exception as ex:
-            print('whot??? %s' % ex)
-
-    def get_person(self, input):
-        print('short term memory handler')
-        try:
-            transport = TSocket.TSocket(config.short_storage_ip, config.short_storage_port)  # Make socket
-            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
-            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
-            client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
-            transport.open()  # Connect!
-
-            output = client.getPerson(input)
-            print(output)
-            transport.close()
-            return output
-
-        except Thrift.TException as tx:
-            print('%s' % (tx.message))
-        except Exception as ex:
-            print('whot??? %s' % ex)

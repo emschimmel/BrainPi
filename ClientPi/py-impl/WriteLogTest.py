@@ -40,7 +40,7 @@ try:
 
 
     input.deviceToken = 'myLaptop'
-    input.action = ActionEnum.WEATHER
+    input.action = ActionEnum.LOGIN
 
     client.writeLog(input)
 

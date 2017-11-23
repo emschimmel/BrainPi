@@ -19,7 +19,7 @@ class ShortTermMemoryThriftServer:
     def __init__(self):
         self.log = {}
 
-    def getToken(self, tokenObject):
+    def generateToken(self, tokenObject):
         try:
             return TokenMemory().generateToken(tokenObject)
         except Exception as ex:

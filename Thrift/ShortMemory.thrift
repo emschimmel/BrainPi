@@ -14,7 +14,7 @@ struct TokenObject {
 	3: required string token
 	4: optional binary image
 	5: optional string date
-    6: optional i64 time
+    6: optional double time
 }
 
 struct LogObject {

@@ -13,7 +13,7 @@ class LogMemory:
         self.log = {}
 
     def storeLog(self, logInput):
-        print(logInput)
+
         self.logMemory[logInput.key] = logInput.value
 
     def getLog(self, starttime, endtime, amount):

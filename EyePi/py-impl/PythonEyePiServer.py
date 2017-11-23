@@ -5,7 +5,8 @@ sys.path.append('../gen-py')
 
 from PythonFacePiClient import FacePiThriftClient
 from GenericThriftClient import GenericThriftClient
-from ShortTermMemoryClient import ShortTermMemoryClient
+from ShortTermLogMemoryClient import ShortTermLogMemoryClient
+from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 
 from EyePi import EyePiThriftService
 from EyePi.ttypes import *
@@ -26,8 +27,11 @@ class EyePiThriftHandler:
     ### External ###
     def handleRequest(self, input):
         try:
-            ShortTermMemoryClient().log_event(input, message='start eyepi')
+            ShortTermLogMemoryClient().log_event(input, message='start eyepi')
             eyeOutput = EyePiOutput()
+            tokenValide = False
+            if input.token:
+                tokenValide = ShortTermTokenMemoryClient().validateToken(input.token, input.deviceToken)
             if input.image:
                 facePiOutput = FacePiThriftClient().handle_request(input.image)
                 eyeOutput.personCollection = facePiOutput
@@ -35,7 +39,8 @@ class EyePiThriftHandler:
                     eyeOutput.ok = False
                 else:
                     eyeOutput.ok = True
-            if not input.token and not input.image:
+                    eyeOutput.token = ShortTermTokenMemoryClient().getToken(input)
+            if tokenValide and not input.image:
                 eyeOutput.ok = False
             if eyeOutput.ok:
                 cases = {
@@ -44,17 +49,17 @@ class EyePiThriftHandler:
                     ActionEnum.KAKU: lambda: GenericThriftClient().handle_request(input.actionParameters, config.kaku_pi_ip, config.kaku_pi_port),
                     ActionEnum.WEATHER: lambda: GenericThriftClient().handle_request(input.actionParameters, config.weather_pi_ip, config.weather_pi_port)
                 }
-                cases[input.action]()
+                eyeOutput.data = cases[input.action]()
             return eyeOutput
         # except Thrift.TException as tx:
-        #     ShortTermMemoryClient().log_thrift_exception(input, tx)
+        #     ShortTermLogMemoryClient().log_thrift_exception(input, tx)
         #except ThriftServiceException as tex:
-        #     ShortTermMemoryClient().log_thrift_exception(input, tex)
+        #     ShortTermLogMemoryClient().log_thrift_exception(input, tex)
         # except ExternalEndpointUnavailable as endEx:
-        #     ShortTermMemoryClient().log_thrift_exception(input, endEx)
+        #     ShortTermLogMemoryClient().log_thrift_exception(input, endEx)
             # probably try again
         except Exception as ex:
-            ShortTermMemoryClient().log_exception(input, ex)
+            ShortTermLogMemoryClient().log_exception(input, ex)
             print('invalid request %s' % ex)
             raise ThriftServiceException('EyePi', 'invalid request %s' % ex)
 
@@ -65,7 +70,7 @@ class EyePiThriftHandler:
 
     ### External ###
     def writeLog(self, input):
-        ShortTermMemoryClient().log_event(input, message='start eyepi')
+        ShortTermLogMemoryClient().log_event(input, message='start eyepi')
 
 
 

@@ -23,6 +23,7 @@ class TokenMemory:
         ts = time.time()
         tokenObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         self.tokenMemory[key] = tokenObject
+        print(newToken)
         return newToken
 
     def validateToken(self, tokenString, deviceToken):
