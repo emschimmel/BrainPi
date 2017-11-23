@@ -33,11 +33,6 @@ class TokenMemory:
                 return True
         return False
 
-    def getToken(self, tokenInput):
-        key = tokenInput.value.token.join(':').join(tokenInput.value.deviceToken)
-        return self.tokenMemory.get(key)
-
-
     def generateKey(self, token, deviceToken):
         return ''.join([token, ':', deviceToken])
 
