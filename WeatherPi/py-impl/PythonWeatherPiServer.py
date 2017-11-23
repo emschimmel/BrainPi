@@ -30,9 +30,10 @@ class WeatherPiThriftHandler:
             output = GenericObject()
 
             ### if map structure ###
-            value = GenericObject()
+            value = GenericSubStruct()
             value.intValue = 12
-            output.mapValue = {'temperature', value}
+            print(value)
+            output.mapValue = {'temperature': value}
 
             ### if int structure ###
             output.intValue = 12

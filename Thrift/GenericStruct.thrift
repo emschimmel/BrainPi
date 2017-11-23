@@ -18,6 +18,6 @@ struct GenericObject {
     5 : optional binary binaryValue
     6 : optional ListValue listValue
     7 : optional SetValue setValue
-    8 : optional MapValue mapvalue
+    8 : optional MapValue mapValue
 }
 
