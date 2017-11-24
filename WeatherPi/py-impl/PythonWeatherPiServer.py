@@ -19,6 +19,7 @@ from thrift.server import TServer
 sys.path.append('../../')
 import config
 
+from OpenWeather import OpenWeather
 
 class WeatherPiThriftHandler:
     def __init__(self):
@@ -26,23 +27,27 @@ class WeatherPiThriftHandler:
 
     def handleRequest(self, input):
         try:
-            print(input)
+
+            wind, humidity, temperature = OpenWeather().getWeather('Amsterdam,nl')
+
             output = GenericObject()
+            output.mapValue = {'humidity': self.createStringValue(humidity),
+                               'wind-speed': self.createStringValue(wind['speed']),
+                               'wind-deg': self.createStringValue(wind['deg']),
+                               'temperature-temp': self.createStringValue(temperature['temp']),
+                               'temperature-temp_max': self.createStringValue(temperature['temp_max']),
+                               'temperature-temp_min': self.createStringValue(temperature['temp_min'])}
 
-            ### if map structure ###
-            value = GenericSubStruct()
-            value.intValue = 12
-            print(value)
-            output.mapValue = {'temperature': value}
-
-            ### if int structure ###
-            output.intValue = 12
-            print(output)
             return output
 
         except Exception as ex:
             print('invalid request %s' % ex)
             raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
+
+    def createStringValue(self, input):
+        value = GenericSubStruct()
+        value.stringValue = "%s" % input
+        return value
 
     ### External ###
     def ping(self, input):
