@@ -44,6 +44,9 @@ class WeatherPiThriftHandler:
             print('invalid request %s' % ex)
             raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
 
+    ### External ###
+    def ping(self, input):
+        print(input)
 
 handler = WeatherPiThriftHandler()
 processor = GenericPiThriftService.Processor(handler)

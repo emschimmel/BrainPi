@@ -73,6 +73,9 @@ class EyePiThriftHandler:
     def writeLog(self, input):
         ShortTermLogMemoryClient().log_event(input, message='start eyepi')
 
+    ### External ###
+    def ping(self, input):
+        print(input)
 
 
 
