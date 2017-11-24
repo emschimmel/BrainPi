@@ -52,8 +52,12 @@ try:
     file = open(filename, 'rb')
     input.image = file.read()
 
+    parameter = GenericObject()
+    parameter.stringValue = "%s" % 'Amsterdam,nl'
+
     input.deviceToken = 'myLaptop'
     input.action = ActionEnum.WEATHER
+    input.actionParameters = parameter
 
     output = client.handleRequest(input)
     print(output)

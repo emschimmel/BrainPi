@@ -27,8 +27,7 @@ class WeatherPiThriftHandler:
 
     def handleRequest(self, input):
         try:
-
-            wind, humidity, temperature = OpenWeather().getWeather('Amsterdam,nl')
+            wind, humidity, temperature = OpenWeather().getWeather(input.stringValue)
 
             output = GenericObject()
             output.mapValue = {'humidity': self.createStringValue(humidity),
