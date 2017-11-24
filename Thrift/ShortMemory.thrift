@@ -1,13 +1,5 @@
 include "GenericStruct.thrift"
 
-enum ActionEnum {
-	LOGIN
-	KAKU
-	AGENDA
-	MUSIC
-	WEATHER
-}
-
 struct TokenObject {
     1: required string deviceToken
 	2: optional string person
@@ -18,7 +10,7 @@ struct TokenObject {
 }
 
 struct LogObject {
-    1: required ActionEnum action;
+    1: required GenericStruct.ActionEnum action;
     2: optional GenericStruct.GenericObject actionParameters
     3: required string serviceName;
     4: required string message;

@@ -11,6 +11,7 @@ from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 from EyePi import EyePiThriftService
 from EyePi.ttypes import *
 from ThriftException.ttypes import *
+from GenericStruct.ttypes import *
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
