@@ -44,25 +44,35 @@ class EyePiThriftHandler:
             if tokenValide and not input.image:
                 eyeOutput.ok = False
             if eyeOutput.ok:
-                cases = {
-                    ActionEnum.MUSIC: lambda: GenericThriftClient().handle_request(input.actionParameters, config.music_pi_ip, config.music_pi_port),
-                    ActionEnum.AGENDA: lambda: GenericThriftClient().handle_request(input.actionParameters, config.agenda_pi_ip, config.agenda_pi_port),
-                    ActionEnum.KAKU: lambda: GenericThriftClient().handle_request(input.actionParameters, config.kaku_pi_ip, config.kaku_pi_port),
-                    ActionEnum.WEATHER: lambda: GenericThriftClient().handle_request(input.actionParameters, config.weather_pi_ip, config.weather_pi_port)
-                }
-                eyeOutput.data = cases[input.action]()
+                eyeOutput.data = self.make_generic_call(input)
             return eyeOutput
-        # except Thrift.TException as tx:
-        #     ShortTermLogMemoryClient().log_thrift_exception(input, tx)
-        #except ThriftServiceException as tex:
-        #     ShortTermLogMemoryClient().log_thrift_exception(input, tex)
-        # except ExternalEndpointUnavailable as endEx:
-        #     ShortTermLogMemoryClient().log_thrift_exception(input, endEx)
-            # probably try again
+        except ThriftServiceException as tex:
+            ShortTermLogMemoryClient().log_thrift_exception(input, tex)
+            raise tex
+        except ExternalEndpointUnavailable as endEx:
+            ShortTermLogMemoryClient().log_thrift_exception(input, endEx)
+            raise endEx
         except Exception as ex:
             ShortTermLogMemoryClient().log_exception(input, ex)
             print('invalid request %s' % ex)
             raise ThriftServiceException('EyePi', 'invalid request %s' % ex)
+
+    def make_generic_call(self, input):
+        try:
+            cases = {
+                ActionEnum.MUSIC: lambda: GenericThriftClient().handle_request(input.actionParameters, config.music_pi_ip, config.music_pi_port),
+                ActionEnum.AGENDA: lambda: GenericThriftClient().handle_request(input.actionParameters, config.agenda_pi_ip, config.agenda_pi_port),
+                ActionEnum.KAKU: lambda: GenericThriftClient().handle_request(input.actionParameters, config.kaku_pi_ip, config.kaku_pi_port),
+                ActionEnum.WEATHER: lambda: GenericThriftClient().handle_request(input.actionParameters, config.weather_pi_ip, config.weather_pi_port)
+            }
+            return cases[input.action]()
+        except Thrift.TException as tx:
+            raise tx
+        except ThriftServiceException as tex:
+            raise tex
+        except ExternalEndpointUnavailable as endEx:
+            raise endEx
+            # probably try again
 
     ### External ###
     def confimFace(self, input):
