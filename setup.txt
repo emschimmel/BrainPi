@@ -37,3 +37,11 @@ $ python3 PythonEyePiServer.py
 $ cd BrainPi/EyePi/py-impl
 $ python3 PythonEyePiClient.py
 
+# install consul
+pip install python-consul
+https://www.consul.io/intro/getting-started/install.html
+https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix
+consul agent -dev -enable-script-checks
+
+# install dns
+pip install dnspython

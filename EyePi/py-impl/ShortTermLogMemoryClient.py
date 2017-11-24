@@ -8,8 +8,7 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
-sys.path.append('../../')
-import config
+from dns import resolver
 
 import time
 import datetime
@@ -69,7 +68,8 @@ class ShortTermLogMemoryClient:
     def write_log(self, input):
         print('short term memory handler')
         try:
-            transport = TSocket.TSocket(config.short_storage_ip, config.short_storage_port)  # Make socket
+            ip, port = self.resolve_config()
+            transport = TSocket.TSocket(ip, port)  # Make socket
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
@@ -82,4 +82,15 @@ class ShortTermLogMemoryClient:
             print('%s' % (tx.message))
         except Exception as ex:
             print('whot??? %s' % ex)
+
+    def resolve_config(self):
+        consul_resolver = resolver.Resolver()
+        consul_resolver.port = 8600
+        consul_resolver.nameservers = ["127.0.0.1"]
+
+        dnsanswer = consul_resolver.query("short-term-memory.service.consul.", 'A')
+        ip = str(dnsanswer[0])
+        dnsanswer_srv = consul_resolver.query("short-term-memory.service.consul.", 'SRV')
+        port = int(str(dnsanswer_srv[0]).split()[2])
+        return ip, port
 

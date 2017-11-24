@@ -2,6 +2,8 @@
 
 import sys
 
+import consul
+
 sys.path.append('../gen-py')
 sys.path.append('../')
 
@@ -18,6 +20,14 @@ from thrift.server import TServer
 # import cv2
 sys.path.append('../../')
 import config
+
+import logging
+import random
+
+port = random.randint(50000, 59000)
+
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
 
 
 class WeatherPiThriftHandler:
@@ -48,15 +58,33 @@ class WeatherPiThriftHandler:
     def ping(self, input):
         print(input)
 
-handler = WeatherPiThriftHandler()
-processor = GenericPiThriftService.Processor(handler)
-transport = TSocket.TServerSocket(port=config.weather_pi_port)
+def create_server(host=config.weather_pi_ip):
+    handler = WeatherPiThriftHandler()
+    return TServer.TSimpleServer(
+        GenericPiThriftService.Processor(handler),
+        TSocket.TServerSocket(host=host, port=port),
+        TTransport.TBufferedTransportFactory(),
+        TBinaryProtocol.TBinaryProtocolFactory()
+    )
 
-tfactory = TTransport.TBufferedTransportFactory()
-pfactory = TBinaryProtocol.TBinaryProtocolFactory()
+def register():
+    log.info("register started")
+    c = consul.Consul()
+    #check = consul.Check.tcp("127.0.0.1", port, "30s")
+    check = consul.Check = {'script': 'ps | awk -F" " \'/PythonWeatherPiServer.py/ && !/awk/{print $1}\'',
+             'id': 'eye_pi', 'name': 'weather_pi process tree check', 'Interval': '10s',
+             'timeout': '2s'}
+    c.agent.service.register("weather-pi", "weather-pi-%d" % port, address=config.weather_pi_ip, port=port, check=check)
+    log.info("services: " + str(c.agent.services()))
 
-server = TServer.TSimpleServer(processor, transport, tfactory, pfactory)
+def unregister():
+    log.info("unregister started")
+    c = consul.Consul()
+    c.agent.service.deregister("weather-pi-%d" % port)
+    log.info("services: " + str(c.agent.services()))
 
-print("Starting python weather server...")
-server.serve()
-print("done!")
+if __name__ == '__main__':
+    server = create_server()
+    register()
+    server.serve()
+    unregister()

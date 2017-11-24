@@ -14,15 +14,24 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
-import os.path
-import random # test
+from dns import resolver
 
-sys.path.append('../../')
-import config
+def resolve_config():
+    consul_resolver = resolver.Resolver()
+    consul_resolver.port = 8600
+    consul_resolver.nameservers = ["127.0.0.1"]
+
+    dnsanswer = consul_resolver.query("eye-pi.service.consul.", 'A')
+    ip = str(dnsanswer[0])
+    dnsanswer_srv = consul_resolver.query("eye-pi.service.consul.", 'SRV')
+    port = int(str(dnsanswer_srv[0]).split()[2])
+    return ip, port
 
 try:
-        # Make socket
-    transport = TSocket.TSocket(config.eye_pi_ip, config.eye_pi_port)
+    ip, port = resolve_config()
+
+    # Make socket
+    transport = TSocket.TSocket(ip, port)
  
     # Buffering is critical. Raw sockets are very slow
     transport = TTransport.TBufferedTransport(transport)

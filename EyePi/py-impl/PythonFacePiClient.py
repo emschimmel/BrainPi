@@ -12,8 +12,7 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
-sys.path.append('../../')
-import config
+from dns import resolver
 
 class FacePiThriftClient:
 
@@ -22,7 +21,8 @@ class FacePiThriftClient:
 
     def handle_request(self, image):
         try:
-            transport = TSocket.TSocket(config.face_pi_ip, config.face_pi_port)     # Make socket
+            ip, port = self.resolve_config()
+            transport = TSocket.TSocket(ip, port)     # Make socket
             transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport) # Wrap in a protocol
             client = FacePiThriftService.Client(protocol) # Create a client to use the protocol encoder
@@ -41,7 +41,8 @@ class FacePiThriftClient:
 
     def confim_face(self, input):
         try:
-            transport = TSocket.TSocket(config.face_pi_ip, config.face_pi_port)     # Make socket
+            ip, port = self.resolve_config()
+            transport = TSocket.TSocket(ip, port)     # Make socket
             transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport) # Wrap in a protocol
             client = FacePiThriftService.Client(protocol) # Create a client to use the protocol encoder
@@ -65,3 +66,13 @@ class FacePiThriftClient:
             print('whot??? %s' % ex)
             raise ex
 
+    def resolve_config(self):
+        consul_resolver = resolver.Resolver()
+        consul_resolver.port = 8600
+        consul_resolver.nameservers = ["127.0.0.1"]
+
+        dnsanswer = consul_resolver.query("face-pi.service.consul.", 'A')
+        ip = str(dnsanswer[0])
+        dnsanswer_srv = consul_resolver.query("face-pi.service.consul.", 'SRV')
+        port = int(str(dnsanswer_srv[0]).split()[2])
+        return ip, port

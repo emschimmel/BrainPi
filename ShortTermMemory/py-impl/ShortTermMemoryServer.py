@@ -1,5 +1,7 @@
 import sys
 
+import consul
+
 sys.path.append('../gen-py')
 from ShortMemory import ShortMemoryService
 from ShortMemory.ttypes import *
@@ -14,6 +16,13 @@ from thrift.server import TServer
 
 sys.path.append('../../')
 import config
+import logging
+import random
+
+port = random.randint(50000, 59000)
+
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
 
 class ShortTermMemoryThriftServer:
     def __init__(self):
@@ -43,15 +52,33 @@ class ShortTermMemoryThriftServer:
         except Exception as ex:
             print('invalid request %s' % ex)
 
-handler = ShortTermMemoryThriftServer()
-processor = ShortMemoryService.Processor(handler)
-transport = TSocket.TServerSocket(port=config.short_storage_port)
+def create_server(host=config.short_storage_ip):
+    handler = ShortTermMemoryThriftServer()
+    return TServer.TSimpleServer(
+        ShortMemoryService.Processor(handler),
+        TSocket.TServerSocket(host=host, port=port),
+        TTransport.TBufferedTransportFactory(),
+        TBinaryProtocol.TBinaryProtocolFactory()
+    )
 
-tfactory = TTransport.TBufferedTransportFactory()
-pfactory = TBinaryProtocol.TBinaryProtocolFactory()
+def register():
+    log.info("register started")
+    c = consul.Consul()
+    #check = consul.Check.tcp("127.0.0.1", port, "30s")
+    check = consul.Check = {'script': 'ps | awk -F" " \'/ShortTermMemoryServer.py/ && !/awk/{print $1}\'',
+                                    'id': 'eye_pi', 'name': 'short_term_memory process tree check', 'Interval': '10s',
+                                    'timeout': '2s'}
+    c.agent.service.register("short_term_memory", "short_term_memory-%d" % port, address=config.short_storage_ip, port=port, check=check)
+    log.info("services: " + str(c.agent.services()))
 
-server = TServer.TSimpleServer(processor, transport, tfactory, pfactory)
+def unregister():
+    log.info("unregister started")
+    c = consul.Consul()
+    c.agent.service.deregister("short_term_memory-%d" % port)
+    log.info("services: " + str(c.agent.services()))
 
-print("Starting python server...")
-server.serve()
-print("done!")
+if __name__ == '__main__':
+    server = create_server()
+    register()
+    server.serve()
+    unregister()
