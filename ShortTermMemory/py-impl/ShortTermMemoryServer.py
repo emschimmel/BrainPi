@@ -8,6 +8,7 @@ from ShortMemory.ttypes import *
 
 from TokenMemory import TokenMemory
 from LogMemory import LogMemory
+from DeviceMemory import DeviceMemory
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -40,7 +41,9 @@ class ShortTermMemoryThriftServer:
     @stat.timer("validateToken")
     def validateToken(self, stringToken, deviceToken):
         try:
-            return TokenMemory().validateToken(stringToken, deviceToken)
+            if (DeviceMemory.validateDeviceToken(deviceToken)):
+                return TokenMemory().validateToken(stringToken, deviceToken)
+            return False
         except Exception as ex:
             print('invalid request %s' % ex)
 
@@ -55,6 +58,20 @@ class ShortTermMemoryThriftServer:
     def readLog(self, starttime, endtime, amount):
         try:
             return LogMemory().getLog(starttime, endtime, amount)
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
+    @stat.timer("generateDeviceToken")
+    def generateDeviceToken(self, input):
+        try:
+            return DeviceMemory().generateDeviceToken(input)
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
+    @stat.timer("validateDeviceToken")
+    def validateDeviceToken(self, input):
+        try:
+            return DeviceMemory().validateDeviceToken(input)
         except Exception as ex:
             print('invalid request %s' % ex)
 

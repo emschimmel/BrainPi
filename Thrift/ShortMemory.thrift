@@ -1,5 +1,12 @@
 include "GenericStruct.thrift"
 
+struct DeviceTokenInput {
+    1: required string ip
+    2: required string devicetype
+    3: optional string userAgent
+    4: optional string person
+}
+
 struct TokenObject {
     1: required string deviceToken
 	2: optional string person
@@ -30,4 +37,6 @@ service ShortMemoryService {
     list<Log> readLog(1: double starttime, 2: double endtime, 3: i32 amount)
     bool validateToken(1: string token, 2: string deviceToken)
     oneway void writeLog(1: Log log)
+    string generateDeviceToken(1: DeviceTokenInput input)
+    bool validateDeviceToken(1: string deviceToken)
 }
