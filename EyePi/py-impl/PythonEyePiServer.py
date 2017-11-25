@@ -72,7 +72,7 @@ class EyePiThriftHandler:
 
     def make_generic_call(self, input):
         try:
-            GenericThriftClient().handle_request(input.action, input.actionParameters)
+            return GenericThriftClient().handle_request(input.action, input.actionParameters)
         except Thrift.TException as tx:
             raise tx
         except ThriftServiceException as tex:
