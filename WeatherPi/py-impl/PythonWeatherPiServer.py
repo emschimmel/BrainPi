@@ -21,40 +21,48 @@ from thrift.server import TServer
 sys.path.append('../../')
 import config
 
+from OpenWeather import OpenWeather
+
 import logging
 import random
 
+import statsd
+stat = statsd.StatsClient('localhost', 8125)
 port = random.randint(50000, 59000)
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
-
 class WeatherPiThriftHandler:
     def __init__(self):
         self.log = {}
 
+    @stat.timer("handleRequest")
     def handleRequest(self, input):
+        print("weather pi!")
         try:
-            print(input)
+            wind, humidity, temperature = OpenWeather().getWeather(input.stringValue)
+
             output = GenericObject()
+            output.mapValue = {'humidity': self.createStringValue(humidity),
+                               'wind-speed': self.createStringValue(wind['speed']),
+                               'wind-deg': self.createStringValue(wind['deg']),
+                               'temperature-temp': self.createStringValue(temperature['temp']),
+                               'temperature-temp_max': self.createStringValue(temperature['temp_max']),
+                               'temperature-temp_min': self.createStringValue(temperature['temp_min'])}
 
-            ### if map structure ###
-            value = GenericSubStruct()
-            value.intValue = 12
-            print(value)
-            output.mapValue = {'temperature': value}
-
-            ### if int structure ###
-            output.intValue = 12
-            print(output)
             return output
 
         except Exception as ex:
             print('invalid request %s' % ex)
             raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
 
-    ### External ###
+    def createStringValue(self, input):
+        value = GenericSubStruct()
+        value.stringValue = "%s" % input
+        return value
+
+    @stat.timer("ping")
     def ping(self, input):
         print(input)
 
@@ -69,7 +77,9 @@ def create_server(host=config.weather_pi_ip):
 
 def register():
     log.info("register started")
-    c = consul.Consul()
+    c = consul.Consul(host='localhost')
+    key = '%d' % ActionEnum.WEATHER
+    c.kv.put(key, 'weather')
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonWeatherPiServer.py/ && !/awk/{print $1}\'',
              'id': 'eye_pi', 'name': 'weather_pi process tree check', 'Interval': '10s',
@@ -79,7 +89,7 @@ def register():
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul()
+    c = consul.Consul(host='localhost')
     c.agent.service.deregister("weather-pi-%d" % port)
     log.info("services: " + str(c.agent.services()))
 

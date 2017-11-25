@@ -26,6 +26,9 @@ import config
 import logging
 import random
 
+import statsd
+stat = statsd.StatsClient('localhost', 8125)
+
 port = random.randint(50000, 59000)
 
 log = logging.getLogger()
@@ -35,7 +38,7 @@ class EyePiThriftHandler:
     def __init__(self):
         self.log = {}
 
-    ### External ###
+    @stat.timer("handleRequest")
     def handleRequest(self, input):
         try:
             ShortTermLogMemoryClient().log_event(input, message='start eyepi')
@@ -78,16 +81,16 @@ class EyePiThriftHandler:
             raise endEx
             # probably try again
 
-    ### External ###
+    @stat.timer("confimFace")
     def confimFace(self, input):
         FacePiThriftClient.confim_face(self, input)
 
 
-    ### External ###
+    @stat.timer("writeLog")
     def writeLog(self, input):
         ShortTermLogMemoryClient().log_event(input, message='start eyepi')
 
-    ### External ###
+    @stat.timer("ping")
     def ping(self, input):
         print(input)
 
@@ -102,7 +105,7 @@ def create_server(host=config.eye_pi_ip):
 
 def register():
     log.info("register started")
-    c = consul.Consul()
+    c = consul.Consul(host='localhost')
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonEyePiServer.py/ && !/awk/{print $1}\'',
                                     'id': 'eye_pi', 'name': 'eye_pi process tree check', 'Interval': '10s',
@@ -112,7 +115,7 @@ def register():
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul()
+    c = consul.Consul(host='localhost')
     c.agent.service.deregister("eye-pi-%d" % port)
     log.info("services: " + str(c.agent.services()))
 

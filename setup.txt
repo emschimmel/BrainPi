@@ -45,3 +45,11 @@ consul agent -dev -enable-script-checks
 
 # install dns
 pip install dnspython
+dig @127.0.0.1 -p 8600 weather-pi.service.consul. A
+
+# install statsd
+pip install statsd
+https://www.elastic.co/guide/en/logstash/current/plugins-outputs-statsd.html
+
+# install pyowm
+pip install pyowm

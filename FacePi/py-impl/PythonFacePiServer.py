@@ -26,6 +26,9 @@ import config
 import logging
 import random
 
+import statsd
+stat = statsd.StatsClient('localhost', 8125)
+
 port = random.randint(50000, 59000)
 
 log = logging.getLogger()
@@ -35,6 +38,7 @@ class FacePiThriftHandler:
     def __init__(self):
         self.log = {}
 
+    @stat.timer("handleRequest")
     def handleRequest(self, input):
         try:
             inputImage = input.image
@@ -56,6 +60,7 @@ class FacePiThriftHandler:
             print('invalid request %s' % ex)
             raise ThriftServiceException('FacePi', 'invalid request %s' % ex)
 
+    @stat.timer("confirmFace")
     def confirmFace(self, input):
         print(input)
         # train the network with the found face with name
@@ -72,7 +77,7 @@ def create_server(host=config.face_pi_ip):
 
 def register():
     log.info("register started")
-    c = consul.Consul()
+    c = consul.Consul(host='localhost')
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonFacePiServer.py/ && !/awk/{print $1}\'',
                                     'id': 'eye_pi', 'name': 'face_pi process tree check', 'Interval': '10s',
@@ -82,7 +87,7 @@ def register():
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul()
+    c = consul.Consul(host='localhost')
     c.agent.service.deregister("face-pi-%d" % port)
     log.info("services: " + str(c.agent.services()))
 

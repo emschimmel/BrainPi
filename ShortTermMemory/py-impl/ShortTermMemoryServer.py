@@ -18,8 +18,10 @@ sys.path.append('../../')
 import config
 import logging
 import random
+import statsd
 
 port = random.randint(50000, 59000)
+stat = statsd.StatsClient('localhost', 8125)
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
@@ -28,24 +30,28 @@ class ShortTermMemoryThriftServer:
     def __init__(self):
         self.log = {}
 
+    @stat.timer("generateToken")
     def generateToken(self, tokenObject):
         try:
             return TokenMemory().generateToken(tokenObject)
         except Exception as ex:
             print('invalid request %s' % ex)
 
+    @stat.timer("validateToken")
     def validateToken(self, stringToken, deviceToken):
         try:
             return TokenMemory().validateToken(stringToken, deviceToken)
         except Exception as ex:
             print('invalid request %s' % ex)
 
+    @stat.timer("writeLog")
     def writeLog(self, log):
         try:
             LogMemory().storeLog(log)
         except Exception as ex:
             print('invalid request %s' % ex)
 
+    @stat.timer("readLog")
     def readLog(self, starttime, endtime, amount):
         try:
             return LogMemory().getLog(starttime, endtime, amount)
@@ -63,18 +69,18 @@ def create_server(host=config.short_storage_ip):
 
 def register():
     log.info("register started")
-    c = consul.Consul()
+    c = consul.Consul(host='localhost')
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/ShortTermMemoryServer.py/ && !/awk/{print $1}\'',
                                     'id': 'eye_pi', 'name': 'short_term_memory process tree check', 'Interval': '10s',
                                     'timeout': '2s'}
-    c.agent.service.register("short_term_memory", "short_term_memory-%d" % port, address=config.short_storage_ip, port=port, check=check)
+    c.agent.service.register("short-term-memory", "short-term-memory-%d" % port, address=config.short_storage_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul()
-    c.agent.service.deregister("short_term_memory-%d" % port)
+    c = consul.Consul(host='localhost')
+    c.agent.service.deregister("short-term-memory-%d" % port)
     log.info("services: " + str(c.agent.services()))
 
 if __name__ == '__main__':

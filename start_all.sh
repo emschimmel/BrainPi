@@ -22,6 +22,6 @@ python3 ShortTermMemoryServer.py &
 
 ### EyePi Start client
 ### Execute dummy client
-sleep 1
+sleep 15
 cd ${home}/ClientPi/py-impl
 python3 PythonEyePiClient.py

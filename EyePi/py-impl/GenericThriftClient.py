@@ -2,6 +2,8 @@
 
 import sys
 
+import consul
+
 sys.path.append('../gen-py')
 
 from GenericStruct.ttypes import *
@@ -33,7 +35,6 @@ class GenericThriftClient:
             transport.open()  # Connect!
 
             output = client.handleRequest(input)
-            print(output)
             transport.close()
             return output
 
@@ -47,27 +48,20 @@ class GenericThriftClient:
             print('endpoint exception request %s' % endEx)
             raise endEx
         except Exception as ex:
-            print('whot??? %s' % ex)
+            print('whot generic thrift??? %s' % ex)
             raise ex
 
     def resolve_config(self, action):
-
-        if action is ActionEnum.MUSIC:
-            service_string = 'music'
-        elif action is ActionEnum.WEATHER:
-            service_string = 'weather'
-        elif action is ActionEnum.KAKU:
-            service_string = 'home'
-        elif action is ActionEnum.AGENDA:
-            service_string = 'agenda'
-        else:
-            service_string = ''
+        c = consul.Consul(host='localhost')
+        key = '%d' % action
+        index, data = c.kv.get(key)
+        value = data.get('Value').decode('utf-8')
         consul_resolver = resolver.Resolver()
         consul_resolver.port = 8600
         consul_resolver.nameservers = ["127.0.0.1"]
 
-        dnsanswer = consul_resolver.query(service_string+"-pi.service.consul.", 'A')
+        dnsanswer = consul_resolver.query("%s-pi.service.consul." % value, 'A')
         ip = str(dnsanswer[0])
-        dnsanswer_srv = consul_resolver.query(service_string+"-pi.service.consul.", 'SRV')
+        dnsanswer_srv = consul_resolver.query("%s-pi.service.consul." % value, 'SRV')
         port = int(str(dnsanswer_srv[0]).split()[2])
         return ip, port
