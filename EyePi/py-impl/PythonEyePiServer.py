@@ -4,6 +4,10 @@ import sys
 
 import consul
 
+import signal
+
+from multiprocessing.managers import SyncManager
+
 sys.path.append('../gen-py')
 
 from PythonFacePiClient import FacePiThriftClient
@@ -94,6 +98,8 @@ class EyePiThriftHandler:
     def ping(self, input):
         print(input)
 
+
+
 def create_server(host=config.eye_pi_ip):
     handler = EyePiThriftHandler()
     return TServer.TSimpleServer(
@@ -119,8 +125,18 @@ def unregister():
     c.agent.service.deregister("eye-pi-%d" % port)
     log.info("services: " + str(c.agent.services()))
 
+def interupt_manager():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
 if __name__ == '__main__':
-    server = create_server()
-    register()
-    server.serve()
-    unregister()
+    manager = SyncManager()
+    manager.start(interupt_manager)
+    try:
+        server = create_server()
+        register()
+        server.serve()
+
+    finally:
+        unregister()
+        print('finally')
+        manager.shutdown()
