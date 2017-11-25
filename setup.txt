@@ -47,6 +47,11 @@ consul agent -dev -enable-script-checks
 pip install dnspython
 dig @127.0.0.1 -p 8600 weather-pi.service.consul. A
 
+# install vault
+pip install hvac
+https://www.vaultproject.io/guides/index.html
+https://github.com/ianunruh/hvac
+
 # install statsd
 pip install statsd
 https://www.elastic.co/guide/en/logstash/current/plugins-outputs-statsd.html
