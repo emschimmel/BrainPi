@@ -8,7 +8,7 @@ sys.path.append('../gen-py')
 from ShortMemory import ShortMemoryService
 from ShortMemory.ttypes import *
 
-from TokenMemory import TokenMemory
+from AuthToken.TokenMemory import TokenMemory
 from LogMemory import LogMemory
 from DeviceMemory import DeviceMemory
 
