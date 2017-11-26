@@ -17,6 +17,7 @@ rm -rf ../ShortTermMemory/gen-py/*
 cp -Rf ./gen-py/GenericStruct   ../ClientPi/gen-py/
 cp -Rf ./gen-py/EyePi           ../ClientPi/gen-py/
 cp -Rf ./gen-py/ThriftException ../ClientPi/gen-py/
+cp -Rf ./gen-py/ShortMemory     ../ClientPi/gen-py/ # mock!
 
 # EyePI
 cp -Rf ./gen-py/EyePi           ../EyePi/gen-py/

@@ -4,6 +4,14 @@ export home="$PWD"
 
 source kill_all.sh
 
+### ShortTermMemory Server
+cd ${home}/ShortTermMemory/py-impl
+python3 ShortTermMemoryServer.py &
+
+### EyePi Server
+cd ${home}/EyePi/py-impl
+python3 PythonEyePiServer.py &
+
 ### FacePi Server
 cd ${home}/FacePi/py-impl
 python3 PythonFacePiServer.py &
@@ -11,14 +19,6 @@ python3 PythonFacePiServer.py &
 ### WeatherPi Server
 cd ${home}/WeatherPi/py-impl
 python3 PythonWeatherPiServer.py &
-
-### EyePi Server
-cd ${home}/EyePi/py-impl
-python3 PythonEyePiServer.py &
-
-### ShortTermMemory Server
-cd ${home}/ShortTermMemory/py-impl
-python3 ShortTermMemoryServer.py &
 
 ### EyePi Start client
 ### Execute dummy client

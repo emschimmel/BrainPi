@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import random
 import sys
 
 import consul
@@ -63,5 +63,5 @@ class GenericThriftClient:
         dnsanswer = consul_resolver.query("%s-pi.service.consul." % value, 'A')
         ip = str(dnsanswer[0])
         dnsanswer_srv = consul_resolver.query("%s-pi.service.consul." % value, 'SRV')
-        port = int(str(dnsanswer_srv[0]).split()[2])
+        port = int(str(random.choice(dnsanswer_srv)).split()[2])
         return ip, port

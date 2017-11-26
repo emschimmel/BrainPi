@@ -1,19 +1,25 @@
 import random
 import string
-from collections import defaultdict
-
+import consul
 
 class DeviceMemory:
-    deviceMemory = defaultdict(list)
 
     def __init__(self):
         self.log = {}
+        self.consul_instance = consul.Consul(host='localhost')
 
     def generateDeviceToken(self, input):
-        self.deviceMemory[self.generateNewDeviceToken()] = input
+        print("generate device token")
+        key = self.generateNewDeviceToken()
+        print(key)
+        self.consul_instance.kv.put(key, str(input))
+
+        return key
 
     def validateDeviceToken(self, tokenString):
-        if self.deviceMemory.get(tokenString):
+        index, data = self.consul_instance.kv.get(tokenString)
+        print(data)
+        if data is not None:
             return True
         return False
 

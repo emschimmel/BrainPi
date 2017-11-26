@@ -15,3 +15,7 @@ EyePiServerPID=$(ps | awk -F" " '/PythonEyePiServer.py/ && !/awk/{print $1}')
 # Kill PythonFacePiServer if running
 ShortTermMemoryServerPID=$(ps | awk -F" " '/ShortTermMemoryServer.py/ && !/awk/{print $1}')
 [[ !  -z  $ShortTermMemoryServerPID  ]] && kill -2 $ShortTermMemoryServerPID
+
+#Kill consul
+#ConsulPID=$(ps | awk -F" " 'consul agent -dev -enable-script-checks && !/awk/{print $1}')
+#[[ !  -z  $ConsulPID  ]] && killall -9 $ConsulPID

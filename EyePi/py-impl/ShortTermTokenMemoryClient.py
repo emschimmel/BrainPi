@@ -1,3 +1,4 @@
+import random
 import sys
 sys.path.append('../gen-py')
 from ShortMemory import ShortMemoryService
@@ -74,5 +75,5 @@ class ShortTermTokenMemoryClient:
         dnsanswer = consul_resolver.query("short-term-memory.service.consul.", 'A')
         ip = str(dnsanswer[0])
         dnsanswer_srv = consul_resolver.query("short-term-memory.service.consul.", 'SRV')
-        port = int(str(dnsanswer_srv[0]).split()[2])
+        port = int(str(random.choice(dnsanswer_srv)).split()[2])
         return ip, port

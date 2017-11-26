@@ -8,6 +8,7 @@ sys.path.append('../gen-py')
 from EyePi import EyePiThriftService
 from EyePi.ttypes import *
 from EyePi.constants import *
+from GenericStruct.ttypes import *
  
 from thrift import Thrift
 from thrift.transport import TSocket
