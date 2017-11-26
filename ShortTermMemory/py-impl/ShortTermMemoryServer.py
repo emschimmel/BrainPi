@@ -9,7 +9,7 @@ from ShortMemory import ShortMemoryService
 from ShortMemory.ttypes import *
 
 from AuthToken.TokenMemory import TokenMemory
-from LogMemory import LogMemory
+from Logging.LogMemory import LogMemory
 from DeviceMemory import DeviceMemory
 
 from thrift.transport import TSocket

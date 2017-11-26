@@ -14,3 +14,5 @@ consul_timeout      = '2s'
 
 redis_service_ip    = 'localhost'
 redis_service_port  = 6379
+es_service_ip       = 'localhost'
+es_service_port     = 9200
