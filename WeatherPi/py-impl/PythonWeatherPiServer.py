@@ -83,7 +83,7 @@ def register():
     c.kv.put(key, 'weather')
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonWeatherPiServer.py/ && !/awk/{print $1}\'',
-             'id': 'eye_pi', 'name': 'weather_pi process tree check', 'Interval': config.consul_interval,
+             'id': 'weather-pi-%d' % port, 'name': 'weather_pi process tree check', 'Interval': config.consul_interval,
              'timeout': config.consul_timeout}
     c.agent.service.register("weather-pi", "weather-pi-%d" % port, address=config.weather_pi_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
@@ -92,6 +92,7 @@ def unregister():
     log.info("unregister started")
     c = consul.Consul(host='localhost')
     c.agent.service.deregister("weather-pi-%d" % port)
+    c.agent.service.deregister("weather-pi")
     log.info("services: " + str(c.agent.services()))
 
 def interupt_manager():

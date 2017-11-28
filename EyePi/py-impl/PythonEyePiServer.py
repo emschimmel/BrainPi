@@ -114,7 +114,7 @@ def register():
     c = consul.Consul(host='localhost')
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonEyePiServer.py/ && !/awk/{print $1}\'',
-                                    'id': 'eye_pi', 'name': 'eye_pi process tree check', 'Interval': config.consul_interval,
+                                    'id': 'eye-pi-%d' % port, 'name': 'eye_pi process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
     c.agent.service.register("eye-pi", "eye-pi-%d" % port, address=config.eye_pi_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
@@ -123,6 +123,7 @@ def unregister():
     log.info("unregister started")
     c = consul.Consul(host='localhost')
     c.agent.service.deregister("eye-pi-%d" % port)
+    c.agent.service.deregister("eye-pi")
     log.info("services: " + str(c.agent.services()))
 
 def interupt_manager():

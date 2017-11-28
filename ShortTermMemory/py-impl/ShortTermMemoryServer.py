@@ -90,7 +90,7 @@ def register():
     log.info("register started")
     c = consul.Consul(host='localhost')
     check = consul.Check = {'script': 'ps | awk -F" " \'/ShortTermMemoryServer.py/ && !/awk/{print $1}\'',
-                                    'id': 'eye_pi', 'name': 'short_term_memory process tree check', 'Interval': config.consul_interval,
+                                    'id': 'short-term-memory-%d' % port, 'name': 'short_term_memory process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
     c.agent.service.register("short-term-memory", "short-term-memory-%d" % port, address=config.short_storage_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
@@ -99,6 +99,7 @@ def unregister():
     log.info("unregister started")
     c = consul.Consul(host='localhost')
     c.agent.service.deregister("short-term-memory-%d" % port)
+    c.agent.service.deregister("short-term-memory")
     log.info("services: " + str(c.agent.services()))
     print(str(c.agent.services()))
 

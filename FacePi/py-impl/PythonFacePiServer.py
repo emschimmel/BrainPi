@@ -14,7 +14,7 @@ from FacePi import FacePiThriftService
 from FacePi.ttypes import *
 from ThriftException.ttypes import *
 
-from DetectFaces import DetectFaces
+from FaceDetection.DetectFaces import DetectFaces
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -43,6 +43,7 @@ class FacePiThriftHandler:
     def handleRequest(self, input):
         try:
             inputImage = input.image
+            #HaarFaceDetection().detectFaceWithEyes(inputImage)
             faces = DetectFaces().DetectFromBinary(inputImage)
             print("Found {0} faces!".format(len(faces)))
             personList = []
@@ -81,7 +82,7 @@ def register():
     c = consul.Consul(host='localhost')
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonFacePiServer.py/ && !/awk/{print $1}\'',
-                                    'id': 'eye_pi', 'name': 'face_pi process tree check', 'Interval': config.consul_interval,
+                                    'id': 'face-pi-%d' % port, 'name': 'face_pi process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
     c.agent.service.register("face-pi", "face-pi-%d" % port, address=config.face_pi_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
@@ -90,6 +91,7 @@ def unregister():
     log.info("unregister started")
     c = consul.Consul(host='localhost')
     c.agent.service.deregister("face-pi-%d" % port)
+    c.agent.service.deregister("face-pi")
     log.info("services: " + str(c.agent.services()))
 
 def interupt_manager():

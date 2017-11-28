@@ -22,6 +22,6 @@ python3 PythonWeatherPiServer.py &
 
 ### EyePi Start client
 ### Execute dummy client
-sleep 15
+sleep 20
 cd ${home}/ClientPi/py-impl
 python3 PythonEyePiClient.py
