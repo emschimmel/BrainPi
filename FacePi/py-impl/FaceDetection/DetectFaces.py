@@ -11,8 +11,7 @@ class DetectFaces():
         self.log = {}
 
     def DetectFromBinary(self, image):
-        cascPath = "./haarcascade_frontalface_default.xml"
-        faceCascade = cv2.CascadeClassifier(cascPath)
+        faceCascade = cv2.CascadeClassifier("./haarcascade_frontalface_default.xml")
         nparr = np.fromstring(image, np.uint8)
         colorimg = cv2.imdecode(nparr, cv2.IMREAD_COLOR)  # cv2.IMREAD_COLOR in OpenCV 3.1
 

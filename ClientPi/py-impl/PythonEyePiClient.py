@@ -9,8 +9,8 @@ from EyePi import EyePiThriftService
 from EyePi.ttypes import *
 from EyePi.constants import *
 from GenericStruct.ttypes import *
-from ShortMemory import ShortMemoryService
-from ShortMemory.ttypes import *
+
+from DeviceRegistrator import DeviceRegistrator
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -36,16 +36,7 @@ def resolve_eye_config():
     port = int(str(random.choice(dnsanswer_srv)).split()[2])
     return ip, port
 
-def resolve_stm_config():
-    consul_resolver = resolver.Resolver()
-    consul_resolver.port = 8600
-    consul_resolver.nameservers = ["127.0.0.1"]
 
-    dnsanswer = consul_resolver.query("short-term-memory.service.consul.", 'A')
-    ip = str(dnsanswer[0])
-    dnsanswer_srv = consul_resolver.query("short-term-memory.service.consul.", 'SRV')
-    port = int(str(random.choice(dnsanswer_srv)).split()[2])
-    return ip, port
 
 ### test
 def read_image():
@@ -54,50 +45,19 @@ def read_image():
     return random.choice(imageCollection)
 ### end test
 
-### mock! ###
-# normally a device would properly register itself and keep the token.
-# But in development case, the cahce is resetted every time. This mock registers the device.
-def register_device():
-    outputToken = False
-    try:
-        ip, port = resolve_stm_config()
-        transport = TSocket.TSocket(ip, port)  # Make socket
-        transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
-        protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
-        client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
-        transport.open()  # Connect!
-        inputDevice = DeviceTokenInput()
-        inputDevice.ip = '127.0.0.1'
-        inputDevice.devicetype = 'Development'
-        outputToken = client.generateDeviceToken(inputDevice)
-
-        transport.close()
-
-    except Thrift.TException as tx:
-        print('%s' % (tx.message))
-    except Exception as ex:
-        print('whot??? %s' % ex)
-    return outputToken
-
-### end mock ###
 
 try:
-    device_token = register_device()
+    ## mock! ###
+    # normally a device would properly register itself and keep the token.
+    # But in development case, the cahce is resetted every time. This mock registers the device.
+    device_token = DeviceRegistrator().register_device()
+    ### end mock ###
 
     ip, port = resolve_eye_config()
-    # Make socket
     transport = TSocket.TSocket(ip, port)
- 
-    # Buffering is critical. Raw sockets are very slow
     transport = TTransport.TBufferedTransport(transport)
- 
-    # Wrap in a protocol
     protocol = TBinaryProtocol.TBinaryProtocol(transport)
- 
-    # Create a client to use the protocol encoder
     client = EyePiThriftService.Client(protocol)
- 
-    # Connect!
     transport.open()
 
     input = EyePiInput()

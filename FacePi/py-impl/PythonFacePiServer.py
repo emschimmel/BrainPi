@@ -84,7 +84,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonFacePiServer.py/ && !/awk/{print $1}\'',
                                     'id': 'face-pi-%d' % port, 'name': 'face_pi process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
-    c.agent.service.register("face-pi", "face-pi-%d" % port, address=config.face_pi_ip, port=port, check=check)
+    c.agent.service.register(name="face-pi", service_id="face-pi-%d" % port, address=config.face_pi_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():

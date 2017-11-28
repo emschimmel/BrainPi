@@ -116,7 +116,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonEyePiServer.py/ && !/awk/{print $1}\'',
                                     'id': 'eye-pi-%d' % port, 'name': 'eye_pi process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
-    c.agent.service.register("eye-pi", "eye-pi-%d" % port, address=config.eye_pi_ip, port=port, check=check)
+    c.agent.service.register(name="eye-pi", service_id="eye-pi-%d" % port, address=config.eye_pi_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
