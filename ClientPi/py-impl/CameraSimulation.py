@@ -6,6 +6,7 @@ from GenericStruct.ttypes import *
 import cv2
 import threading
 import time
+import pickle
 
 class CameraSimulation:
 
@@ -22,13 +23,10 @@ class CameraSimulation:
             ret, frame = self.cap.read()
             image, faces, eyes = self.detectFaceWithEyes(frame)
             if faces > 0 and eyes > 1:
-                print('i see faces')
                 if not self.face_connection_thread_running:
-                    t1 = threading.Thread(target=self.connectToEyePi(image))
+                    t1 = threading.Thread(target=self.connectToEyePi, args=(frame,))
                     t1.start()
-            else:
-                print('I see no faces')
-            cv2.imshow('frame', image)
+            cv2.imshow('frame', frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         self.cap.release()
@@ -51,26 +49,33 @@ class CameraSimulation:
         return img, len(faces), len(eyes)
 
     def connectToEyePi(self, image):
-        self.face_connection_thread_running = True
-        input = EyePiInput()
-        input.image = image
 
-        parameter = GenericObject()
-        parameter.stringValue = "%s" % 'Amsterdam,nl'
+        # try1: cv2.threshold(img,127,255,cv2.THRESH_BINARY)
+        # try2:
+        print('i see faces')
+        try:
+            self.face_connection_thread_running = True
+            input = EyePiInput()
+            # input.image = cv2.threshold(image,127,255,cv2.THRESH_BINARY)
+            input.image = pickle.dumps(image, protocol=None, fix_imports=False)
 
-        input.deviceToken = self.device_token
-        input.action = ActionEnum.WEATHER
-        input.actionParameters = parameter
-        output =  ConnectHandleRequest().handleRequest(input)
-        print(output)
-        if output.ok:
-            print('ok, yay, I know you')
+            parameter = GenericObject()
+            parameter.stringValue = "%s" % 'Amsterdam,nl'
+
+            input.deviceToken = self.device_token
+            input.action = ActionEnum.WEATHER
+            input.actionParameters = parameter
+            output =  ConnectHandleRequest().handleRequest(input)
             time.sleep(10)
-            self.cap.release()
-            cv2.destroyAllWindows()
-            self.face_connection_thread_running = False
-        else:
-            self.face_connection_thread_running = False
+            if output.ok:
+                print('ok, yay, I know you')
+                self.cap.release()
+                cv2.destroyAllWindows()
+                self.face_connection_thread_running = False
+            else:
+                self.face_connection_thread_running = False
+        except Exception as ex:
+            print('exception catched %s' % ex)
 
 CameraSimulation().testWithMacCamera()
 

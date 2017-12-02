@@ -67,7 +67,7 @@ class EyePiThriftHandler:
             ShortTermLogMemoryClient().log_thrift_exception(input, tex)
             raise tex
         except ExternalEndpointUnavailable as endEx:
-            ShortTermLogMemoryClient().log_thrift_exception(input, endEx)
+            ShortTermLogMemoryClient().log_thrift_endpoint_exception(input, endEx)
             raise endEx
         except Exception as ex:
             ShortTermLogMemoryClient().log_exception(input, ex)
@@ -139,5 +139,5 @@ if __name__ == '__main__':
 
     finally:
         unregister()
-        print('finally')
+        print('finally EyePi shutting down')
         manager.shutdown()

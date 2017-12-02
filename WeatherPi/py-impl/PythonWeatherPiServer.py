@@ -108,5 +108,5 @@ if __name__ == '__main__':
 
     finally:
         unregister()
-        print('finally')
+        print('finally WeatherPi shutting down')
         manager.shutdown()

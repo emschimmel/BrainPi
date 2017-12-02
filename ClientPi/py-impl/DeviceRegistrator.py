@@ -17,7 +17,7 @@ from dns import resolver
 
 class DeviceRegistrator:
 
-
+    device_token = None
 
     def resolve_stm_config(self):
         consul_resolver = resolver.Resolver()
@@ -31,24 +31,24 @@ class DeviceRegistrator:
         return ip, port
 
     def register_device(self):
-        outputToken = False
-        try:
-            ip, port = self.resolve_stm_config()
-            transport = TSocket.TSocket(ip, port)  # Make socket
-            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
-            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
-            client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
-            transport.open()  # Connect!
-            inputDevice = DeviceTokenInput()
-            inputDevice.ip = '127.0.0.1'
-            inputDevice.devicetype = 'Development'
-            outputToken = client.generateDeviceToken(inputDevice)
+        if not self.device_token:
+            try:
+                ip, port = self.resolve_stm_config()
+                transport = TSocket.TSocket(ip, port)  # Make socket
+                transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
+                protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
+                client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
+                transport.open()  # Connect!
+                inputDevice = DeviceTokenInput()
+                inputDevice.ip = '127.0.0.1'
+                inputDevice.devicetype = 'Development'
+                self.device_token = client.generateDeviceToken(inputDevice)
 
-            transport.close()
+                transport.close()
 
-        except Thrift.TException as tx:
-            print('%s' % (tx.message))
-        except Exception as ex:
-            print('whot??? %s' % ex)
-        return outputToken
+            except Thrift.TException as tx:
+                print('%s' % (tx.message))
+            except Exception as ex:
+                print('whot??? %s' % ex)
+        return self.device_token
 

@@ -116,5 +116,5 @@ if __name__ == '__main__':
 
     finally:
         unregister()
-        print('finally')
+        print('finally Short term memory Shutting down')
         manager.shutdown()

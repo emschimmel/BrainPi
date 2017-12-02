@@ -11,32 +11,17 @@ from EyePi.constants import *
 from GenericStruct.ttypes import *
 
 from DeviceRegistrator import DeviceRegistrator
+from ConnectHandleRequest import ConnectHandleRequest
 
 from thrift import Thrift
-from thrift.transport import TSocket
-from thrift.transport import TTransport
-from thrift.protocol import TBinaryProtocol
-
-from dns import resolver
-
+import cv2
 import os.path
 import random # test
+import numpy as np
+import pickle
 
 sys.path.append('../../')
 import config
-
-def resolve_eye_config():
-    consul_resolver = resolver.Resolver()
-    consul_resolver.port = 8600
-    consul_resolver.nameservers = ["127.0.0.1"]
-
-    dnsanswer = consul_resolver.query("eye-pi.service.consul.", 'A')
-    ip = str(dnsanswer[0])
-    dnsanswer_srv = consul_resolver.query("eye-pi.service.consul.", 'SRV')
-    port = int(str(random.choice(dnsanswer_srv)).split()[2])
-    return ip, port
-
-
 
 ### test
 def read_image():
@@ -53,18 +38,16 @@ try:
     device_token = DeviceRegistrator().register_device()
     ### end mock ###
 
-    ip, port = resolve_eye_config()
-    transport = TSocket.TSocket(ip, port)
-    transport = TTransport.TBufferedTransport(transport)
-    protocol = TBinaryProtocol.TBinaryProtocol(transport)
-    client = EyePiThriftService.Client(protocol)
-    transport.open()
-
     input = EyePiInput()
     filename = config.file_path +read_image()
     print('image == '+filename)
     file = open(filename, 'rb')
-    input.image = file.read()
+    file = open(filename, 'rb')
+    readfile = file.read()
+
+    nparr = np.fromstring(readfile, np.uint8)
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    input.image = pickle.dumps(image, protocol=None, fix_imports=False)
 
     parameter = GenericObject()
     parameter.stringValue = "%s" % 'Amsterdam,nl'
@@ -73,17 +56,13 @@ try:
     input.action = ActionEnum.WEATHER
     input.actionParameters = parameter
 
-    output = client.handleRequest(input)
+    output = ConnectHandleRequest().handleRequest(input)
     print(output)
     if output.ok:
         for face in output.personCollection:
             confirm_input = ConfirmInput()
             confirm_input.image = face.image
             confirm_input.person = face.person
-            client.confimFace(confirm_input)
-
-    transport.close()
- 
+            ConnectHandleRequest().confimFace(confirm_input)
 except Thrift.TException as tx:
-    print ("%s" % (tx.message))
-
+    print("%s" % (tx.message))

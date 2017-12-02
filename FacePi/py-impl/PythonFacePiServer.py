@@ -26,6 +26,7 @@ sys.path.append('../../')
 import config
 import logging
 import random
+import pickle
 
 import statsd
 stat = statsd.StatsClient('localhost', 8125)
@@ -42,17 +43,20 @@ class FacePiThriftHandler:
     @stat.timer("handleRequest")
     def handleRequest(self, input):
         try:
-            inputImage = input.image
+            inputImage = pickle.loads(input.image, fix_imports=False, encoding="ASCII", errors="strict")
+            # inputImage = input.image
             #HaarFaceDetection().detectFaceWithEyes(inputImage)
-            faces = DetectFaces().DetectFromBinary(inputImage)
-            print("Found {0} faces!".format(len(faces)))
+            faces = DetectFaces().DetectFromBinaryFromCamera(inputImage)
+
             personList = []
             if (faces is not None):
+                print("Found {0} faces!".format(len(faces)))
                 for face in faces:
                     person = PersonEntry()
                     person.person = '== Hans =='
                     person.chance = 90.0
                 #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
+                    person.image = pickle.dumps(face, protocol=None, fix_imports=False)
                     personList.append(person)
             output = FacePiOutput()
             output.personCollection = personList
@@ -106,5 +110,5 @@ if __name__ == '__main__':
         server.serve()
     finally:
         unregister()
-        print('finally')
+        print('finally FacePi shutting down')
         manager.shutdown()

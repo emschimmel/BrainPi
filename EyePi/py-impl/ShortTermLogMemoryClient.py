@@ -42,6 +42,22 @@ class ShortTermLogMemoryClient:
         logObject.actionParameters = input.actionParameters
         logObject.serviceName = exception.serviceName
         logObject.message = exception.message
+        logObject.endpoint = 'EyePi'
+        logObject.person = input.person
+        logObject.deviceToken = input.deviceToken
+        ts = time.time()
+        logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        log.key = ts
+        log.value = logObject
+        self.write_log(log)
+
+    def log_thrift_endpoint_exception(self, input, exception):
+        log = Log()
+        logObject = LogObject()
+        logObject.action = input.action
+        logObject.actionParameters = input.actionParameters
+        logObject.serviceName = exception.serviceName
+        logObject.message = exception.message
         logObject.endpoint = exception.endpoint
         logObject.person = input.person
         logObject.deviceToken = input.deviceToken
