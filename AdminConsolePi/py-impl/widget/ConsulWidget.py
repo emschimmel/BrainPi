@@ -4,11 +4,17 @@ from kivy.uix.boxlayout import BoxLayout
 
 root = Builder.load_string('''
 <ConsulWidget>:    
-    orientation: 'vertical'
-    padding: 5
-    Button:
-        id: execute1
-        text: 'Execute 1'    
+    canvas.before:    
+        Color:
+            rgba: 1, 1, 1, 0.8    
+        Line:
+            rectangle: self.x, self.y, self.width, self.height
+            
+        Color:
+            rgba: 1, 1, 1, 0.3
+        Rectangle:
+            size: 0.995*self.width, 0.995*self.height
+            pos: self.x+0.0025*self.width, self.y+0.0025*self.height
 ''')
 
 class ConsulWidget(BoxLayout):

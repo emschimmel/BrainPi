@@ -21,7 +21,7 @@ root = Builder.load_string('''
             pos: self.x+0.012*self.width, self.y+0.022*self.height
             
 	padding: 20
-	spacing: 5
+	spacing: 10
     
     orientation: 'horizontal'
     ConsulWidget:    
