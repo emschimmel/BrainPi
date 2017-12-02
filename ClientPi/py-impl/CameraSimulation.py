@@ -1,5 +1,5 @@
-from DeviceRegistrator import DeviceRegistrator
-from ConnectHandleRequest import ConnectHandleRequest
+from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
+from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 
 from EyePi.ttypes import *
 from GenericStruct.ttypes import *
@@ -65,7 +65,7 @@ class CameraSimulation:
             input.deviceToken = self.device_token
             input.action = ActionEnum.WEATHER
             input.actionParameters = parameter
-            output =  ConnectHandleRequest().handleRequest(input)
+            output =  ConnectEyePi().handleRequest(input)
             time.sleep(10)
             if output.ok:
                 print('ok, yay, I know you')

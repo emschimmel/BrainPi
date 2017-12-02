@@ -4,14 +4,12 @@
 
 import sys
 sys.path.append('../gen-py')
- 
-from EyePi import EyePiThriftService
+
 from EyePi.ttypes import *
-from EyePi.constants import *
 from GenericStruct.ttypes import *
 
-from DeviceRegistrator import DeviceRegistrator
-from ConnectHandleRequest import ConnectHandleRequest
+from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
+from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 
 from thrift import Thrift
 import cv2
@@ -56,13 +54,13 @@ try:
     input.action = ActionEnum.WEATHER
     input.actionParameters = parameter
 
-    output = ConnectHandleRequest().handleRequest(input)
+    output = ConnectEyePi().handleRequest(input)
     print(output)
     if output.ok:
         for face in output.personCollection:
             confirm_input = ConfirmInput()
             confirm_input.image = face.image
             confirm_input.person = face.person
-            ConnectHandleRequest().confimFace(confirm_input)
+            ConnectEyePi().confimFace(confirm_input)
 except Thrift.TException as tx:
     print("%s" % (tx.message))

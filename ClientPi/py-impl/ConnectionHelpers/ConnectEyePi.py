@@ -61,5 +61,21 @@ class ConnectHandleRequest:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    def writeLog(self, input):
+        try:
+            ip, port = self.resolve_eye_config()
+            transport = TSocket.TSocket(ip, port)
+            transport = TTransport.TBufferedTransport(transport)
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)
+            client = EyePiThriftService.Client(protocol)
+            transport.open()
+            client.writeLog(input)
+
+            transport.close()
+
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
+
 
 
