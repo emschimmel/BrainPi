@@ -85,7 +85,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonWeatherPiServer.py/ && !/awk/{print $1}\'',
              'id': 'weather-pi-%d' % port, 'name': 'weather_pi process tree check', 'Interval': config.consul_interval,
              'timeout': config.consul_timeout}
-    c.agent.service.register("weather-pi", "weather-pi-%d" % port, address=config.weather_pi_ip, port=port, check=check)
+    c.agent.service.register(name="weather-pi", service_id="weather-pi-%d" % port, address=config.weather_pi_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
@@ -108,5 +108,5 @@ if __name__ == '__main__':
 
     finally:
         unregister()
-        print('finally')
+        print('finally WeatherPi shutting down')
         manager.shutdown()

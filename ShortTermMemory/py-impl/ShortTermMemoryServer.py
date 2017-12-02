@@ -92,7 +92,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/ShortTermMemoryServer.py/ && !/awk/{print $1}\'',
                                     'id': 'short-term-memory-%d' % port, 'name': 'short_term_memory process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
-    c.agent.service.register("short-term-memory", "short-term-memory-%d" % port, address=config.short_storage_ip, port=port, check=check)
+    c.agent.service.register(name="short-term-memory", service_id="short-term-memory-%d" % port, address=config.short_storage_ip, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
@@ -116,5 +116,5 @@ if __name__ == '__main__':
 
     finally:
         unregister()
-        print('finally')
+        print('finally Short term memory Shutting down')
         manager.shutdown()
