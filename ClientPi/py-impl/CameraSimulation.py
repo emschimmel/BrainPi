@@ -3,6 +3,7 @@ from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 
 from EyePi.ttypes import *
 from GenericStruct.ttypes import *
+from WeatherPi.ttypes import *
 import cv2
 import threading
 import time
@@ -59,12 +60,14 @@ class CameraSimulation:
             # input.image = cv2.threshold(image,127,255,cv2.THRESH_BINARY)
             input.image = pickle.dumps(image, protocol=None, fix_imports=False)
 
-            parameter = GenericObject()
-            parameter.stringValue = "%s" % 'Amsterdam,nl'
+            actions = dict()
+            weather_input = WeatherInput()
+            weather_input.location = 'Amsterdam,nl'
+            actionParameter = pickle.dumps(weather_input, protocol=None, fix_imports=False)
+            actions[ActionEnum.WEATHER] = actionParameter
+            input.action = actions
 
             input.deviceToken = self.device_token
-            input.action = ActionEnum.WEATHER
-            input.actionParameters = parameter
             output =  ConnectEyePi().handleRequest(input)
             time.sleep(10)
             if output.ok:

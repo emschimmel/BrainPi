@@ -24,7 +24,7 @@ class GenericThriftClient:
     def __init__(self):
         self.log = {}
 
-    def handle_request(self, action, input):
+    def handle_request(self, action, input, output):
         print('generic handler %s' % action)
         try:
             ip, port = self.resolve_config(action)
@@ -34,9 +34,8 @@ class GenericThriftClient:
             client = GenericPiThriftService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
 
-            output = client.handleRequest(input)
+            output[action] = client.handleRequest(input)
             transport.close()
-            return output
 
         except Thrift.TException as tx:
             print('%s' % (tx.message))

@@ -24,7 +24,6 @@ class ShortTermLogMemoryClient:
         log = Log()
         logObject = LogObject()
         logObject.action = input.action
-        logObject.actionParameters = input.actionParameters
         logObject.serviceName = 'EyePi'
         logObject.message = ('%s' % exception)
         logObject.person = input.person
@@ -39,7 +38,6 @@ class ShortTermLogMemoryClient:
         log = Log()
         logObject = LogObject()
         logObject.action = input.action
-        logObject.actionParameters = input.actionParameters
         logObject.serviceName = exception.serviceName
         logObject.message = exception.message
         logObject.endpoint = 'EyePi'
@@ -55,7 +53,6 @@ class ShortTermLogMemoryClient:
         log = Log()
         logObject = LogObject()
         logObject.action = input.action
-        logObject.actionParameters = input.actionParameters
         logObject.serviceName = exception.serviceName
         logObject.message = exception.message
         logObject.endpoint = exception.endpoint
@@ -71,7 +68,6 @@ class ShortTermLogMemoryClient:
         log = Log()
         logObject = LogObject()
         logObject.action = input.action
-        logObject.actionParameters = input.actionParameters
         logObject.serviceName = 'EyePi'
         logObject.message = message
         logObject.person = input.person
@@ -84,7 +80,7 @@ class ShortTermLogMemoryClient:
         self.write_log(log)
 
     def write_log(self, input):
-        print('short term memory handler')
+        print('short term memory handler, write log')
         try:
             ip, port = self.resolve_config()
             transport = TSocket.TSocket(ip, port)  # Make socket

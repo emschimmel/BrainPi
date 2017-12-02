@@ -1,35 +1,34 @@
 include "GenericStruct.thrift"
 
 struct DeviceTokenInput {
-    1: required string ip
-    2: required string devicetype
-    3: optional string userAgent
-    4: optional string person
+    1 : required string ip
+    2 : required string devicetype
+    3 : optional string userAgent
+    4 : optional string person
 }
 
 struct TokenObject {
-    1: required string deviceToken
-	2: optional string person
-	3: required string token
-	4: optional binary image
-	5: optional string date
-    6: optional double time
+    1 : required string deviceToken
+	2 : optional string person
+	3 : required string token
+	4 : optional binary image
+	5 : optional string date
+    6 : optional double time
 }
 
 struct LogObject {
-    1: required GenericStruct.ActionEnum action;
-    2: optional GenericStruct.GenericObject actionParameters
-    3: required string serviceName;
-    4: required string message;
-    5: optional string endpoint
-    6: optional string person
-    7: optional string deviceToken
-    8: optional string date
+	1 : required map<GenericStruct.ActionEnum, binary> action
+    2 : required string serviceName;
+    3 : required string message;
+    4 : optional string endpoint
+    5 : optional string person
+    6 : optional string deviceToken
+    7 : optional string date
 }
 
 struct Log {
-    1: required double key
-    2: optional LogObject value
+    1 : required double key
+    2 : optional LogObject value
 }
 
 service ShortMemoryService {

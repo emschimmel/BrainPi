@@ -29,7 +29,7 @@ sys.path.append('../../')
 import config
 import logging
 import random
-
+import threading
 import statsd
 stat = statsd.StatsClient('localhost', 8125)
 
@@ -61,7 +61,7 @@ class EyePiThriftHandler:
             if tokenValide and not input.image:
                 eyeOutput.ok = False
             if eyeOutput.ok:
-                eyeOutput.data = self.make_generic_call(input)
+                eyeOutput.data = self.make_generic_call(input.action)
             return eyeOutput
         except ThriftServiceException as tex:
             ShortTermLogMemoryClient().log_thrift_exception(input, tex)
@@ -75,15 +75,34 @@ class EyePiThriftHandler:
             raise ThriftServiceException('EyePi', 'invalid request %s' % ex)
 
     def make_generic_call(self, input):
-        try:
-            return GenericThriftClient().handle_request(input.action, input.actionParameters)
-        except Thrift.TException as tx:
-            raise tx
-        except ThriftServiceException as tex:
-            raise tex
-        except ExternalEndpointUnavailable as endEx:
-            raise endEx
-            # probably try again
+        threads = [None] * len(ActionEnum._VALUES_TO_NAMES)
+        call_result = [{}] * len(ActionEnum._VALUES_TO_NAMES)
+        for key, request in input.items():
+            try:
+                threads[key] = threading.Thread(target=GenericThriftClient().handle_request, args=(key, request, call_result))
+                threads[key].start()
+            #    return GenericThriftClient().handle_request(key, request.actionParameters)
+            except Exception as ex:
+                print('test')
+                print('%s' % ex)
+            except Thrift.TException as tx:
+                print('test')
+                print('%s' % tx.message)
+                raise tx
+            except ThriftServiceException as tex:
+                raise tex
+            except ExternalEndpointUnavailable as endEx:
+                raise endEx
+                # probably try again
+        for key in input:
+            threads[key].join()
+        output = {}
+        for key in range(len(call_result)):
+            value = call_result[key]
+            if value:
+                output[key] = value
+              # output = {**output, **i}
+        return output
 
     @stat.timer("confimFace")
     def confimFace(self, input):

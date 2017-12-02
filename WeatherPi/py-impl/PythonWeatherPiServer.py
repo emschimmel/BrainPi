@@ -5,6 +5,8 @@ import sys
 import consul
 from multiprocessing.managers import SyncManager
 
+import pickle
+
 sys.path.append('../gen-py')
 sys.path.append('../')
 
@@ -12,6 +14,7 @@ from GenericServerPi import GenericPiThriftService
 from GenericServerPi.ttypes import *
 from GenericStruct.ttypes import *
 from ThriftException.ttypes import *
+from WeatherPi.ttypes import *
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -42,26 +45,22 @@ class WeatherPiThriftHandler:
     def handleRequest(self, input):
         print("weather pi!")
         try:
-            wind, humidity, temperature = OpenWeather().getWeather(input.stringValue)
+            input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
+            wind, humidity, temperature = OpenWeather().getWeather(input_object.location)
 
-            output = GenericObject()
-            output.mapValue = {'humidity': self.createStringValue(humidity),
-                               'wind-speed': self.createStringValue(wind['speed']),
-                               'wind-deg': self.createStringValue(wind['deg']),
-                               'temperature-temp': self.createStringValue(temperature['temp']),
-                               'temperature-temp_max': self.createStringValue(temperature['temp_max']),
-                               'temperature-temp_min': self.createStringValue(temperature['temp_min'])}
-
-            return output
+            output = WeatherOutput()
+            output.humidity = "%s" % humidity
+            output.wind_speed = "%s" % wind['speed']
+            output.wind_deg =  "%s" % wind['deg']
+            output.temperature_temp = "%s" % temperature['temp']
+            output.temperature_temp_max = "%s" % temperature['temp_max']
+            output.temperature_temp_min = "%s" % temperature['temp_min']
+            pickle_output = pickle.dumps(output, protocol=None, fix_imports=False)
+            return pickle_output
 
         except Exception as ex:
             print('invalid request %s' % ex)
             raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
-
-    def createStringValue(self, input):
-        value = GenericSubStruct()
-        value.stringValue = "%s" % input
-        return value
 
     @stat.timer("ping")
     def ping(self, input):

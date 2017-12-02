@@ -8,12 +8,11 @@ struct PersonEntry {
 }
 
 struct EyePiInput {
-	1 : required GenericStruct.ActionEnum action
-	2 : optional GenericStruct.GenericObject actionParameters
-	3 : required string deviceToken
-	4 : optional string person
-	5 : optional string token
-	6 : optional binary image
+	1 : required map<GenericStruct.ActionEnum, binary> action
+	2 : required string deviceToken
+	3 : optional string person
+	4 : optional string token
+	5 : optional binary image
 }
 
 struct ConfirmInput {
@@ -25,7 +24,7 @@ struct EyePiOutput {
 	1 : required bool ok
 	2 : optional list<PersonEntry> personCollection
 	3 : optional string token
-	4 : optional GenericStruct.GenericObject data
+	4 : required map<GenericStruct.ActionEnum, binary> data
 }
 
 service EyePiThriftService {

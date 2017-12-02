@@ -6,6 +6,7 @@ thrift -gen py EyePi.thrift
 thrift -gen py FacePi.thrift
 thrift -gen py GenericServerPi.thrift
 thrift -gen py ShortMemory.thrift
+thrift -gen py WeatherPi.thrift
 
 rm -rf ../ClientPi/gen-py/*
 rm -rf ../EyePi/gen-py/*
@@ -18,6 +19,7 @@ cp -Rf ./gen-py/GenericStruct   ../ClientPi/gen-py/
 cp -Rf ./gen-py/EyePi           ../ClientPi/gen-py/
 cp -Rf ./gen-py/ThriftException ../ClientPi/gen-py/
 cp -Rf ./gen-py/ShortMemory     ../ClientPi/gen-py/ # mock!
+cp -Rf ./gen-py/WeatherPi       ../ClientPi/gen-py/
 
 # EyePI
 cp -Rf ./gen-py/EyePi           ../EyePi/gen-py/
@@ -35,6 +37,7 @@ cp -Rf ./gen-py/ThriftException ../FacePi/gen-py/
 cp -Rf ./gen-py/GenericStruct   ../WeatherPi/gen-py/
 cp -Rf ./gen-py/GenericServerPi ../WeatherPi/gen-py/
 cp -Rf ./gen-py/ThriftException ../WeatherPi/gen-py/
+cp -Rf ./gen-py/WeatherPi       ../WeatherPi/gen-py/
 
 # ClientPI
 cp -Rf ./gen-py/GenericStruct   ../ShortTermMemory/gen-py/

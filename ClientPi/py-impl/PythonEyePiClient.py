@@ -7,6 +7,7 @@ sys.path.append('../gen-py')
 
 from EyePi.ttypes import *
 from GenericStruct.ttypes import *
+from WeatherPi.ttypes import *
 
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
@@ -46,13 +47,18 @@ try:
     nparr = np.fromstring(readfile, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     input.image = pickle.dumps(image, protocol=None, fix_imports=False)
-
-    parameter = GenericObject()
-    parameter.stringValue = "%s" % 'Amsterdam,nl'
+    actions = dict()
+    weather_input = WeatherInput()
+    weather_input.location = 'Amsterdam,nl'
+    actionParameter = pickle.dumps(weather_input, protocol=None, fix_imports=False)
+    actions[ActionEnum.WEATHER] = actionParameter
+    input.action = actions
+    #parameter = GenericObject()
+    #parameter.stringValue = "%s" % 'Amsterdam,nl'
 
     input.deviceToken = device_token
-    input.action = ActionEnum.WEATHER
-    input.actionParameters = parameter
+    #input.action = ActionEnum.WEATHER
+    #input.actionParameters = parameter
 
     output = ConnectEyePi().handleRequest(input)
     print(output)

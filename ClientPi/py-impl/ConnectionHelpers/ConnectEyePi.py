@@ -14,7 +14,7 @@ from thrift.protocol import TBinaryProtocol
 
 from dns import resolver
 
-class ConnectHandleRequest:
+class ConnectEyePi:
 
     def resolve_eye_config(self):
         consul_resolver = resolver.Resolver()
