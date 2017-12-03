@@ -13,4 +13,4 @@ WeatherPi/gen-py/*
 ShortTermMemory/gen-py/*
 WeatherPi/api-key/api-key.txt
 WeatherPi/config/weather.ini
-FacePi/py-impl/Data/*
+FacePi/py-impl/FaceRecognition/Data/*
