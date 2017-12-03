@@ -28,14 +28,21 @@ root = Builder.load_string('''
             size_hint: None, 0.05
             width: 150
             id: id_search
+            text: root.random_number
         Button:
             size_hint: None, 0.05
             text: "click"
+            on_release: root.change_text
 ''')
 
 class WeatherWidget(BoxLayout):
     def __init__(self, **kwargs):
+        self.random_number = 'Before';
         super(WeatherWidget, self).__init__(**kwargs)
+
+    def change_text(self):
+        self.random_number = 'After'
+        print('After')
 
 class Weather(App):
 
