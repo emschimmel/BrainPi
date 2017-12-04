@@ -2,7 +2,7 @@
 import sys
 import cv2
 import pickle
-from TrainNetwork import TrainNetwork
+from LBPH.TrainNetwork import TrainNetwork
 sys.path.append('../')
 from FaceDetection.DetectFaces import DetectFaces
 
@@ -11,10 +11,26 @@ class RecognizeFace():
     def __init__(self):
         self.log = {}
 
+    def reconFaceWithCam(self):
         output = dict()
         with open('./Data/namedIds.yml', 'rb') as namedIdsFile:
             self.namedIds = pickle.loads(namedIdsFile.read())
-        recon = self.recon_face()
+        recon = self.recon_face_with_camera()
+        print(recon)
+        list_names = []
+        for conf in recon:
+            if conf[1] < 20:
+                if not any(conf[0] in s for s in list_names):
+                    list_names.append(conf[0])
+                    output[conf[0]] = conf[1]
+                    TrainNetwork().learn(conf[2], conf[0], conf[3])
+        print(output)
+
+    def reconFaceFromImage(self, image):
+        output = dict()
+        with open('./Data/namedIds.yml', 'rb') as namedIdsFile:
+            self.namedIds = pickle.loads(namedIdsFile.read())
+        recon = self.recon_face_with_file(image)
         print(recon)
         list_names = []
         for conf in recon:
@@ -28,12 +44,7 @@ class RecognizeFace():
     def sort_output(self, recon_collection):
         list_names = dict(list)
 
-    def testFace(self, image):
-        print(image)
-
-
-
-    def recon_face(self):
+    def recon_face_with_camera(self):
         # recognizer = cv2.face.FisherFaceRecognizer_create()
         recognizer = cv2.face.LBPHFaceRecognizer_create()
         recognizer.read('./Data/trainer.yml')
@@ -62,8 +73,22 @@ class RecognizeFace():
                 break
         cam.release()
         return recon
-        # cv2.destroyAllWindows()
 
+    def recon_face_with_file(self, im):
+        # recognizer = cv2.face.FisherFaceRecognizer_create()
+        recognizer = cv2.face.LBPHFaceRecognizer_create()
+        recognizer.read('./Data/trainer.yml')
+        recon = []
+        gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+        faces = DetectFaces().DetectFromBinaryFromCamera(im)
+        for (x, y, w, h) in faces:
+            Id, conf = recognizer.predict(gray[y:y + h, x:x + w])
+            name = self.namedIds[Id]
+            if (conf < 20):
+                crop_img = im[y:y + h, x:x + w]
+                recon.append([name, conf, crop_img, Id])
 
-if __name__ == '__main__':
-    RecognizeFace()
+            cv2.rectangle(im, (x - 22, y - 90), (x + w + 22, y - 22), (0, 255, 0), -1)
+            cv2.putText(im, name+' '+str(conf), (x, y - 40), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 3)
+
+        return recon

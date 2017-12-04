@@ -15,6 +15,8 @@ from FacePi.ttypes import *
 from ThriftException.ttypes import *
 
 from FaceDetection.DetectFaces import DetectFaces
+from FaceRecognition.RecognitionManager import RecognitionManager
+
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -46,6 +48,7 @@ class FacePiThriftHandler:
             inputImage = pickle.loads(input.image, fix_imports=False, encoding="ASCII", errors="strict")
             # inputImage = input.image
             #HaarFaceDetection().detectFaceWithEyes(inputImage)
+            #faces = RecognitionManager().recon_face(inputImage)
             faces = DetectFaces().DetectFromBinaryFromCamera(inputImage)
 
             personList = []

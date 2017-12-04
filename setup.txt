@@ -14,7 +14,7 @@ https://docs.opencv.org/3.0-beta/modules/face/doc/facerec/facerec_api.html
 
 PIP install packages in virtual environment:
 pip install -Iv numpy scipy matplotlib ipython jupyter pandas sympy nose opencv-python
-
+pip install opencv-contrib-python
 
 # generate thrift
 thrift -gen py EyePi.thrift

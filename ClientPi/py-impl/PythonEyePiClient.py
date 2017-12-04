@@ -41,7 +41,6 @@ try:
     filename = config.file_path +read_image()
     print('image == '+filename)
     file = open(filename, 'rb')
-    file = open(filename, 'rb')
     readfile = file.read()
 
     nparr = np.fromstring(readfile, np.uint8)

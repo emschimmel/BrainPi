@@ -63,7 +63,9 @@ class TrainNetwork():
                     image = cv2.imdecode(imageNp, cv2.IMREAD_COLOR)
                     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                     faces = DetectFaces().DetectFromBinaryFromCamera(image)
+
                     for y, h, x, w in faces:
+
                         crop_img = gray_image[y:y+h,x:x+w]
                         faceSamples.append(crop_img)
                         Ids.append(label)
@@ -76,7 +78,7 @@ class TrainNetwork():
 
     def write_to_disc(self, image, name):
         save_name = name.replace(' ', '_', -1)
-        file_name = './Data/lfw/' + save_name + '/' + save_name + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '.jpg'
+        file_name = './LBPH/Data/lfw/' + save_name + '/' + save_name + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '.jpg'
         print(file_name)
         cv2.imwrite(file_name, image)
 
