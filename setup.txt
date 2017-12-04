@@ -58,3 +58,5 @@ https://github.com/ianunruh/hvac
 
 # install pyowm
 pip install pyowm
+
+# https://www.consul.io/docs/guides/consul-containers.html
