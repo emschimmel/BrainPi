@@ -3,6 +3,10 @@ sys.path.append('../../')
 import config
 from . import RedisImplementation
 from . import LocalImplementation
+try:
+    import redis
+except ImportError:
+    pass
 
 class State_d:
     def __init__(self, imp):
@@ -15,12 +19,11 @@ class State_d:
 
 class ConnectionManager():
 
-    try:
-        import redis
+    if redis:
         r = redis.StrictRedis(host=config.redis_service_ip, port=config.redis_service_port, db=0)
         r.ping()
         storage = State_d(RedisImplementation.RedisImplementation())
-    except Exception:
+    else:
         storage = State_d(LocalImplementation.LocalImplementation())
 
     def get(self, key):

@@ -4,6 +4,10 @@ sys.path.append('../../')
 import config
 from . import ElasticsearchImplementation
 from . import LocalImplementation
+try:
+    import elasticsearch
+except ImportError:
+    pass
 
 class State_d:
     def __init__(self, imp):
@@ -16,14 +20,13 @@ class State_d:
 
 class ConnectionManager():
 
-    try:
-        import elasticsearch
+    if elasticsearch:
         #es = elasticsearch.Elasticsearch([{'host': config.es_service_ip, 'port': config.es_service_port}])
 
         es = elasticsearch.Elasticsearch(['http://%s:%d/' % config.es_service_ip % config.es_service_port], verify_certs=True)
         es.ping()
         storage = State_d(ElasticsearchImplementation.ElasticsearchImplementation())
-    except Exception:
+    else:
         storage = State_d(LocalImplementation.LocalImplementation())
 
     def getLog(self, startdate, enddate, amount):
