@@ -14,9 +14,8 @@ class TrainNetwork():
     def learn(self, image, name, id):
 
         self.log = {}
-        # recognizer = cv2.face.FisherFaceRecognizer_create()
-        recognizer = cv2.face.LBPHFaceRecognizer_create()
-        recognizer.read('./Data/lbph_trainer.yml')
+        recognizer = cv2.face.EigenFaceRecognizer_create()
+        recognizer.read('./Data/eigen_trainer.yml')
     #    faces, Ids
         gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faceSamples = []
@@ -26,17 +25,16 @@ class TrainNetwork():
         self.write_to_disc(image, name)
         recognizer.update(faceSamples, np.array(Ids))
         # recognizer.save('./Data/trainer.yml')
-        recognizer.write('./Data/lbph_trainer.yml')
+        recognizer.write('./Data/trainer.yml')
 
     def basicTrain(self):
-        # recognizer = cv2.face.FisherFaceRecognizer_create()
-        recognizer = cv2.face.LBPHFaceRecognizer_create()
+        recognizer = cv2.face.EigenFaceRecognizer_create()
         faces, Ids, namedIds = self.getImagesAndLabels()
         print(len(faces))
         print(len(Ids))
         recognizer.train(faces, np.array(Ids))
         #recognizer.save('./Data/trainer.yml')
-        recognizer.write('./Data/trainer.yml')
+        recognizer.write('./Data/eigen_trainer.yml')
 
         with open('./Data/namedIds.yml', 'wb') as namedIdsFile:
             pickle.dump(namedIds, namedIdsFile)
