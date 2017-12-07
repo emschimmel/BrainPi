@@ -5,8 +5,6 @@ import config
 
 class RedisImplementation():
 
-    max_token_time = 1000
-
     def __init__(self):
         self.redisService = redis.StrictRedis(host=config.redis_service_ip, port=config.redis_service_port, db=0)
 
@@ -19,7 +17,9 @@ class RedisImplementation():
         # self.max_token_time
         # TODO: use the ttl
         print('redis put')
-        self.redisService.set(key, value)
+        # ex = expiretime in seconds
+        # px = expiretime in miliseconds
+        self.redisService.set(key, value, ex=config.max_token_time_seconds)
 
     def delete(self, key):
         print('redis delete')
