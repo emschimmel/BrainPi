@@ -13,12 +13,11 @@ class RedisImplementation():
         print('redis get')
         return self.redisService.get(key)
 
+    # Redis docs:
+    # - ex = expiretime in seconds
+    # - px = expiretime in miliseconds
     def put(self, key, value):
-        # self.max_token_time
-        # TODO: use the ttl
         print('redis put')
-        # ex = expiretime in seconds
-        # px = expiretime in miliseconds
         self.redisService.set(key, value, ex=config.max_token_time_seconds)
 
     def delete(self, key):
