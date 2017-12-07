@@ -23,9 +23,7 @@ class ConnectionManager():
         es = elasticsearch.Elasticsearch(['http://%s:%d/' % config.es_service_ip % config.es_service_port], verify_certs=True)
         es.ping()
         storage = State_d(ElasticsearchImplementation.ElasticsearchImplementation())
-    except ImportError:
-        storage = State_d(LocalImplementation.LocalImplementation())
-    except Exception:
+    except (ImportError, Exception):
         storage = State_d(LocalImplementation.LocalImplementation())
 
     def getLog(self, startdate, enddate, amount):

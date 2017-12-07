@@ -20,9 +20,7 @@ class ConnectionManager():
         r = redis.StrictRedis(host=config.redis_service_ip, port=config.redis_service_port, db=0)
         r.ping()
         storage = State_d(RedisImplementation.RedisImplementation())
-    except ImportError:
-        storage = State_d(LocalImplementation.LocalImplementation())
-    except Exception:
+    except (ImportError, Exception):
         storage = State_d(LocalImplementation.LocalImplementation())
 
     def get(self, key):
