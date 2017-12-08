@@ -26,7 +26,6 @@ class ConnectionManager():
         except Exception as ex:
             from . import LocalImplementation
             storage = State_d(LocalImplementation.LocalImplementation())
-            print('%s' % ex.message)
     else:
         from . import LocalImplementation
         storage = State_d(LocalImplementation.LocalImplementation())

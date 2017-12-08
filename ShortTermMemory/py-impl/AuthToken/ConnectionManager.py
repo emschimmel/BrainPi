@@ -29,7 +29,6 @@ class ConnectionManager():
             from . import RedisImplementation
             storage = State_d(RedisImplementation.RedisImplementation())
         except Exception as ex:
-            print('%s' % ex.message)
             from . import LocalImplementation
             storage = State_d(LocalImplementation.LocalImplementation())
     else:

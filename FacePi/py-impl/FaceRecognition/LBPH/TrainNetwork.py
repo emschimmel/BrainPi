@@ -4,6 +4,8 @@ import pickle
 sys.path.append('../')
 from FaceDetection.DetectFaces import DetectFaces
 import random
+sys.path.append('../../../')
+import config
 
 
 class TrainNetwork():
@@ -14,9 +16,8 @@ class TrainNetwork():
     def learn(self, image, name, id):
 
         self.log = {}
-        # recognizer = cv2.face.FisherFaceRecognizer_create()
         recognizer = cv2.face.LBPHFaceRecognizer_create()
-        recognizer.read('./Data/lbph_trainer.yml')
+        recognizer.read(config.lbph_trainer_file)
     #    faces, Ids
         gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faceSamples = []
@@ -26,23 +27,19 @@ class TrainNetwork():
         self.write_to_disc(image, name)
         recognizer.update(faceSamples, np.array(Ids))
         # recognizer.save('./Data/trainer.yml')
-        recognizer.write('./Data/lbph_trainer.yml')
+        recognizer.write(config.lbph_trainer_file)
 
     def basicTrain(self):
-        # recognizer = cv2.face.FisherFaceRecognizer_create()
+        self.getImagesAndLabels()
+
+    def trainAndWrite(self, faces, Ids):
         recognizer = cv2.face.LBPHFaceRecognizer_create()
-        faces, Ids, namedIds = self.getImagesAndLabels()
-        print(len(faces))
-        print(len(Ids))
         recognizer.train(faces, np.array(Ids))
         #recognizer.save('./Data/trainer.yml')
-        recognizer.write('./Data/trainer.yml')
-
-        with open('./Data/namedIds.yml', 'wb') as namedIdsFile:
-            pickle.dump(namedIds, namedIdsFile)
+        recognizer.write(config.lbph_trainer_file)
 
     def getImagesAndLabels(self):
-        path = './Data/lfw'
+        path = config.lbph_data_path
 
         imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
         faceSamples = []
@@ -50,7 +47,7 @@ class TrainNetwork():
         namedIds = dict()
         label = 0
         for imagePath in imagePaths:
-            name = imagePath.split('./Data/lfw/')
+            name = imagePath.split(path+'/')
             name = name[1].replace('_', ' ', -1)
             print(name)
             print(label)
@@ -74,11 +71,17 @@ class TrainNetwork():
                     print('Ik weet niet wat er is, maar het boeit me ook niet')
                     print('%s' % ex)
             label = label + 1
-        return faceSamples, Ids, namedIds
+            if len(faceSamples) > 100:
+                self.trainAndWrite(faceSamples, Ids)
+                faceSamples.clear()
+                Ids.clear()
+            self.trainAndWrite(faceSamples, Ids)
+            with open(config.lbph_name_id_file, 'wb') as namedIdsFile:
+                pickle.dump(namedIds, namedIdsFile)
 
     def write_to_disc(self, image, name):
         save_name = name.replace(' ', '_', -1)
-        file_name = './Data/lfw/' + save_name + '/' + save_name + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '.jpg'
+        file_name = config.lbph_data_path + save_name + '/' + save_name + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '.jpg'
         print(file_name)
         cv2.imwrite(file_name, image)
 
