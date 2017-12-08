@@ -1,7 +1,8 @@
-import redis
 import sys
 sys.path.append('../../')
 import config
+import redis
+
 
 class RedisImplementation():
 

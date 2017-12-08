@@ -1,8 +1,12 @@
 import sys
+
 sys.path.append('../../')
 import config
-from . import RedisImplementation
-from . import LocalImplementation
+
+# import importlib
+# spam_spec = importlib.util.find_spec("redis")
+# found = spam_spec is not None
+# print(found)
 
 class State_d:
     def __init__(self, imp):
@@ -14,13 +18,22 @@ class State_d:
         return getattr(self.__implementation, name)
 
 class ConnectionManager():
-
     try:
         import redis
-        r = redis.StrictRedis(host=config.redis_service_ip, port=config.redis_service_port, db=0)
-        r.ping()
-        storage = State_d(RedisImplementation.RedisImplementation())
-    except (ImportError, Exception):
+    except ImportError:
+        redis = None
+    if redis:
+        try:
+            r = redis.StrictRedis(host=config.redis_service_ip, port=config.redis_service_port, db=0)
+            r.ping()
+            from . import RedisImplementation
+            storage = State_d(RedisImplementation.RedisImplementation())
+        except Exception as ex:
+            print('%s' % ex.message)
+            from . import LocalImplementation
+            storage = State_d(LocalImplementation.LocalImplementation())
+    else:
+        from . import LocalImplementation
         storage = State_d(LocalImplementation.LocalImplementation())
 
     def get(self, key):

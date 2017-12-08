@@ -1,6 +1,7 @@
 import sys
 sys.path.append('../../')
 import config
+import elasticsearch
 
 class ElasticsearchImplementation():
 
