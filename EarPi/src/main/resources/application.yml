@@ -1,10 +1,11 @@
-server:
-  port: 8070
 
-#TODO: figure out why I need this here and in bootstrap.yml
 spring:
   application:
-    name: testLatticeApp
+    name: EarPi
+  cloud:
+    consul:
+      host: "localhost"
+      port: 8500
 
 ribbon:
   ServerListRefreshInterval: 1000

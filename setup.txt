@@ -60,3 +60,4 @@ https://github.com/ianunruh/hvac
 pip install pyowm
 
 # https://www.consul.io/docs/guides/consul-containers.html
+http://blog.trifork.com/2016/12/14/service-discovery-using-consul-and-spring-cloud/
