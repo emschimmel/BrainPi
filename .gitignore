@@ -16,3 +16,4 @@ WeatherPi/api-key/api-key.txt
 WeatherPi/config/weather.ini
 FacePi/py-impl/FaceRecognition/Data/*
 EarPi/src/main/java/earpi/generated
+EarPi/target
