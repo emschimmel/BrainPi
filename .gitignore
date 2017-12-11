@@ -5,6 +5,7 @@ FacePi/img/*
 EyePi/img/*
 *.iml
 *idea
+Thrift/gen-java/*
 Thrift/gen-py/*
 ClientPi/gen-py/*
 EyePi/gen-py/*
@@ -14,3 +15,4 @@ ShortTermMemory/gen-py/*
 WeatherPi/api-key/api-key.txt
 WeatherPi/config/weather.ini
 FacePi/py-impl/FaceRecognition/Data/*
+EarPi/src/main/java/earpi/generated

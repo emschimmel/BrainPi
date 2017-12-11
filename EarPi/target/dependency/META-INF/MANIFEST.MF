@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven 3.3.9
+Built-By: EMSchimmel
+Build-Jdk: 9.0.1
+Implementation-Title: Earpi Spring Boot Docker
+Implementation-Version: 1.0
+Implementation-Vendor-Id: brainpi.com
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: http://projects.spring.io/spring-boot/EarPi/
+Main-Class: org.springframework.boot.loader.JarLauncher
+Start-Class: earpi.Application
+Spring-Boot-Version: 1.5.9.RELEASE
+Spring-Boot-Classes: BOOT-INF/classes/
+Spring-Boot-Lib: BOOT-INF/lib/
+

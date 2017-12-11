@@ -26,7 +26,9 @@ consul_interval         = '30s'
 consul_timeout          = '2s'
 
 redis_service_ip        = 'localhost'
-redis_service_port      = 6379
+redis_service_port      = 32768
 es_service_ip           = 'localhost'
-es_service_port         = 9200
+es_service_port         = 32770
+mongo_service_ip        = 'localhost'
+mongo_service_port      = 32771
 
