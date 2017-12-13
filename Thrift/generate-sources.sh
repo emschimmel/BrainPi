@@ -10,9 +10,6 @@ thrift -gen py WeatherPi.thrift
 
 thrift -gen java GenericStruct.thrift
 thrift -gen java EarPi.thrift
-rm -rf ./gen-java/EarPi/
-mkdir ./gen-java/EarPi/
-mv -f ./gen-java/*.java      ./gen-java/EarPi/
 
 
 rm -rf ../ClientPi/gen-py/*
@@ -53,5 +50,6 @@ cp -Rf ./gen-py/ShortMemory     ../ShortTermMemory/gen-py/
 
 
 #EarPI
-cp -Rf ./gen-java/EarPi/     ../EarPi/src/main/java/nl/earpi/generated/
+cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/src/main/java/nl/earpi/generated/
+
 

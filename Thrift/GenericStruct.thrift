@@ -1,3 +1,5 @@
+namespace java nl.earpi.generated.genericstruct
+
 enum ActionEnum {
 	LOGIN
 	KAKU
