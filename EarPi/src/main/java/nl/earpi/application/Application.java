@@ -1,6 +1,8 @@
 package nl.earpi.application;
 
+import nl.earpi.generated.earpi.DeviceTokenInput;
 import nl.earpi.generated.earpi.LoginInputObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +23,8 @@ public class Application {
     // - Autorization (write mode)
     // - Entry point for device registration
 
-    ShortTermConnectClient shortTermConnectClient = new ShortTermConnectClient();
+    @Autowired
+    private ShortTermConnectClient shortTermConnectClient;
 
     @RequestMapping("/")
     public String home() {
@@ -31,6 +34,8 @@ public class Application {
     @RequestMapping("/device-registration")
     public String deviceRegistration() {
         LoginInputObject loginObject = new LoginInputObject();
+        DeviceTokenInput deviceTokenInput = new DeviceTokenInput();
+        loginObject.setDeviceInput(deviceTokenInput);
         loginObject.getDeviceInput().setIp("localhost");
         loginObject.getDeviceInput().setDevicetype("MyLaptop");
         loginObject.getDeviceInput().setPerson("The Devil");
