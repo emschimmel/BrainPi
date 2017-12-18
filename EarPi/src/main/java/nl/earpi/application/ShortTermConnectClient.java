@@ -85,7 +85,7 @@ public class ShortTermConnectClient {
             valide = client.validateDeviceToken(token);
 
             transport.close();
-        } catch (TException x) {
+        } catch (TException | NullPointerException x) {
             x.printStackTrace();
         }
         return valide;
