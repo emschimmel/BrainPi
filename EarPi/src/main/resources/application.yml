@@ -8,6 +8,9 @@ spring:
     consul:
       host: "localhost"
       port: 8500
+      discovery:
+        healthCheckPath: /health
+        healthCheckInterval: 15s
 
 ribbon:
   ServerListRefreshInterval: 1000

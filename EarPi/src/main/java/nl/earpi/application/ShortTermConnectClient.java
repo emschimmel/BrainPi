@@ -49,6 +49,22 @@ public class ShortTermConnectClient {
     }
 
     /**
+     * Get the devicetoken from disc
+     * @return devicetoken or null if not found
+     */
+    public String GetDeviceToken() {
+        try (Stream<String> stream = Files.lines(PATH)) {
+            return stream
+                    .map(String::toUpperCase)
+                    .reduce((first, second) -> second)
+                    .orElse(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Thrift connect to validate the DeviceToken
      * @param token String token from disk
      * @return valide
@@ -111,22 +127,6 @@ public class ShortTermConnectClient {
         deviceInput.setDevicetype("myLaptop");
         deviceInput.setIp("127.0.0.1");
         return deviceInput;
-    }
-
-    /**
-     * Get the devicetoken from disc
-     * @return devicetoken or null if not found
-     */
-    private String GetDeviceToken() {
-        try (Stream<String> stream = Files.lines(PATH)) {
-            return stream
-                    .map(String::toUpperCase)
-                    .reduce((first, second) -> second)
-                    .orElse(null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**

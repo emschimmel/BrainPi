@@ -47,19 +47,24 @@ public class Application {
 
     @RequestMapping("/configure")
     public String configure() {
+        String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";
     }
 
     @RequestMapping("/autorize")
     public String autorize() {
+        String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";
     }
 
+    @RequestMapping("/health")
+    public boolean healthCheck() {
+        return true;
+    }
+
     public static void main(String[] args) {
-        LoginInputObject loginInputObject = new LoginInputObject();
-        // LoginInputObject loginInputObject = new LoginInputObject();
         SpringApplication.run(Application.class, args);
     }
 
