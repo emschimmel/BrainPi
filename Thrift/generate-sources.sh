@@ -8,6 +8,7 @@ thrift -gen py GenericServerPi.thrift
 thrift -gen py ShortMemory.thrift
 thrift -gen py WeatherPi.thrift
 
+thrift -gen java ShortMemory.thrift
 thrift -gen java GenericStruct.thrift
 thrift -gen java EarPi.thrift
 

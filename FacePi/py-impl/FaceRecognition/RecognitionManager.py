@@ -1,10 +1,10 @@
 
-# from LBPH.RecognizeFace import RecognizeFace as LbphFace
-# from LBPH.TrainNetwork import TrainNetwork as LbphTrain
-# from Eigen.RecognizeFace import RecognizeFace as EigenFace
-# from Eigen.TrainNetwork import TrainNetwork as EigenTrain
-# from Fisher.RecognizeFace import RecognizeFace as FisherFace
-# from Fisher.TrainNetwork import TrainNetwork as FisherTrain
+from LBPH.RecognizeFace import RecognizeFace as LbphFace
+from LBPH.TrainNetwork import TrainNetwork as LbphTrain
+from Eigen.RecognizeFace import RecognizeFace as EigenFace
+from Eigen.TrainNetwork import TrainNetwork as EigenTrain
+from Fisher.RecognizeFace import RecognizeFace as FisherFace
+from Fisher.TrainNetwork import TrainNetwork as FisherTrain
 
 class RecognitionManager():
 
@@ -12,7 +12,7 @@ class RecognitionManager():
         self.log = {}
 
     def train(self):
-        # LbphTrain().basicTrain()
+        LbphTrain().basicTrain()
         # EigenTrain().basicTrain()
         # FisherTrain().basicTrain()
         pass
@@ -33,6 +33,7 @@ class RecognitionManager():
 
 
 if __name__ == '__main__':
-    pass
-#    RecognitionManager().train()
+
+    RecognitionManager().train()
 #    RecognitionManager().recon_cam_face()
+#    pass

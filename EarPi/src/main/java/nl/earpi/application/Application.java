@@ -16,8 +16,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Application {
 
+    // - Configure user management
+    // - Configure module management
+    // - Autorization (write mode)
+    // - Entry point for device registration
+
+    ShortTermConnectClient shortTermConnectClient = new ShortTermConnectClient();
+
     @RequestMapping("/")
     public String home() {
+        return "Response in slash";
+    }
+
+    @RequestMapping("/device-registration")
+    public String deviceRegistration() {
+        LoginInputObject loginObject = new LoginInputObject();
+        loginObject.getDeviceInput().setIp("localhost");
+        loginObject.getDeviceInput().setDevicetype("MyLaptop");
+        loginObject.getDeviceInput().setPerson("The Devil");
+        loginObject.getDeviceInput().setUserAgent("user agent");
+
+        shortTermConnectClient.RegisterDevice(loginObject.getDeviceInput());
+        return "Response in slash";
+    }
+
+    @RequestMapping("/configure")
+    public String configure() {
+
+        return "Response in slash";
+    }
+
+    @RequestMapping("/autorize")
+    public String autorize() {
+
         return "Response in slash";
     }
 
@@ -26,4 +57,6 @@ public class Application {
         // LoginInputObject loginInputObject = new LoginInputObject();
         SpringApplication.run(Application.class, args);
     }
+
+
 }

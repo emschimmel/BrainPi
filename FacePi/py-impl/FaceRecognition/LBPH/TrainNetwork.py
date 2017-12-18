@@ -51,7 +51,9 @@ class TrainNetwork():
             name = name[1].replace('_', ' ', -1)
             print(name)
             print(label)
+            print(imagePath)
             imageCollection = self.read_image(imagePath)
+            print(len(imageCollection))
             for filename in imageCollection:
                 try:
                     file = open(imagePath+'/'+filename, 'rb')

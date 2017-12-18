@@ -1,3 +1,5 @@
+namespace java nl.earpi.generated.shortmemory
+
 include "GenericStruct.thrift"
 
 struct DeviceTokenInput {
