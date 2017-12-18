@@ -1,7 +1,6 @@
 
 package nl.earpi.application;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ public class HelloWorldConfigurationTests {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Ignore
     @Test
     public void testGreeting() throws Exception {
         ResponseEntity<String> entity = restTemplate
