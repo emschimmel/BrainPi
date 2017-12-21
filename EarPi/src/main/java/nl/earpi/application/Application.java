@@ -26,27 +26,42 @@ public class Application {
     @Autowired
     private ShortTermConnectClient shortTermConnectClient;
 
+    @Autowired
+    private LongTermConnectClient longTermConnectClient;
+
     @RequestMapping("/")
     public String home() {
         return "Response in slash";
     }
 
-    @RequestMapping("/device-registration")
-    public String deviceRegistration() {
-        LoginInputObject loginObject = new LoginInputObject();
-        DeviceTokenInput deviceTokenInput = new DeviceTokenInput();
-        loginObject.setDeviceInput(deviceTokenInput);
-        loginObject.getDeviceInput().setIp("localhost");
-        loginObject.getDeviceInput().setDevicetype("MyLaptop");
-        loginObject.getDeviceInput().setPerson("The Devil");
-        loginObject.getDeviceInput().setUserAgent("user agent");
-
-        shortTermConnectClient.RegisterDevice(loginObject.getDeviceInput());
+    @RequestMapping("/login")
+    public String login() {
+        LoginInputObject loginInputObject = new LoginInputObject();
+        longTermConnectClient.makeLoginCall(loginInputObject);
         return "Response in slash";
     }
 
-    @RequestMapping("/configure")
-    public String configure() {
+    @RequestMapping("/device-registration")
+    public String deviceRegistration() {
+        DeviceTokenInput deviceTokenInput = new DeviceTokenInput();
+        deviceTokenInput.setIp("localhost");
+        deviceTokenInput.setDevicetype("MyLaptop");
+        deviceTokenInput.setPerson("The Devil");
+        deviceTokenInput.setUserAgent("user agent");
+
+        shortTermConnectClient.RegisterDevice(deviceTokenInput);
+        return "Response in slash";
+    }
+
+    @RequestMapping("/configure-user")
+    public String configureUser() {
+        String deviceToken = shortTermConnectClient.GetDeviceToken();
+
+        return "Response in slash";
+    }
+
+    @RequestMapping("/configure-module")
+    public String configureModule() {
         String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";

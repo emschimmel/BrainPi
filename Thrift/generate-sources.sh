@@ -6,9 +6,11 @@ thrift -gen py EyePi.thrift
 thrift -gen py FacePi.thrift
 thrift -gen py GenericServerPi.thrift
 thrift -gen py ShortMemory.thrift
+thrift -gen py LongMemory.thrift
 thrift -gen py WeatherPi.thrift
 
 thrift -gen java ShortMemory.thrift
+thrift -gen java LongMemory.thrift
 thrift -gen java GenericStruct.thrift
 thrift -gen java EarPi.thrift
 
@@ -45,10 +47,13 @@ cp -Rf ./gen-py/GenericServerPi ../WeatherPi/gen-py/
 cp -Rf ./gen-py/ThriftException ../WeatherPi/gen-py/
 cp -Rf ./gen-py/WeatherPi       ../WeatherPi/gen-py/
 
-# ClientPI
+# ShortMemory
 cp -Rf ./gen-py/GenericStruct   ../ShortTermMemory/gen-py/
 cp -Rf ./gen-py/ShortMemory     ../ShortTermMemory/gen-py/
 
+# LongMemory
+cp -Rf ./gen-py/GenericStruct   ../LongTermMemory/gen-py/
+cp -Rf ./gen-py/LongMemory     ../LongTermMemory/gen-py/
 
 #EarPI
 cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/src/main/java/nl/earpi/generated/
