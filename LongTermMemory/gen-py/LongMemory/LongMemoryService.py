@@ -23,6 +23,21 @@ class Iface(object):
         """
         pass
 
+    def getPersonConfig(self, uniquename):
+        """
+        Parameters:
+         - uniquename
+        """
+        pass
+
+    def changePassword(self, username, password):
+        """
+        Parameters:
+         - username
+         - password
+        """
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -62,12 +77,78 @@ class Client(Iface):
             return result.success
         raise TApplicationException(TApplicationException.MISSING_RESULT, "loginCall failed: unknown result")
 
+    def getPersonConfig(self, uniquename):
+        """
+        Parameters:
+         - uniquename
+        """
+        self.send_getPersonConfig(uniquename)
+        return self.recv_getPersonConfig()
+
+    def send_getPersonConfig(self, uniquename):
+        self._oprot.writeMessageBegin('getPersonConfig', TMessageType.CALL, self._seqid)
+        args = getPersonConfig_args()
+        args.uniquename = uniquename
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getPersonConfig(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getPersonConfig_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "getPersonConfig failed: unknown result")
+
+    def changePassword(self, username, password):
+        """
+        Parameters:
+         - username
+         - password
+        """
+        self.send_changePassword(username, password)
+        self.recv_changePassword()
+
+    def send_changePassword(self, username, password):
+        self._oprot.writeMessageBegin('changePassword', TMessageType.CALL, self._seqid)
+        args = changePassword_args()
+        args.username = username
+        args.password = password
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_changePassword(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = changePassword_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.badHashException is not None:
+            raise result.badHashException
+        return
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
         self._handler = handler
         self._processMap = {}
         self._processMap["loginCall"] = Processor.process_loginCall
+        self._processMap["getPersonConfig"] = Processor.process_getPersonConfig
+        self._processMap["changePassword"] = Processor.process_changePassword
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -103,6 +184,47 @@ class Processor(Iface, TProcessor):
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
+    def process_getPersonConfig(self, seqid, iprot, oprot):
+        args = getPersonConfig_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = getPersonConfig_result()
+        try:
+            result.success = self._handler.getPersonConfig(args.uniquename)
+            msg_type = TMessageType.REPLY
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except Exception as ex:
+            msg_type = TMessageType.EXCEPTION
+            logging.exception(ex)
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("getPersonConfig", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_changePassword(self, seqid, iprot, oprot):
+        args = changePassword_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = changePassword_result()
+        try:
+            self._handler.changePassword(args.username, args.password)
+            msg_type = TMessageType.REPLY
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except BadHashException as badHashException:
+            msg_type = TMessageType.REPLY
+            result.badHashException = badHashException
+        except Exception as ex:
+            msg_type = TMessageType.EXCEPTION
+            logging.exception(ex)
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("changePassword", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
 # HELPER FUNCTIONS AND STRUCTURES
 
 
@@ -114,7 +236,7 @@ class loginCall_args(object):
 
     thrift_spec = (
         None,  # 0
-        (1, TType.STRUCT, 'loginobject', (LoginInputObject, LoginInputObject.thrift_spec), None, ),  # 1
+        (1, TType.STRUCT, 'loginobject', (LongMemoryLoginInputObject, LongMemoryLoginInputObject.thrift_spec), None, ),  # 1
     )
 
     def __init__(self, loginobject=None,):
@@ -131,7 +253,7 @@ class loginCall_args(object):
                 break
             if fid == 1:
                 if ftype == TType.STRUCT:
-                    self.loginobject = LoginInputObject()
+                    self.loginobject = LongMemoryLoginInputObject()
                     self.loginobject.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -174,7 +296,7 @@ class loginCall_result(object):
     """
 
     thrift_spec = (
-        (0, TType.STRUCT, 'success', (LoginOutputObject, LoginOutputObject.thrift_spec), None, ),  # 0
+        (0, TType.STRUCT, 'success', (LongMemoryLoginOutputObject, LongMemoryLoginOutputObject.thrift_spec), None, ),  # 0
     )
 
     def __init__(self, success=None,):
@@ -191,7 +313,7 @@ class loginCall_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = LoginOutputObject()
+                    self.success = LongMemoryLoginOutputObject()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -208,6 +330,259 @@ class loginCall_result(object):
         if self.success is not None:
             oprot.writeFieldBegin('success', TType.STRUCT, 0)
             self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class getPersonConfig_args(object):
+    """
+    Attributes:
+     - uniquename
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'uniquename', 'UTF8', None, ),  # 1
+    )
+
+    def __init__(self, uniquename=None,):
+        self.uniquename = uniquename
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.uniquename = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('getPersonConfig_args')
+        if self.uniquename is not None:
+            oprot.writeFieldBegin('uniquename', TType.STRING, 1)
+            oprot.writeString(self.uniquename.encode('utf-8') if sys.version_info[0] == 2 else self.uniquename)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class getPersonConfig_result(object):
+    """
+    Attributes:
+     - success
+    """
+
+    thrift_spec = (
+        (0, TType.STRUCT, 'success', (Person, Person.thrift_spec), None, ),  # 0
+    )
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = Person()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('getPersonConfig_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class changePassword_args(object):
+    """
+    Attributes:
+     - username
+     - password
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'username', 'UTF8', None, ),  # 1
+        (2, TType.STRING, 'password', 'UTF8', None, ),  # 2
+    )
+
+    def __init__(self, username=None, password=None,):
+        self.username = username
+        self.password = password
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.username = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.password = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('changePassword_args')
+        if self.username is not None:
+            oprot.writeFieldBegin('username', TType.STRING, 1)
+            oprot.writeString(self.username.encode('utf-8') if sys.version_info[0] == 2 else self.username)
+            oprot.writeFieldEnd()
+        if self.password is not None:
+            oprot.writeFieldBegin('password', TType.STRING, 2)
+            oprot.writeString(self.password.encode('utf-8') if sys.version_info[0] == 2 else self.password)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class changePassword_result(object):
+    """
+    Attributes:
+     - badHashException
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRUCT, 'badHashException', (BadHashException, BadHashException.thrift_spec), None, ),  # 1
+    )
+
+    def __init__(self, badHashException=None,):
+        self.badHashException = badHashException
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.badHashException = BadHashException()
+                    self.badHashException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('changePassword_result')
+        if self.badHashException is not None:
+            oprot.writeFieldBegin('badHashException', TType.STRUCT, 1)
+            self.badHashException.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()

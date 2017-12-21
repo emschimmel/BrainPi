@@ -10,3 +10,35 @@ from thrift.Thrift import TType, TMessageType, TFrozenDict, TException, TApplica
 from thrift.protocol.TProtocol import TProtocolException
 import sys
 from .ttypes import *
+loginAction = Action(**{
+    "actionEnum": 0,
+    "uiType": 1,
+    "name": "Login",
+})
+kaku = Action(**{
+    "actionEnum": 1,
+    "uiType": 1,
+    "name": "Klik aan klik uit",
+})
+agenda = Action(**{
+    "actionEnum": 2,
+    "uiType": 1,
+    "name": "Agenda",
+})
+music = Action(**{
+    "actionEnum": 3,
+    "uiType": 1,
+    "name": "Music",
+})
+weather = Action(**{
+    "actionEnum": 4,
+    "uiType": 1,
+    "name": "Weather",
+})
+config = Action(**{
+    "actionEnum": 5,
+    "uiType": 0,
+    "name": "Config",
+})
+available_actions = [
+]

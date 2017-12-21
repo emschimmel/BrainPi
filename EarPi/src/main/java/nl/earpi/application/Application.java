@@ -55,21 +55,18 @@ public class Application {
 
     @RequestMapping("/configure-user")
     public String configureUser() {
-        String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";
     }
 
     @RequestMapping("/configure-module")
     public String configureModule() {
-        String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";
     }
 
     @RequestMapping("/autorize")
     public String autorize() {
-        String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";
     }
