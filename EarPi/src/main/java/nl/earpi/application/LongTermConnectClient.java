@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LongTermConnectClient {
 
-    private static final String SERVICE_NAME = "short-term-memory";
+    private static final String SERVICE_NAME = "long-term-memory";
 
     private static ConsulDiscoveryClient client;
 
@@ -25,8 +25,8 @@ public class LongTermConnectClient {
         client = consulDiscoveryClient;
     }
 
-    public void makeLoginCall(nl.earpi.generated.earpi.LoginInputObject earLoginObject) {
-        ConnectToLogIn(translateObject(earLoginObject));
+    public LoginOutputObject makeLoginCall(nl.earpi.generated.earpi.LoginInputObject earLoginObject) {
+        return ConnectToLogIn(translateObject(earLoginObject));
     }
 
     private LoginInputObject translateObject(nl.earpi.generated.earpi.LoginInputObject earLoginObject) {

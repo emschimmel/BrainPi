@@ -42,7 +42,7 @@ exception BadHashException {
 }
 
 service LongMemoryService {
-    LongMemoryLoginOutputObject loginCall(1: LongMemoryLoginInputObject loginobject)
+    LongMemoryLoginOutputObject loginCall(1: LongMemoryLoginInputObject loginobject) throws(1: BadHashException badHashException)
     Person getPersonConfig(1: string uniquename)
     void changePassword(1: string username, 2: string password) throws(1: BadHashException badHashException)
 }
