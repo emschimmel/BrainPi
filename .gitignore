@@ -12,6 +12,7 @@ EyePi/gen-py/*
 FacePi/gen-py/*
 WeatherPi/gen-py/*
 ShortTermMemory/gen-py/*
+LongTermMemory/gen-py/*
 WeatherPi/api-key/api-key.txt
 WeatherPi/config/weather.ini
 FacePi/py-impl/FaceRecognition/Data/*
