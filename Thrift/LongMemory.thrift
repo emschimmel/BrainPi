@@ -11,7 +11,8 @@ struct user_detail {
 
 struct autorisation {
     1 : required bool write
-    2 : optional binary module_config
+    2 : required bool enabled
+    3 : optional binary module_config
 }
 
 struct Person {
