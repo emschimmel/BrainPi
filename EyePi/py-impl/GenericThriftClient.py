@@ -2,6 +2,8 @@
 import random
 import sys
 
+sys.path.append('../../')
+import config
 import consul
 
 sys.path.append('../gen-py')
@@ -51,7 +53,7 @@ class GenericThriftClient:
             raise ex
 
     def resolve_config(self, action):
-        c = consul.Consul(host='localhost')
+        c = consul.Consul(host=config.consul_ip, port=config.consul_port)
         key = '%d' % action
         index, data = c.kv.get(key)
         value = data.get('Value').decode('utf-8')

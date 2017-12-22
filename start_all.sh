@@ -8,6 +8,10 @@ source kill_all.sh
 cd ${home}/ShortTermMemory/py-impl
 python3 ShortTermMemoryServer.py &
 
+### LongTermMemory Server
+cd ${home}/LongTermMemory/py-impl
+python3 LongTermMemoryServer.py &
+
 ### EyePi Server
 cd ${home}/EyePi/py-impl
 python3 PythonEyePiServer.py &

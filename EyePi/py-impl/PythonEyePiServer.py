@@ -31,7 +31,7 @@ import logging
 import random
 import threading
 import statsd
-stat = statsd.StatsClient('localhost', 8125)
+stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 
 port = random.randint(50000, 59000)
 
@@ -130,7 +130,7 @@ def create_server(host=config.eye_pi_ip):
 
 def register():
     log.info("register started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonEyePiServer.py/ && !/awk/{print $1}\'',
                                     'id': 'eye-pi-%d' % port, 'name': 'eye_pi process tree check', 'Interval': config.consul_interval,
@@ -140,7 +140,7 @@ def register():
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     c.agent.service.deregister("eye-pi-%d" % port)
     c.agent.service.deregister("eye-pi")
     log.info("services: " + str(c.agent.services()))

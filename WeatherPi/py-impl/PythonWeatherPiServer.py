@@ -31,7 +31,7 @@ import logging
 import random
 
 import statsd
-stat = statsd.StatsClient('localhost', 8125)
+stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 port = random.randint(50000, 59000)
 
 log = logging.getLogger()
@@ -77,7 +77,7 @@ def create_server(host=config.weather_pi_ip):
 
 def register():
     log.info("register started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     key = '%d' % ActionEnum.WEATHER
     c.kv.put(key, 'weather')
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
@@ -89,7 +89,7 @@ def register():
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     c.agent.service.deregister("weather-pi-%d" % port)
     c.agent.service.deregister("weather-pi")
     log.info("services: " + str(c.agent.services()))

@@ -24,11 +24,16 @@ long_storage_ip         = '127.0.0.1'
 
 consul_interval         = '30s'
 consul_timeout          = '2s'
+consul_ip               = 'localhost'
+consul_port             = 8500 # 32772 # 8500
+
+statsd_ip               = 'localhost'
+statsd_port             = 32776
 
 redis_service_ip        = 'localhost'
-redis_service_port      = 32768
+redis_service_port      = 32769
 es_service_ip           = 'localhost'
 es_service_port         = 32770
 mongo_service_ip        = 'localhost'
-mongo_service_port      = 32771
+mongo_service_port      = 32768
 

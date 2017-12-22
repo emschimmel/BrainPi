@@ -31,7 +31,7 @@ import random
 import pickle
 
 import statsd
-stat = statsd.StatsClient('localhost', 8125)
+stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 
 port = random.randint(50000, 59000)
 
@@ -86,7 +86,7 @@ def create_server(host=config.face_pi_ip):
 
 def register():
     log.info("register started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     #check = consul.Check.tcp("127.0.0.1", port, "30s")
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonFacePiServer.py/ && !/awk/{print $1}\'',
                                     'id': 'face-pi-%d' % port, 'name': 'face_pi process tree check', 'Interval': config.consul_interval,
@@ -96,7 +96,7 @@ def register():
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     c.agent.service.deregister("face-pi-%d" % port)
     c.agent.service.deregister("face-pi")
     log.info("services: " + str(c.agent.services()))

@@ -24,7 +24,7 @@ import random
 import statsd
 
 port = random.randint(50000, 59000)
-stat = statsd.StatsClient('localhost', 8125)
+stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
@@ -88,7 +88,7 @@ def create_server(host=config.short_storage_ip):
 
 def register():
     log.info("register started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     check = consul.Check = {'script': 'ps | awk -F" " \'/ShortTermMemoryServer.py/ && !/awk/{print $1}\'',
                                     'id': 'short-term-memory-%d' % port, 'name': 'short_term_memory process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
@@ -97,7 +97,7 @@ def register():
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     c.agent.service.deregister("short-term-memory-%d" % port)
     c.agent.service.deregister("short-term-memory")
     log.info("services: " + str(c.agent.services()))

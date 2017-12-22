@@ -53,7 +53,8 @@ cp -Rf ./gen-py/ShortMemory     ../ShortTermMemory/gen-py/
 
 # LongMemory
 cp -Rf ./gen-py/GenericStruct   ../LongTermMemory/gen-py/
-cp -Rf ./gen-py/LongMemory     ../LongTermMemory/gen-py/
+cp -Rf ./gen-py/LongMemory      ../LongTermMemory/gen-py/
+cp -Rf ./gen-py/ThriftException ../LongTermMemory/gen-py/
 
 #EarPI
 cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/src/main/java/nl/earpi/generated/

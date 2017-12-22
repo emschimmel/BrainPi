@@ -13,10 +13,24 @@ class PersonMemory():
         return outputPerson
 
     def removeSecrets(self, person):
-        pass
+        return self.copyTo(Person(), person)
 
-    def updatePerson(self):
+
+    def copyTo(self, newPerson, oldPerson):
+        newPerson.uniquename = oldPerson.uniquename
+        newPerson.enabled = oldPerson.enabled
+        if oldPerson.details:
+            newPerson.details = oldPerson.details
+        if oldPerson.autorisations:
+            newPerson.autorisations = oldPerson.autorisations
+        return newPerson
+
+    def updatePerson(self, person):
         retrievedPerson = self.getPersonFromDatabase()
+        retrievedPerson = self.copyTo(retrievedPerson, person)
+        # store retrievedPerson to database
+
 
     def getPersonFromDatabase(self):
+        # get from database
         return Person()
