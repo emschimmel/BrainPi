@@ -13,7 +13,7 @@ thrift -gen java ShortMemory.thrift
 thrift -gen java LongMemory.thrift
 thrift -gen java GenericStruct.thrift
 thrift -gen java EarPi.thrift
-
+thrift -gen java ThriftException.thrift
 
 rm -rf ../ClientPi/gen-py/*
 rm -rf ../EyePi/gen-py/*

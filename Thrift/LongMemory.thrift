@@ -1,6 +1,7 @@
 namespace java nl.earpi.generated.longmemory
 
 include "GenericStruct.thrift"
+include "ThriftException.thrift"
 
 struct user_detail {
     1 : optional string firstname
@@ -38,12 +39,8 @@ struct LongMemoryLoginOutputObject {
     3 : required string token
 }
 
-exception BadHashException {
-    1 : required string message = "Unable to change the password";
-}
-
 service LongMemoryService {
-    LongMemoryLoginOutputObject loginCall(1: LongMemoryLoginInputObject loginobject) throws(1: BadHashException badHashException)
+    LongMemoryLoginOutputObject loginCall(1: LongMemoryLoginInputObject loginobject) throws(1: ThriftException.BadHashException badHashException)
     Person getPersonConfig(1: string uniquename)
-    void changePassword(1: string username, 2: string password) throws(1: BadHashException badHashException)
+    void changePassword(1: string username, 2: string password) throws(1: ThriftException.BadHashException badHashException)
 }
