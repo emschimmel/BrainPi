@@ -119,11 +119,11 @@ class EyePiThriftHandler:
 
 
 
-def create_server(host=config.eye_pi_ip):
+def create_server():
     handler = EyePiThriftHandler()
     return TServer.TSimpleServer(
         EyePiThriftService.Processor(handler),
-        TSocket.TServerSocket(host=host, port=port),
+        TSocket.TServerSocket(port=port),
         TTransport.TBufferedTransportFactory(),
         TBinaryProtocol.TBinaryProtocolFactory()
     )
@@ -135,7 +135,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonEyePiServer.py/ && !/awk/{print $1}\'',
                                     'id': 'eye-pi-%d' % port, 'name': 'eye_pi process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
-    c.agent.service.register(name="eye-pi", service_id="eye-pi-%d" % port, address=config.eye_pi_ip, port=port, check=check)
+    c.agent.service.register(name="eye-pi", service_id="eye-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():

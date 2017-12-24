@@ -66,11 +66,11 @@ class WeatherPiThriftHandler:
     def ping(self, input):
         print(input)
 
-def create_server(host=config.weather_pi_ip):
+def create_server():
     handler = WeatherPiThriftHandler()
     return TServer.TSimpleServer(
         GenericPiThriftService.Processor(handler),
-        TSocket.TServerSocket(host=host, port=port),
+        TSocket.TServerSocket(port=port),
         TTransport.TBufferedTransportFactory(),
         TBinaryProtocol.TBinaryProtocolFactory()
     )
@@ -84,7 +84,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonWeatherPiServer.py/ && !/awk/{print $1}\'',
              'id': 'weather-pi-%d' % port, 'name': 'weather_pi process tree check', 'Interval': config.consul_interval,
              'timeout': config.consul_timeout}
-    c.agent.service.register(name="weather-pi", service_id="weather-pi-%d" % port, address=config.weather_pi_ip, port=port, check=check)
+    c.agent.service.register(name="weather-pi", service_id="weather-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():

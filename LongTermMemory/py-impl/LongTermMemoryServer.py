@@ -54,11 +54,11 @@ class LongTermMemoryThriftServer:
             raise BadHashException()
 
 
-def create_server(host=config.long_storage_ip):
+def create_server():
     handler = LongTermMemoryThriftServer()
     return TServer.TSimpleServer(
         LongMemoryService.Processor(handler),
-        TSocket.TServerSocket(host=host, port=port),
+        TSocket.TServerSocket(port=port),
         TTransport.TBufferedTransportFactory(),
         TBinaryProtocol.TBinaryProtocolFactory()
     )
@@ -69,7 +69,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/LongTermMemoryServer.py/ && !/awk/{print $1}\'',
                                     'id': 'long-term-memory-%d' % port, 'name': 'long_term_memory process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
-    c.agent.service.register(name="long-term-memory", service_id="long-term-memory-%d" % port, address=config.long_storage_ip, port=port, check=check)
+    c.agent.service.register(name="long-term-memory", service_id="long-term-memory-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():

@@ -77,11 +77,11 @@ class ShortTermMemoryThriftServer:
         except Exception as ex:
             print('invalid request %s' % ex)
 
-def create_server(host=config.short_storage_ip):
+def create_server():
     handler = ShortTermMemoryThriftServer()
     return TServer.TSimpleServer(
         ShortMemoryService.Processor(handler),
-        TSocket.TServerSocket(host=host, port=port),
+        TSocket.TServerSocket(port=port),
         TTransport.TBufferedTransportFactory(),
         TBinaryProtocol.TBinaryProtocolFactory()
     )
@@ -92,7 +92,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/ShortTermMemoryServer.py/ && !/awk/{print $1}\'',
                                     'id': 'short-term-memory-%d' % port, 'name': 'short_term_memory process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
-    c.agent.service.register(name="short-term-memory", service_id="short-term-memory-%d" % port, address=config.short_storage_ip, port=port, check=check)
+    c.agent.service.register(name="short-term-memory", service_id="short-term-memory-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():

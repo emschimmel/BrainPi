@@ -75,11 +75,11 @@ class FacePiThriftHandler:
         # train the network with the found face with name
         print(input.person)
 
-def create_server(host=config.face_pi_ip):
+def create_server():
     handler = FacePiThriftHandler()
     return TServer.TSimpleServer(
         FacePiThriftService.Processor(handler),
-        TSocket.TServerSocket(host=host, port=port),
+        TSocket.TServerSocket(port=port),
         TTransport.TBufferedTransportFactory(),
         TBinaryProtocol.TBinaryProtocolFactory()
     )
@@ -91,7 +91,7 @@ def register():
     check = consul.Check = {'script': 'ps | awk -F" " \'/PythonFacePiServer.py/ && !/awk/{print $1}\'',
                                     'id': 'face-pi-%d' % port, 'name': 'face_pi process tree check', 'Interval': config.consul_interval,
                                     'timeout': config.consul_timeout}
-    c.agent.service.register(name="face-pi", service_id="face-pi-%d" % port, address=config.face_pi_ip, port=port, check=check)
+    c.agent.service.register(name="face-pi", service_id="face-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
