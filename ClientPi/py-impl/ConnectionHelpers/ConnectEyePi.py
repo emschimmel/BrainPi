@@ -20,12 +20,11 @@ class ConnectEyePi:
 
     def resolve_eye_config(self):
         consul_resolver = resolver.Resolver()
-        consul_resolver.port = config.consul_port
+        consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]
-
-        dnsanswer = consul_resolver.query("eye-pi.service.consul.", 'A')
+        dnsanswer = consul_resolver.query("eye-pi.service.consul.", "A")
         ip = str(dnsanswer[0])
-        dnsanswer_srv = consul_resolver.query("eye-pi.service.consul.", 'SRV')
+        dnsanswer_srv = consul_resolver.query("eye-pi.service.consul.", "SRV")
         port = int(str(random.choice(dnsanswer_srv)).split()[2])
         return ip, port
 

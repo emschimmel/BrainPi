@@ -2,7 +2,7 @@
 
 function consul_start() {
     if [ ! "$(docker ps -q -f name=consul)" ]; then
-        docker run --rm -d -p 8400:8400 -p 8500:8500 -p 8600:53/udp \
+        docker run --rm -d -p 8400:8400 -p 8500:8500 -p 8600:8600/udp \
             --name consul -h consul consul
         echo "Visit: http://127.0.0.1:8500/ui"
     fi

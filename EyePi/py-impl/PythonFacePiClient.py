@@ -13,6 +13,8 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
 from dns import resolver
+sys.path.append('../../')
+import config
 
 class FacePiThriftClient:
 
@@ -68,8 +70,8 @@ class FacePiThriftClient:
 
     def resolve_config(self):
         consul_resolver = resolver.Resolver()
-        consul_resolver.port = 8600
-        consul_resolver.nameservers = ["127.0.0.1"]
+        consul_resolver.port = config.consul_resolver_port
+        consul_resolver.nameservers = [config.consul_ip]
 
         dnsanswer = consul_resolver.query("face-pi.service.consul.", 'A')
         ip = str(dnsanswer[0])

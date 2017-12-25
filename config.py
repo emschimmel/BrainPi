@@ -15,8 +15,9 @@ lbph_name_id_file       = './Data/lbph_namedIds.yml'
 
 consul_interval         = '30s'
 consul_timeout          = '2s'
-consul_ip               = 'localhost'
-consul_port             = 8500 # 32772 # 8500
+consul_ip               = '127.0.0.1'
+consul_port             = 8500
+consul_resolver_port    = 8600
 
 statsd_ip               = 'localhost'
 statsd_port             = 32776
