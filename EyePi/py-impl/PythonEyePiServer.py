@@ -131,10 +131,8 @@ def create_server():
 def register():
     log.info("register started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    #check = consul.Check.tcp("127.0.0.1", port, "30s")
-    check = consul.Check = {'script': 'ps | awk -F" " \'/PythonEyePiServer.py/ && !/awk/{print $1}\'',
-                                    'id': 'eye-pi-%d' % port, 'name': 'eye_pi process tree check', 'Interval': config.consul_interval,
-                                    'timeout': config.consul_timeout}
+    check = consul.Check.tcp(host="127.0.0.1", port=port, interval=config.consul_interval,
+                             timeout=config.consul_timeout, deregister=unregister())
     c.agent.service.register(name="eye-pi", service_id="eye-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 

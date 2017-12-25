@@ -4,8 +4,10 @@ function registrator_start() {
     if [ ! "$(docker ps -q -f name=consul)" ]; then
         source consul_docker.sh start
     fi
-    docker run -d --rm --name=registrator --net=host -h registrator \
-        --volume=/var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest consul://127.0.0.1:8500
+    if [ ! "$(docker ps -q -f name=registrator)" ]; then
+        docker run -d --rm --name=registrator --net=host -h registrator \
+         --volume=/var/run/docker.sock:/tmp/docker.sock gliderlabs/registrator:latest consul://127.0.0.1:8500
+    fi
 }
 
 function registrator_stop() {

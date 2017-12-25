@@ -80,10 +80,8 @@ def register():
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     key = '%d' % ActionEnum.WEATHER
     c.kv.put(key, 'weather')
-    #check = consul.Check.tcp("127.0.0.1", port, "30s")
-    check = consul.Check = {'script': 'ps | awk -F" " \'/PythonWeatherPiServer.py/ && !/awk/{print $1}\'',
-             'id': 'weather-pi-%d' % port, 'name': 'weather_pi process tree check', 'Interval': config.consul_interval,
-             'timeout': config.consul_timeout}
+    check = consul.Check.tcp(host="127.0.0.1", port=port, interval=config.consul_interval,
+                             timeout=config.consul_timeout, deregister=unregister())
     c.agent.service.register(name="weather-pi", service_id="weather-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 

@@ -66,9 +66,8 @@ def create_server():
 def register():
     log.info("register started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    check = consul.Check = {'script': 'ps | awk -F" " \'/LongTermMemoryServer.py/ && !/awk/{print $1}\'',
-                                    'id': 'long-term-memory-%d' % port, 'name': 'long_term_memory process tree check', 'Interval': config.consul_interval,
-                                    'timeout': config.consul_timeout}
+    check = consul.Check.tcp(host="127.0.0.1", port=port, interval=config.consul_interval,
+                             timeout=config.consul_timeout, deregister=unregister())
     c.agent.service.register(name="long-term-memory", service_id="long-term-memory-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 

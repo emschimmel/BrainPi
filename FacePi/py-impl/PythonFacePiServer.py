@@ -87,10 +87,7 @@ def create_server():
 def register():
     log.info("register started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    #check = consul.Check.tcp("127.0.0.1", port, "30s")
-    check = consul.Check = {'script': 'ps | awk -F" " \'/PythonFacePiServer.py/ && !/awk/{print $1}\'',
-                                    'id': 'face-pi-%d' % port, 'name': 'face_pi process tree check', 'Interval': config.consul_interval,
-                                    'timeout': config.consul_timeout}
+    check = consul.Check.tcp(host="127.0.0.1", port=port, interval=config.consul_interval, timeout=config.consul_timeout, deregister=unregister())
     c.agent.service.register(name="face-pi", service_id="face-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
