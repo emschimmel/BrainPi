@@ -75,6 +75,18 @@ class FacePiThriftHandler:
         # train the network with the found face with name
         print(input.person)
 
+def get_ip():
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('255.255.255.255', 1)) # isn't reachable intentionally
+        IP = s.getsockname()[0]
+    except:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
 def create_server():
     handler = FacePiThriftHandler()
     return TServer.TSimpleServer(
@@ -87,7 +99,7 @@ def create_server():
 def register():
     log.info("register started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    check = consul.Check.tcp(host="127.0.0.1", port=port, interval=config.consul_interval, timeout=config.consul_timeout, deregister=unregister())
+    check = consul.Check.tcp(host=get_ip(), port=port, interval=config.consul_interval, timeout=config.consul_timeout, deregister=unregister())
     c.agent.service.register(name="face-pi", service_id="face-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
