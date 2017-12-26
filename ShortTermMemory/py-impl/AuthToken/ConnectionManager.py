@@ -3,11 +3,6 @@ import sys
 sys.path.append('../../')
 import config
 
-# import importlib
-# spam_spec = importlib.util.find_spec("redis")
-# found = spam_spec is not None
-# print(found)
-
 class State_d:
     def __init__(self, imp):
         self.__implementation = imp

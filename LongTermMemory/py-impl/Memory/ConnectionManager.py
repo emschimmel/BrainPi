@@ -3,12 +3,7 @@ import sys
 sys.path.append('../../')
 import config
 from LongMemory.ttypes import *
-from thrift_json import thrift2dict, dict2thrift
-
-# import importlib
-# spam_spec = importlib.util.find_spec("redis")
-# found = spam_spec is not None
-# print(found)
+from thrift_json import thrift2dict
 
 class State_d:
     def __init__(self, imp):
@@ -40,16 +35,19 @@ class ConnectionManager():
         storage = State_d(LocalMockImplementation.LocalMockImplementation())
 
     def get(self, key):
-        # output = "%s" % self.storage.get(key)
-        # output = output.replace("\'", "\"")
-        # print(output)
         return self.translateToJson(self.storage.get(key))
 
     def get_all(self):
-        return self.translateToJson(self.storage.get_all())
+        result = []
+        for item in self.storage.get_all():
+            result.append(self.translateToJson(item))
+        return result
 
     def get_by_query(self, query):
-        return self.translateToJson(self.storage.get_by_query(query))
+        result = []
+        for item in self.storage.get_by_query(query):
+            result.append(self.translateToJson(item))
+        return result
 
     def store_new(self, value):
         result = thrift2dict(value)
