@@ -1,6 +1,6 @@
 {
   "uniquename"  : "MockPerson",
-  "user_detail" : {
+  "details" : {
     "firstname" : "Mock",
     "lastname"  : "Person",
     "gender"    : "Cat",

@@ -42,5 +42,6 @@ struct LongMemoryLoginOutputObject {
 service LongMemoryService {
     LongMemoryLoginOutputObject loginCall(1: LongMemoryLoginInputObject loginobject) throws(1: ThriftException.BadHashException badHashException)
     Person getPersonConfig(1: string uniquename)
+    void storeNewPerson(1: Person person)
     void changePassword(1: string username, 2: string password) throws(1: ThriftException.BadHashException badHashException)
 }

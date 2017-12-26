@@ -7,7 +7,7 @@ function mongo_start() {
     fi
     if [ ! "$(docker ps -q -f name=mongo)" ]; then
         docker run -v db:/data/db:rw --rm -d \
-         -p 32776:27017 --name mongo mongo:latest
+         -p 27017:27017 --name mongo mongo:latest
     fi
 }
 

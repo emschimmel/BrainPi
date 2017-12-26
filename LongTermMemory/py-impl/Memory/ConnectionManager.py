@@ -2,6 +2,8 @@ import sys
 
 sys.path.append('../../')
 import config
+from LongMemory.ttypes import *
+from thrift_json import thrift2dict, dict2thrift
 
 # import importlib
 # spam_spec = importlib.util.find_spec("redis")
@@ -20,6 +22,7 @@ class State_d:
 class ConnectionManager():
     try:
         from pymongo import MongoClient
+    #    MongoClient = None
     except ImportError:
         MongoClient = None
     if MongoClient:
@@ -37,16 +40,20 @@ class ConnectionManager():
         storage = State_d(LocalMockImplementation.LocalMockImplementation())
 
     def get(self, key):
-        return self.storage.get(key)
+        # output = "%s" % self.storage.get(key)
+        # output = output.replace("\'", "\"")
+        # print(output)
+        return self.translateToJson(self.storage.get(key))
 
     def get_all(self):
-        return self.storage.get_all()
+        return self.translateToJson(self.storage.get_all())
 
     def get_by_query(self, query):
-        return self.storage.get_by_query(query)
+        return self.translateToJson(self.storage.get_by_query(query))
 
     def store_new(self, value):
-        self.storage.store_new(value)
+        result = thrift2dict(value)
+        self.storage.store_new(result)
 
     def update(self, uniquename, value, field):
         self.storage.update(uniquename, value, field)
@@ -54,4 +61,37 @@ class ConnectionManager():
     def delete(self, uniquename):
         self.storage.delete(uniquename)
 
+    def translateToJson(self, jsondata):
+        person = Person()
+        person.uniquename = jsondata['uniquename']
+        if 'details' in jsondata:
+            user_detail_json = jsondata['details']
+            details = user_detail()
+            if 'firstname' in user_detail_json:
+                details.firstname = user_detail_json['firstname']
+            if 'lastname' in user_detail_json:
+                details.lastname = user_detail_json['lastname']
+            if 'gender' in user_detail_json:
+                details.gender = user_detail_json['gender']
+            if 'dob' in user_detail_json:
+                details.dob = user_detail_json['dob']
+            person.details = details
+        if 'username' in jsondata:
+            person.username = jsondata['username']
+        if 'password' in jsondata:
+            person.password = jsondata['password']
+        if 'code' in jsondata:
+            person.code = jsondata['code']
+        person.enabled = jsondata['enabled']
+        if 'autorisations' in jsondata:
+            pass
+            # person.autorisations = jsondata['autorisations']
+            # person.autorisations = dict()
+            # person.autorisations[0] = pickle.dumps(None, protocol=None, fix_imports=False)
+            # person.autorisations[1] = pickle.dumps(None, protocol=None, fix_imports=False)
+            # person.autorisations[2] = pickle.dumps(None, protocol=None, fix_imports=False)
+            # person.autorisations[3] = pickle.dumps(None, protocol=None, fix_imports=False)
+            # person.autorisations[4] = pickle.dumps(None, protocol=None, fix_imports=False)
+            # person.autorisations[5] = pickle.dumps(None, protocol=None, fix_imports=False)
+        return person
 

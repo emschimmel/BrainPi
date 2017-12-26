@@ -29,6 +29,10 @@ class PersonMemory():
         # todo
         self.con.update(uniquename=person, field="", value="")
 
+    def storeNewPerson(self, person):
+        # todo
+        self.con.store_new(value=person)
+
 
     def getPersonFromDatabase(self, uniquename):
         # get from database

@@ -45,6 +45,20 @@ class ConnectLongMemory:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    def storeNewPerson(self, input):
+        try:
+            ip, port = self.resolve_longmemory_config()
+            transport = TSocket.TSocket(ip, port)
+            transport = TTransport.TBufferedTransport(transport)
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)
+            client = LongMemoryService.Client(protocol)
+            transport.open()
+            client.storeNewPerson(input)
+
+            transport.close()
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
 
 
 

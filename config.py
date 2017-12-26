@@ -27,5 +27,5 @@ redis_service_port      = 32769
 es_service_ip           = 'localhost'
 es_service_port         = 32770
 mongo_service_ip        = 'localhost'
-mongo_service_port      = 32768
+mongo_service_port      = 27017
 
