@@ -60,6 +60,12 @@ class LongTermMemoryThriftServer:
         except Exception as ex:
             raise BadHashException()
 
+    def getAll(self):
+        try:
+            return PersonMemory().getAll()
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
 def get_ip():
     import socket
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -95,7 +101,6 @@ def unregister():
     c.agent.service.deregister("long-term-memory-%d" % port)
     c.agent.service.deregister("long-term-memory")
     log.info("services: " + str(c.agent.services()))
-    print(str(c.agent.services()))
 
 def interupt_manager():
     signal.signal(signal.SIGINT, signal.SIG_IGN)

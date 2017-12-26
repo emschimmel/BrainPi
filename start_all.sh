@@ -9,12 +9,12 @@ cd ${home}/ShortTermMemory/py-impl
 python3 ShortTermMemoryServer.py &
 
 ### LongTermMemory Server
-cd ${home}/LongTermMemory/py-impl
-python3 LongTermMemoryServer.py &
+#cd ${home}/LongTermMemory/py-impl
+#python3 LongTermMemoryServer.py &
 
 ### EyePi Server
-cd ${home}/EyePi/py-impl
-python3 PythonEyePiServer.py &
+#cd ${home}/EyePi/py-impl
+#python3 PythonEyePiServer.py &
 
 ### FacePi Server
 cd ${home}/FacePi/py-impl

@@ -17,12 +17,16 @@ class MongoImplementation():
         return self.person_collection.find_one({'uniquename': uniquename})
 
     def get_all(self):
-        print('mongo get')
-        return self.person_collection.find_many()
+        print('mongo get all')
+        documents = []
+        cursor = self.person_collection.find({})
+        for document in cursor:
+            documents.append(document)
+        return documents
 
     def get_by_query(self, criteria):
-        print('mongo get')
-        return self.person_collection.find_one(criteria)
+        print('mongo get by query')
+        return self.person_collection.find(criteria)
 
     def store_new(self, value):
         print('mongo put')

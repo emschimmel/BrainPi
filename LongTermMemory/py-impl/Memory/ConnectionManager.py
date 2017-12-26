@@ -40,13 +40,15 @@ class ConnectionManager():
     def get_all(self):
         result = []
         for item in self.storage.get_all():
-            result.append(self.translateToJson(item))
+            if 'uniquename' in item and 'enabled' in item:
+                result.append(self.translateToJson(item))
         return result
 
     def get_by_query(self, query):
         result = []
         for item in self.storage.get_by_query(query):
-            result.append(self.translateToJson(item))
+            if 'uniquename' in item and 'enabled' in item:
+                result.append(self.translateToJson(item))
         return result
 
     def store_new(self, value):
@@ -74,13 +76,14 @@ class ConnectionManager():
             if 'dob' in user_detail_json:
                 details.dob = user_detail_json['dob']
             person.details = details
-        if 'username' in jsondata:
-            person.username = jsondata['username']
-        if 'password' in jsondata:
-            person.password = jsondata['password']
-        if 'code' in jsondata:
-            person.code = jsondata['code']
-        person.enabled = jsondata['enabled']
+        # if 'username' in jsondata:
+        #     person.username = jsondata['username']
+        # if 'password' in jsondata:
+        #     person.password = jsondata['password']
+        # if 'code' in jsondata:
+        #     person.code = jsondata['code']
+        if 'enabled' in jsondata:
+            person.enabled = jsondata['enabled']
         if 'autorisations' in jsondata:
             pass
             # person.autorisations = jsondata['autorisations']

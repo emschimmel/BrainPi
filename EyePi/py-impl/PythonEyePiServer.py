@@ -12,6 +12,7 @@ sys.path.append('../gen-py')
 
 from PythonFacePiClient import FacePiThriftClient
 from GenericThriftClient import GenericThriftClient
+from LongTermPersonMemoryClient import LongTermPersonMemoryClient
 from ShortTermLogMemoryClient import ShortTermLogMemoryClient
 from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 
@@ -51,13 +52,22 @@ class EyePiThriftHandler:
             if input.token:
                 tokenValide = ShortTermTokenMemoryClient().validateToken(input.token, input.deviceToken)
             if input.image:
+                eyeOutput.ok = False
+                eyeOutput.personCollection = []
                 facePiOutput = FacePiThriftClient().handle_request(input.image)
-                eyeOutput.personCollection = facePiOutput
-                if not facePiOutput:
-                    eyeOutput.ok = False
-                else:
+
+                for face in facePiOutput:
+                    name = face.person
+                    person = LongTermPersonMemoryClient().get_Person(input=name)
+                    if person:
+                        if person.enabled:
+                            eyeOutput.personCollection.append(face)
+                # eyeOutput.personCollection = facePiOutput
+
+                if eyeOutput.personCollection:
                     eyeOutput.ok = True
                     eyeOutput.token = ShortTermTokenMemoryClient().getToken(input)
+
             if tokenValide and not input.image:
                 eyeOutput.ok = False
             if eyeOutput.ok:

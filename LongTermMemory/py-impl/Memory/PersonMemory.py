@@ -19,6 +19,8 @@ class PersonMemory():
         # todo
         self.con.store_new(value=person)
 
+    def getAll(self):
+        return self.con.get_all()
 
     def getPersonFromDatabase(self, uniquename):
         # get from database

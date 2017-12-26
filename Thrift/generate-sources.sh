@@ -37,6 +37,7 @@ cp -Rf ./gen-py/FacePi          ../EyePi/gen-py/
 cp -Rf ./gen-py/GenericStruct   ../EyePi/gen-py/
 cp -Rf ./gen-py/GenericServerPi ../EyePi/gen-py/
 cp -Rf ./gen-py/ShortMemory     ../EyePi/gen-py/
+cp -Rf ./gen-py/LongMemory      ../EyePi/gen-py/
 cp -Rf ./gen-py/ThriftException ../EyePi/gen-py/
 
 # FacePI
