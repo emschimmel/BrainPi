@@ -32,16 +32,16 @@ Authentication is done by device registration wich will generate a DeviceToken.
 For every call we need to provide a DeviceToken and eighter an image of a face or a token.
 
 # Install:
-Thrift/generate-sources.sh
+1. pip install opencv, thrift, python-consul, dnspython, statsd, pyowm, hvac, thrift_json
+2. Thrift/generate-sources.sh
 
-#Start
-if docker: ./SetupDevEnv/run_docker.sh
+# Start
+1. if docker: ./SetupDevEnv/run_docker.sh
 else: consul agent -dev
-./start_all.sh
+2. ./start_all.sh
 
-#Stop
-if docker: ./SetupDevEnv/stop_docker.sh
-./kill_all.sh
+# Stop
+1. if docker: ./SetupDevEnv/stop_docker.sh
+2. ./kill_all.sh
 
 
-pip install opencv, thrift, python-consul, dnspython, statsd, pyowm, hvac, thrift_json
