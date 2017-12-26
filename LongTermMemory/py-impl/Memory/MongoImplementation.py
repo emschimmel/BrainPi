@@ -24,9 +24,6 @@ class MongoImplementation():
         print('mongo get')
         return self.person_collection.find_one(criteria)
 
-    # Redis docs:
-    # - ex = expiretime in seconds
-    # - px = expiretime in miliseconds
     def store_new(self, value):
         print('mongo put')
         self.person_collection.insert_one(value)

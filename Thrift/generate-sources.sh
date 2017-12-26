@@ -20,6 +20,7 @@ rm -rf ../EyePi/gen-py/*
 rm -rf ../FacePi/gen-py/*
 rm -rf ../WeatherPi/gen-py/*
 rm -rf ../ShortTermMemory/gen-py/*
+rm -rf ../LongTermMemory/gen-py/*
 rm -rf ../EarPi/src/main/java/nl/earpi/generated/*
 
 # ClientPI
@@ -27,6 +28,7 @@ cp -Rf ./gen-py/GenericStruct   ../ClientPi/gen-py/
 cp -Rf ./gen-py/EyePi           ../ClientPi/gen-py/
 cp -Rf ./gen-py/ThriftException ../ClientPi/gen-py/
 cp -Rf ./gen-py/ShortMemory     ../ClientPi/gen-py/ # mock!
+cp -Rf ./gen-py/LongMemory      ../ClientPi/gen-py/ # mock!
 cp -Rf ./gen-py/WeatherPi       ../ClientPi/gen-py/
 
 # EyePI

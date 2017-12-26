@@ -36,7 +36,7 @@ class ConnectionManager():
         storage = State_d(LocalImplementation.LocalImplementation())
 
     def get(self, key):
-        self.storage.get(key)
+        return self.storage.get(key)
 
     def put(self, key, value):
         self.storage.put(key, value)

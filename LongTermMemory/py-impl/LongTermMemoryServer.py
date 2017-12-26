@@ -42,7 +42,7 @@ class LongTermMemoryThriftServer:
     @stat.timer("getPersonConfig")
     def getPersonConfig(self, uniquename):
         try:
-            PersonMemory().getPerson(uniquename)
+            return PersonMemory().getPerson(uniquename)
         except Exception as ex:
             print('invalid request %s' % ex)
 

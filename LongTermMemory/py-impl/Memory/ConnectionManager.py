@@ -29,21 +29,21 @@ class ConnectionManager():
             storage = State_d(MongoImplementation.MongoImplementation())
         except Exception as ex:
             print("mongodb is a requirement")
-        #    from . import LocalImplementation
-        #    storage = State_d(LocalImplementation.LocalImplementation())
+            from . import LocalMockImplementation
+            storage = State_d(LocalMockImplementation.LocalMockImplementation())
     else:
         print("mongodb is a requirement")
-    #    from . import LocalImplementation
-    #    storage = State_d(LocalImplementation.LocalImplementation())
+        from . import LocalMockImplementation
+        storage = State_d(LocalMockImplementation.LocalMockImplementation())
 
     def get(self, key):
-        self.storage.get(key)
+        return self.storage.get(key)
 
     def get_all(self):
-        self.storage.get_all()
+        return self.storage.get_all()
 
     def get_by_query(self, query):
-        self.storage.get_by_query(query)
+        return self.storage.get_by_query(query)
 
     def store_new(self, value):
         self.storage.store_new(value)
