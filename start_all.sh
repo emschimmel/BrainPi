@@ -13,8 +13,8 @@ python3 ShortTermMemoryServer.py &
 #python3 LongTermMemoryServer.py &
 
 ### EyePi Server
-#cd ${home}/EyePi/py-impl
-#python3 PythonEyePiServer.py &
+cd ${home}/EyePi/py-impl
+python3 PythonEyePiServer.py &
 
 ### FacePi Server
 cd ${home}/FacePi/py-impl

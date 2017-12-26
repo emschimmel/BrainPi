@@ -28,7 +28,7 @@ def test1():
         input.username = 'cbaby'
         input.password = None
         input.code = '12345'
-        input.enabled = False
+        input.accountenabled = False
 
         ConnectLongMemory().storeNewPerson(input)
         ConnectLongMemory().getPersonConfig('AnyRandomString')
@@ -50,7 +50,7 @@ def test2():
         input.username = 'sesy'
         input.password = None
         input.code = '456'
-        input.enabled = True
+        input.accountenabled = True
 
         ConnectLongMemory().storeNewPerson(input)
 

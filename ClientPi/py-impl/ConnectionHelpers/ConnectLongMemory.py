@@ -76,6 +76,21 @@ class ConnectLongMemory:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    def login(self, input):
+        try:
+            ip, port = self.resolve_longmemory_config()
+            transport = TSocket.TSocket(ip, port)
+            transport = TTransport.TBufferedTransport(transport)
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)
+            client = LongMemoryService.Client(protocol)
+            transport.open()
+            output = client.loginCall(input)
+
+            transport.close()
+            return output
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
 
 
 

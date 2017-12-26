@@ -35,7 +35,9 @@ class LongTermMemoryThriftServer:
     @stat.timer("loginCall")
     def loginCall(self, loginobject):
         try:
-            return AutorisationActions().login(loginobject)
+            output = LongMemoryLoginOutputObject()
+            output.person = AutorisationActions().login(loginobject)
+            return output
         except Exception as ex:
             raise BadHashException()
 

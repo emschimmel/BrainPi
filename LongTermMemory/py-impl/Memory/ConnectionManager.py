@@ -47,6 +47,7 @@ class ConnectionManager():
     def get_by_query(self, query):
         result = []
         for item in self.storage.get_by_query(query):
+            print('item %s' %   item)
             if 'uniquename' in item and 'enabled' in item:
                 result.append(self.translateToJson(item))
         return result

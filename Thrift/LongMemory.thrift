@@ -30,13 +30,12 @@ struct Person {
 struct LongMemoryLoginInputObject {
     1 : required string username
     2 : optional string password
-    3 : optional i16 code
+    3 : optional string code
 }
 
 struct LongMemoryLoginOutputObject {
-    1 : required string person
-    2 : optional map<GenericStruct.ActionEnum, autorisation> autorisations
-    3 : required string token
+    1 : optional string person
+    2 : optional string token
 }
 
 service LongMemoryService {
