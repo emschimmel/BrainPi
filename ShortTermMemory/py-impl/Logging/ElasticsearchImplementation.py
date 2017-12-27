@@ -5,9 +5,12 @@ import elasticsearch
 
 class ElasticsearchImplementation():
 
+
+
     def __init__(self):
         self.esService = elasticsearch.Elasticsearch([{'host': config.es_service_ip, 'port': config.es_service_port}],
                                          verify_certs=True)
+
 
         # self.esService = elasticsearch.Elasticsearch([{'host': config.es_service_ip, 'port': config.es_service_port}], verify_certs=True)
 

@@ -12,11 +12,14 @@ from EyePi.constants import *
 from GenericStruct.ttypes import *
  
 from thrift import Thrift
+import pickle
 
 try:
     input = EyePiInput()
     input.deviceToken = 'myLaptop'
-    input.action = ActionEnum.LOGIN
+    action = dict()
+    action[ActionEnum.LOGIN] = pickle.dumps("testdata", protocol=None, fix_imports=False)
+    input.action = action
     ConnectEyePi().writeLog(input)
  
 except Thrift.TException as tx:

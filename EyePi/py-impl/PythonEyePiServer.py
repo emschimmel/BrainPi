@@ -12,6 +12,7 @@ sys.path.append('../gen-py')
 
 from PythonFacePiClient import FacePiThriftClient
 from GenericThriftClient import GenericThriftClient
+from LongTermPersonMemoryClient import LongTermPersonMemoryClient
 from ShortTermLogMemoryClient import ShortTermLogMemoryClient
 from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 
@@ -31,7 +32,7 @@ import logging
 import random
 import threading
 import statsd
-stat = statsd.StatsClient('localhost', 8125)
+stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 
 port = random.randint(50000, 59000)
 
@@ -51,13 +52,22 @@ class EyePiThriftHandler:
             if input.token:
                 tokenValide = ShortTermTokenMemoryClient().validateToken(input.token, input.deviceToken)
             if input.image:
+                eyeOutput.ok = False
+                eyeOutput.personCollection = []
                 facePiOutput = FacePiThriftClient().handle_request(input.image)
-                eyeOutput.personCollection = facePiOutput
-                if not facePiOutput:
-                    eyeOutput.ok = False
-                else:
+
+                for face in facePiOutput:
+                    name = face.person
+                    person = LongTermPersonMemoryClient().get_Person(input=name)
+                    if person:
+                        if person.enabled:
+                            eyeOutput.personCollection.append(face)
+                # eyeOutput.personCollection = facePiOutput
+
+                if eyeOutput.personCollection:
                     eyeOutput.ok = True
                     eyeOutput.token = ShortTermTokenMemoryClient().getToken(input)
+
             if tokenValide and not input.image:
                 eyeOutput.ok = False
             if eyeOutput.ok:
@@ -117,30 +127,38 @@ class EyePiThriftHandler:
     def ping(self, input):
         print(input)
 
+def get_ip():
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('255.255.255.255', 1)) # isn't reachable intentionally
+        IP = s.getsockname()[0]
+    except:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
 
-
-def create_server(host=config.eye_pi_ip):
+def create_server():
     handler = EyePiThriftHandler()
     return TServer.TSimpleServer(
         EyePiThriftService.Processor(handler),
-        TSocket.TServerSocket(host=host, port=port),
+        TSocket.TServerSocket(port=port),
         TTransport.TBufferedTransportFactory(),
         TBinaryProtocol.TBinaryProtocolFactory()
     )
 
 def register():
     log.info("register started")
-    c = consul.Consul(host='localhost')
-    #check = consul.Check.tcp("127.0.0.1", port, "30s")
-    check = consul.Check = {'script': 'ps | awk -F" " \'/PythonEyePiServer.py/ && !/awk/{print $1}\'',
-                                    'id': 'eye-pi-%d' % port, 'name': 'eye_pi process tree check', 'Interval': config.consul_interval,
-                                    'timeout': config.consul_timeout}
-    c.agent.service.register(name="eye-pi", service_id="eye-pi-%d" % port, address=config.eye_pi_ip, port=port, check=check)
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
+    check = consul.Check.tcp(host=get_ip(), port=port, interval=config.consul_interval,
+                             timeout=config.consul_timeout, deregister=unregister())
+    c.agent.service.register(name="eye-pi", service_id="eye-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     c.agent.service.deregister("eye-pi-%d" % port)
     c.agent.service.deregister("eye-pi")
     log.info("services: " + str(c.agent.services()))

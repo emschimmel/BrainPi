@@ -1,70 +1,72 @@
-#!/usr/bin/env python
 import signal
 import sys
 
 import consul
 from multiprocessing.managers import SyncManager
 
-import pickle
-
 sys.path.append('../gen-py')
-sys.path.append('../')
+from LongMemory import LongMemoryService
+from LongMemory.ttypes import *
 
-from GenericServerPi import GenericPiThriftService
-from GenericServerPi.ttypes import *
-from GenericStruct.ttypes import *
-from ThriftException.ttypes import *
-from WeatherPi.ttypes import *
+from Memory.PersonMemory import PersonMemory
+from Memory.AutorisationActions import AutorisationActions
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
-# import cv2
 sys.path.append('../../')
 import config
-
-from OpenWeather import OpenWeather
-
 import logging
 import random
-
 import statsd
-stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
+
 port = random.randint(50000, 59000)
+stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
-class WeatherPiThriftHandler:
+class LongTermMemoryThriftServer:
     def __init__(self):
         self.log = {}
 
-    @stat.timer("handleRequest")
-    def handleRequest(self, input):
-        print("weather pi!")
+    @stat.timer("loginCall")
+    def loginCall(self, loginobject):
         try:
-            input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
-            wind, humidity, temperature = OpenWeather().getWeather(input_object.location)
+            output = LongMemoryLoginOutputObject()
+            output.person = AutorisationActions().login(loginobject)
+            return output
+        except Exception as ex:
+            raise BadHashException()
 
-            output = WeatherOutput()
-            output.humidity = "%s" % humidity
-            output.wind_speed = "%s" % wind['speed']
-            output.wind_deg =  "%s" % wind['deg']
-            output.temperature_temp = "%s" % temperature['temp']
-            output.temperature_temp_max = "%s" % temperature['temp_max']
-            output.temperature_temp_min = "%s" % temperature['temp_min']
-            pickle_output = pickle.dumps(output, protocol=None, fix_imports=False)
-            return pickle_output
-
+    @stat.timer("getPersonConfig")
+    def getPersonConfig(self, uniquename):
+        try:
+            return PersonMemory().getPerson(uniquename)
         except Exception as ex:
             print('invalid request %s' % ex)
-            raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
 
-    @stat.timer("ping")
-    def ping(self, input):
-        print(input)
+    @stat.timer("storeNewPerson")
+    def storeNewPerson(self, person):
+        try:
+            PersonMemory().storeNewPerson(person=person)
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
+    @stat.timer("changePassword")
+    def changePassword(self, username, password):
+        try:
+            AutorisationActions().changePassword(username, password)
+        except Exception as ex:
+            raise BadHashException()
+
+    def getAll(self):
+        try:
+            return PersonMemory().getAll()
+        except Exception as ex:
+            print('invalid request %s' % ex)
 
 def get_ip():
     import socket
@@ -79,9 +81,9 @@ def get_ip():
     return IP
 
 def create_server():
-    handler = WeatherPiThriftHandler()
+    handler = LongTermMemoryThriftServer()
     return TServer.TSimpleServer(
-        GenericPiThriftService.Processor(handler),
+        LongMemoryService.Processor(handler),
         TSocket.TServerSocket(port=port),
         TTransport.TBufferedTransportFactory(),
         TBinaryProtocol.TBinaryProtocolFactory()
@@ -90,18 +92,16 @@ def create_server():
 def register():
     log.info("register started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    key = '%d' % ActionEnum.WEATHER
-    c.kv.put(key, 'weather')
     check = consul.Check.tcp(host=get_ip(), port=port, interval=config.consul_interval,
                              timeout=config.consul_timeout, deregister=unregister())
-    c.agent.service.register(name="weather-pi", service_id="weather-pi-%d" % port, port=port, check=check)
+    c.agent.service.register(name="long-term-memory", service_id="long-term-memory-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
     log.info("unregister started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    c.agent.service.deregister("weather-pi-%d" % port)
-    c.agent.service.deregister("weather-pi")
+    c.agent.service.deregister("long-term-memory-%d" % port)
+    c.agent.service.deregister("long-term-memory")
     log.info("services: " + str(c.agent.services()))
 
 def interupt_manager():
@@ -117,5 +117,5 @@ if __name__ == '__main__':
 
     finally:
         unregister()
-        print('finally WeatherPi shutting down')
+        print('finally Long term memory Shutting down')
         manager.shutdown()

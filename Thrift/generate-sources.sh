@@ -13,13 +13,14 @@ thrift -gen java ShortMemory.thrift
 thrift -gen java LongMemory.thrift
 thrift -gen java GenericStruct.thrift
 thrift -gen java EarPi.thrift
-
+thrift -gen java ThriftException.thrift
 
 rm -rf ../ClientPi/gen-py/*
 rm -rf ../EyePi/gen-py/*
 rm -rf ../FacePi/gen-py/*
 rm -rf ../WeatherPi/gen-py/*
 rm -rf ../ShortTermMemory/gen-py/*
+rm -rf ../LongTermMemory/gen-py/*
 rm -rf ../EarPi/src/main/java/nl/earpi/generated/*
 
 # ClientPI
@@ -27,6 +28,7 @@ cp -Rf ./gen-py/GenericStruct   ../ClientPi/gen-py/
 cp -Rf ./gen-py/EyePi           ../ClientPi/gen-py/
 cp -Rf ./gen-py/ThriftException ../ClientPi/gen-py/
 cp -Rf ./gen-py/ShortMemory     ../ClientPi/gen-py/ # mock!
+cp -Rf ./gen-py/LongMemory      ../ClientPi/gen-py/ # mock!
 cp -Rf ./gen-py/WeatherPi       ../ClientPi/gen-py/
 
 # EyePI
@@ -35,6 +37,7 @@ cp -Rf ./gen-py/FacePi          ../EyePi/gen-py/
 cp -Rf ./gen-py/GenericStruct   ../EyePi/gen-py/
 cp -Rf ./gen-py/GenericServerPi ../EyePi/gen-py/
 cp -Rf ./gen-py/ShortMemory     ../EyePi/gen-py/
+cp -Rf ./gen-py/LongMemory      ../EyePi/gen-py/
 cp -Rf ./gen-py/ThriftException ../EyePi/gen-py/
 
 # FacePI
@@ -53,7 +56,8 @@ cp -Rf ./gen-py/ShortMemory     ../ShortTermMemory/gen-py/
 
 # LongMemory
 cp -Rf ./gen-py/GenericStruct   ../LongTermMemory/gen-py/
-cp -Rf ./gen-py/LongMemory     ../LongTermMemory/gen-py/
+cp -Rf ./gen-py/LongMemory      ../LongTermMemory/gen-py/
+cp -Rf ./gen-py/ThriftException ../LongTermMemory/gen-py/
 
 #EarPI
 cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/src/main/java/nl/earpi/generated/

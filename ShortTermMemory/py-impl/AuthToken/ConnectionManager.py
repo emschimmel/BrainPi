@@ -3,11 +3,6 @@ import sys
 sys.path.append('../../')
 import config
 
-# import importlib
-# spam_spec = importlib.util.find_spec("redis")
-# found = spam_spec is not None
-# print(found)
-
 class State_d:
     def __init__(self, imp):
         self.__implementation = imp
@@ -36,7 +31,7 @@ class ConnectionManager():
         storage = State_d(LocalImplementation.LocalImplementation())
 
     def get(self, key):
-        self.storage.get(key)
+        return self.storage.get(key)
 
     def put(self, key, value):
         self.storage.put(key, value)

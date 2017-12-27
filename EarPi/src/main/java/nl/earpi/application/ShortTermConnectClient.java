@@ -42,31 +42,21 @@ public class ShortTermConnectClient {
      * @param deviceTokenInput earpi.deviceTokenInput
      */
     public void RegisterDevice(nl.earpi.generated.earpi.DeviceTokenInput deviceTokenInput) {
-        String token = GetDeviceToken();
-        if (token == null || !ConnectToValidateToken(token)) {
-            ConnectToRegisterToken(generateDeviceTokenInput(deviceTokenInput));
-        }
+        ConnectToRegisterToken(generateDeviceTokenInput(deviceTokenInput));
     }
 
     /**
-     * Get the devicetoken from disc
-     * @return devicetoken or null if not found
+     * validate if the token got from the request is valid
+     * TODO Check: do I need this?
+     * @param deviceToken String of the clients DeviceToken
      */
-    public String GetDeviceToken() {
-        try (Stream<String> stream = Files.lines(PATH)) {
-            return stream
-                    .map(String::toUpperCase)
-                    .reduce((first, second) -> second)
-                    .orElse(null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public void ValidateDeviceToken(String deviceToken) {
+        ConnectToValidateToken(deviceToken);
     }
 
     /**
      * Thrift connect to validate the DeviceToken
-     * @param token String token from disk
+     * @param token String token from client request
      * @return valide
      */
     private boolean ConnectToValidateToken(String token) {
@@ -94,8 +84,10 @@ public class ShortTermConnectClient {
     /**
      * Thrift connect to register get a new token
      * @param deviceTokenInput shortmemory deviceTokenInput
+     * @return the new DeviceToken
      */
-    private void ConnectToRegisterToken(DeviceTokenInput deviceTokenInput) {
+    private String ConnectToRegisterToken(DeviceTokenInput deviceTokenInput) {
+        String deviceToken = null;
         try {
             TTransport transport;
             ServiceInstance serviceInstance =
@@ -107,14 +99,12 @@ public class ShortTermConnectClient {
             transport.open();
             TProtocol protocol = new TBinaryProtocol(transport);
             ShortMemoryService.Client client = new ShortMemoryService.Client(protocol);
-            String deviceToken = client.generateDeviceToken(deviceTokenInput);
-            if (deviceToken != null) {
-                StoreDeviceTokenToDisk(deviceToken);
-            }
+            deviceToken = client.generateDeviceToken(deviceTokenInput);
             transport.close();
         } catch (TException x) {
             x.printStackTrace();
         }
+        return deviceToken;
     }
 
     /**
@@ -129,16 +119,32 @@ public class ShortTermConnectClient {
         return deviceInput;
     }
 
-    /**
-     * Store token on disc
-     * @param token deviceToken
-     */
-    private void StoreDeviceTokenToDisk(String token) {
-        try (BufferedWriter writer = Files.newBufferedWriter(PATH))
-        {
-            writer.write(token);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * Store token on disc
+//     * @param token deviceToken
+//     */
+//    private void StoreDeviceTokenToDisk(String token) {
+//        try (BufferedWriter writer = Files.newBufferedWriter(PATH))
+//        {
+//            writer.write(token);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    /**
+//     * Get the devicetoken from disc
+//     * @return devicetoken or null if not found
+//     */
+//    public String GetDeviceToken() {
+//        try (Stream<String> stream = Files.lines(PATH)) {
+//            return stream
+//                    .map(String::toUpperCase)
+//                    .reduce((first, second) -> second)
+//                    .orElse(null);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 }

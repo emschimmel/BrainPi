@@ -31,7 +31,7 @@ class ConnectionManager():
         storage = State_d(LocalImplementation.LocalImplementation())
 
     def getLog(self, startdate, enddate, amount):
-        self.storage.search(startdate, enddate, amount)
+        return self.storage.search(startdate, enddate, amount)
 
     def storeLog(self, logitem):
         self.storage.storeLog(logitem)

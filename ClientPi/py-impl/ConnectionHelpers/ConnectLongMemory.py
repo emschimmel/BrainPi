@@ -2,8 +2,8 @@ import random
 
 import sys
 sys.path.append('../gen-py')
-from EyePi import EyePiThriftService
-from EyePi.ttypes import *
+from LongMemory import LongMemoryService
+from LongMemory.ttypes import *
 from GenericStruct.ttypes import *
 from ThriftException.ttypes import *
 
@@ -16,30 +16,28 @@ from dns import resolver
 sys.path.append('../../')
 import config
 
-class ConnectEyePi:
+class ConnectLongMemory:
 
-    def resolve_eye_config(self):
+    def resolve_longmemory_config(self):
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]
-        dnsanswer = consul_resolver.query("eye-pi.service.consul.", "A")
+        dnsanswer = consul_resolver.query("long-term-memory.service.consul.", "A")
         ip = str(dnsanswer[0])
-        dnsanswer_srv = consul_resolver.query("eye-pi.service.consul.", "SRV")
+        dnsanswer_srv = consul_resolver.query("long-term-memory.service.consul.", "SRV")
         port = int(str(random.choice(dnsanswer_srv)).split()[2])
         return ip, port
 
-    def handleRequest(self, input):
+    def getPersonConfig(self, input):
         try:
-            ip, port = self.resolve_eye_config()
+            ip, port = self.resolve_longmemory_config()
             transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
-            client = EyePiThriftService.Client(protocol)
+            client = LongMemoryService.Client(protocol)
             transport.open()
-            output = client.handleRequest(input)
+            output = client.getPersonConfig(input)
             print(output)
-            if output.ok:
-                print("YAY!")
 
             transport.close()
             return output
@@ -47,35 +45,52 @@ class ConnectEyePi:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
-    def confimFace(self, input):
+    def getAll(self):
         try:
-            ip, port = self.resolve_eye_config()
+            ip, port = self.resolve_longmemory_config()
             transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
-            client = EyePiThriftService.Client(protocol)
+            client = LongMemoryService.Client(protocol)
             transport.open()
-            client.confimFace(input)
+            output = client.getAll()
+            print(output)
 
             transport.close()
+            return output
 
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
-    def writeLog(self, input):
+    def storeNewPerson(self, input):
         try:
-            ip, port = self.resolve_eye_config()
+            ip, port = self.resolve_longmemory_config()
             transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
-            client = EyePiThriftService.Client(protocol)
+            client = LongMemoryService.Client(protocol)
             transport.open()
-            client.writeLog(input)
+            client.storeNewPerson(input)
 
             transport.close()
-
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+
+    def login(self, input):
+        try:
+            ip, port = self.resolve_longmemory_config()
+            transport = TSocket.TSocket(ip, port)
+            transport = TTransport.TBufferedTransport(transport)
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)
+            client = LongMemoryService.Client(protocol)
+            transport.open()
+            output = client.loginCall(input)
+
+            transport.close()
+            return output
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
 
 
 

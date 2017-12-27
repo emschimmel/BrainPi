@@ -31,7 +31,7 @@ import random
 import pickle
 
 import statsd
-stat = statsd.StatsClient('localhost', 8125)
+stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 
 port = random.randint(50000, 59000)
 
@@ -75,28 +75,37 @@ class FacePiThriftHandler:
         # train the network with the found face with name
         print(input.person)
 
-def create_server(host=config.face_pi_ip):
+def get_ip():
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('255.255.255.255', 1)) # isn't reachable intentionally
+        IP = s.getsockname()[0]
+    except:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
+def create_server():
     handler = FacePiThriftHandler()
     return TServer.TSimpleServer(
         FacePiThriftService.Processor(handler),
-        TSocket.TServerSocket(host=host, port=port),
+        TSocket.TServerSocket(port=port),
         TTransport.TBufferedTransportFactory(),
         TBinaryProtocol.TBinaryProtocolFactory()
     )
 
 def register():
     log.info("register started")
-    c = consul.Consul(host='localhost')
-    #check = consul.Check.tcp("127.0.0.1", port, "30s")
-    check = consul.Check = {'script': 'ps | awk -F" " \'/PythonFacePiServer.py/ && !/awk/{print $1}\'',
-                                    'id': 'face-pi-%d' % port, 'name': 'face_pi process tree check', 'Interval': config.consul_interval,
-                                    'timeout': config.consul_timeout}
-    c.agent.service.register(name="face-pi", service_id="face-pi-%d" % port, address=config.face_pi_ip, port=port, check=check)
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
+    check = consul.Check.tcp(host=get_ip(), port=port, interval=config.consul_interval, timeout=config.consul_timeout, deregister=unregister())
+    c.agent.service.register(name="face-pi", service_id="face-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
     log.info("unregister started")
-    c = consul.Consul(host='localhost')
+    c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     c.agent.service.deregister("face-pi-%d" % port)
     c.agent.service.deregister("face-pi")
     log.info("services: " + str(c.agent.services()))

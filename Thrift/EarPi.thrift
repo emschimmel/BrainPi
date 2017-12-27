@@ -1,6 +1,7 @@
 namespace java nl.earpi.generated.earpi
 
 include "GenericStruct.thrift"
+
 # Configure user management
 # Configure module management
 # Autorization (write mode)

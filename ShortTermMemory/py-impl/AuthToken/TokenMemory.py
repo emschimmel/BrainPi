@@ -1,7 +1,5 @@
 import sys
 
-from collections import defaultdict
-
 sys.path.append('../gen-py')
 from ShortMemory.ttypes import *
 import random, string

@@ -1,7 +1,5 @@
 import sys
 
-from collections import defaultdict
-
 sys.path.append('../gen-py')
 from ShortMemory.ttypes import *
 from . import ConnectionManager
@@ -17,4 +15,4 @@ class LogMemory:
         self.con.storeLog(logInput)
 
     def getLog(self, starttime, endtime, amount):
-        self.con.getLog(starttime, endtime, amount)
+        return self.con.getLog(starttime, endtime, amount)

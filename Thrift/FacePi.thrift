@@ -1,3 +1,5 @@
+namespace java nl.earpi.generated.exception
+
 include "ThriftException.thrift"
 
 struct PersonEntry {

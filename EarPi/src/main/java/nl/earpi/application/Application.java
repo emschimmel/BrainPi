@@ -1,15 +1,18 @@
 package nl.earpi.application;
 
+import jdk.jfr.ContentType;
 import nl.earpi.generated.earpi.DeviceTokenInput;
 import nl.earpi.generated.earpi.LoginInputObject;
+import nl.earpi.generated.earpi.LoginOutputObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @Configuration
 @EnableDiscoveryClient
@@ -29,19 +32,19 @@ public class Application {
     @Autowired
     private LongTermConnectClient longTermConnectClient;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String home() {
         return "Response in slash";
     }
 
-    @RequestMapping("/login")
-    public String login() {
-        LoginInputObject loginInputObject = new LoginInputObject();
-        longTermConnectClient.makeLoginCall(loginInputObject);
-        return "Response in slash";
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody LoginInputObject loginInputObject) {
+        LoginOutputObject output = longTermConnectClient.makeLoginCall(loginInputObject);
+        return new ResponseEntity<LoginOutputObject> (output, HttpStatus.OK);
     }
 
-    @RequestMapping("/device-registration")
+    @GetMapping("/device-registration")
     public String deviceRegistration() {
         DeviceTokenInput deviceTokenInput = new DeviceTokenInput();
         deviceTokenInput.setIp("localhost");
@@ -53,28 +56,25 @@ public class Application {
         return "Response in slash";
     }
 
-    @RequestMapping("/configure-user")
+    @GetMapping("/configure-user")
     public String configureUser() {
-        String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";
     }
 
-    @RequestMapping("/configure-module")
+    @GetMapping("/configure-module")
     public String configureModule() {
-        String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";
     }
 
-    @RequestMapping("/autorize")
+    @GetMapping("/autorize")
     public String autorize() {
-        String deviceToken = shortTermConnectClient.GetDeviceToken();
 
         return "Response in slash";
     }
 
-    @RequestMapping("/health")
+    @GetMapping("/health")
     public boolean healthCheck() {
         return true;
     }

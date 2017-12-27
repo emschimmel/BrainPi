@@ -2,6 +2,8 @@
 import random
 import sys
 
+sys.path.append('../../')
+import config
 import consul
 
 sys.path.append('../gen-py')
@@ -19,6 +21,8 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
 from dns import resolver
+sys.path.append('../../')
+import config
 
 class GenericThriftClient:
     def __init__(self):
@@ -51,13 +55,13 @@ class GenericThriftClient:
             raise ex
 
     def resolve_config(self, action):
-        c = consul.Consul(host='localhost')
+        c = consul.Consul(host=config.consul_ip, port=config.consul_resolver_port)
         key = '%d' % action
         index, data = c.kv.get(key)
         value = data.get('Value').decode('utf-8')
         consul_resolver = resolver.Resolver()
-        consul_resolver.port = 8600
-        consul_resolver.nameservers = ["127.0.0.1"]
+        consul_resolver.port = config.consul_resolver_port
+        consul_resolver.nameservers = [config.consul_ip]
 
         dnsanswer = consul_resolver.query("%s-pi.service.consul." % value, 'A')
         ip = str(dnsanswer[0])
