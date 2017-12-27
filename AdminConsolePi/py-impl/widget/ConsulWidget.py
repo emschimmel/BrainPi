@@ -11,13 +11,12 @@ root = Builder.load_string('''
         Color:
             rgba: 1, 1, 1, 0.8    
         Line:
-            rectangle: self.x, self.y, self.width, self.height
-            
+            rectangle: self.x+0.015*self.width, self.y+0.02*self.height, 0.97*self.width, 0.96*self.height
         Color:
             rgba: 1, 1, 1, 0.3
         Rectangle:
-            size: 0.995*self.width, 0.995*self.height
-            pos: self.x+0.0025*self.width, self.y+0.0025*self.height
+            size: 0.976*self.width, 0.96*self.height
+            pos: self.x+0.012*self.width, self.y+0.022*self.height
             
     Label:
         text: root.random_number
