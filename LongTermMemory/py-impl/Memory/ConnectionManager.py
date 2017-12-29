@@ -2,12 +2,11 @@ import sys
 
 sys.path.append('../../')
 import config
-from LongMemory.ttypes import *
+from AutorisationStruct.ttypes import *
 
 import json
 from thrift import TSerialization
 from thrift.protocol import TJSONProtocol
-from thrift.protocol import TBinaryProtocol
 
 
 class State_d:

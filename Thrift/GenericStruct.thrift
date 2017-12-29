@@ -58,7 +58,6 @@ const Action config = {
 
 const list<Action> available_actions = {0: login, 1: kaku, 2:agenda, 3: music, 4: weather, 5: config}
 
-
 struct PingObject {
     1 : optional ActionEnum action
     2 : optional string ip

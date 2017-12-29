@@ -1,6 +1,7 @@
 namespace java nl.earpi.generated.earpi
 
 include "GenericStruct.thrift"
+include "AutorisationStruct.thrift"
 
 # Configure user management
 # Configure module management
@@ -27,27 +28,17 @@ struct ModuleAutorizationInput {
 	4 : optional string token
 }
 
-struct DeviceTokenInput {
-    1 : required string ip
-    2 : required string devicetype
-    3 : optional string userAgent
-    4 : optional string person
+struct DeviceTokenItem {
+    1 : required AutorisationStruct.DeviceTokenInput device
+    2 : required bool active
 }
 
-# device registration input
-struct LoginInputObject {
-    1 : required string username
-    2 : optional string password
-    3 : optional i16 code
-    4 : optional DeviceTokenInput deviceInput
-    5 : optional string deviceToken
-    6 : optional string token
-}
+service EarPiService {
+    list<AutorisationStruct.Person> getUserList() # user management/account management
+    oneway void configureUser(1: list<AutorisationStruct.Person> userList) # user management/account management
+    oneway void configureUserModule(1: string person, 2: map<GenericStruct.ActionEnum, AutorisationStruct.Autorisation> autorisations)  # user module enable/disable
+    oneway void configureModuleSettings(1: string person, 2: GenericStruct.ActionEnum action, 3: binary module_config) # change the module settings and store in longterm
+    list<DeviceTokenItem> getDeviceList()
+    oneway void confirmDevice(1: string deviceToken, 2: bool active)
 
-# device registration output
-struct LoginOutputObject {
-    1 : optional string name
-    2 : optional string deviceToken
-    3 : optional string token
-    4 : required list<GenericStruct.ActionEnum> action
 }

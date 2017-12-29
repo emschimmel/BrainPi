@@ -1,5 +1,6 @@
 include "GenericStruct.thrift"
 include "ThriftException.thrift"
+include "AutorisationStruct.thrift"
 
 struct PersonEntry {
 	1 : required string person
@@ -27,9 +28,29 @@ struct EyePiOutput {
 	4 : required map<GenericStruct.ActionEnum, binary> data
 }
 
+# device registration input
+struct LoginInputObject {
+    1 : required string username
+    2 : optional string password
+    3 : optional i16 code
+    4 : optional AutorisationStruct.DeviceTokenInput deviceInput
+    5 : optional string deviceToken
+    6 : optional string token
+}
+
+# device registration output
+struct LoginOutputObject {
+    1 : optional string uniquename
+    2 : optional AutorisationStruct.user_detail details
+    3 : optional string deviceToken
+    4 : optional string token
+    5 : optional map<GenericStruct.ActionEnum, AutorisationStruct.Autorisation> autorisations
+}
+
 service EyePiThriftService {
     EyePiOutput handleRequest(1: EyePiInput input) throws (1: ThriftException.ExternalEndpointUnavailable endPointUnavailiable 2: ThriftException.ThriftServiceException thriftException)
     oneway void confimFace(1: ConfirmInput input)
     oneway void writeLog(1: EyePiInput input)
     void ping(1: GenericStruct.PingObject pingObject) throws (1: ThriftException.ExternalEndpointUnavailable endPointUnavailiable 2: ThriftException.ThriftServiceException thriftException)
+    LoginOutputObject login(1: LoginInputObject loginObject)
 }
