@@ -28,7 +28,7 @@ def test1():
         input.username = 'cbaby'
         input.password = None
         input.code = '12345'
-        input.accountenabled = False
+        input.enabled = False
 
         ConnectLongMemory().storeNewPerson(input)
         ConnectLongMemory().getPersonConfig('AnyRandomString')
@@ -50,7 +50,7 @@ def test2():
         input.username = 'sesy'
         input.password = None
         input.code = '456'
-        input.accountenabled = True
+        input.enabled = True
 
         ConnectLongMemory().storeNewPerson(input)
 
@@ -64,6 +64,14 @@ def test3():
     except Thrift.TException as tx:
         print("%s" % (tx.message))
 
-test2()
+def test4():
+    try:
+        ConnectLongMemory().getPersonConfig('AnyRandomString')
+
+    except Thrift.TException as tx:
+        print("%s" % (tx.message))
+
 test1()
-test3()
+#test2()
+#test3()
+test4()

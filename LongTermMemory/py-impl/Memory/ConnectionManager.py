@@ -3,7 +3,12 @@ import sys
 sys.path.append('../../')
 import config
 from LongMemory.ttypes import *
-from thrift_json import thrift2dict
+
+import json
+from thrift import TSerialization
+from thrift.protocol import TJSONProtocol
+from thrift.protocol import TBinaryProtocol
+
 
 class State_d:
     def __init__(self, imp):
@@ -40,20 +45,19 @@ class ConnectionManager():
     def get_all(self):
         result = []
         for item in self.storage.get_all():
-            if 'uniquename' in item and 'enabled' in item:
-                result.append(self.translateToJson(item))
+            result.append(self.translateToJson(item))
         return result
 
     def get_by_query(self, query):
         result = []
         for item in self.storage.get_by_query(query):
-            print('item %s' %   item)
-            if 'uniquename' in item and 'enabled' in item:
-                result.append(self.translateToJson(item))
+            result.append(self.translateToJson(item))
         return result
 
     def store_new(self, value):
-        result = thrift2dict(value)
+        thrift_json_string = TSerialization.serialize(
+            value, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
+        result = json.loads(thrift_json_string)
         self.storage.store_new(result)
 
     def update(self, uniquename, value, field):
@@ -63,37 +67,36 @@ class ConnectionManager():
         self.storage.delete(uniquename)
 
     def translateToJson(self, jsondata):
+        # thrift_string = TSerialization.deserialize(
+        #     jsondata, None, TBinaryProtocol.TBinaryProtocolFactory())
+        # person = thrift_string
+
         person = Person()
-        person.uniquename = jsondata['uniquename']
+        person.uniquename = '%s' % jsondata['uniquename']
         if 'details' in jsondata:
             user_detail_json = jsondata['details']
             details = user_detail()
             if 'firstname' in user_detail_json:
-                details.firstname = user_detail_json['firstname']
+                details.firstname = '%s' % user_detail_json['firstname']
             if 'lastname' in user_detail_json:
-                details.lastname = user_detail_json['lastname']
+                details.lastname = '%s' % user_detail_json['lastname']
             if 'gender' in user_detail_json:
-                details.gender = user_detail_json['gender']
+                details.gender = '%s' % user_detail_json['gender']
             if 'dob' in user_detail_json:
-                details.dob = user_detail_json['dob']
+                details.dob = '%s' % user_detail_json['dob']
             person.details = details
-        # if 'username' in jsondata:
-        #     person.username = jsondata['username']
-        # if 'password' in jsondata:
-        #     person.password = jsondata['password']
-        # if 'code' in jsondata:
-        #     person.code = jsondata['code']
         if 'enabled' in jsondata:
-            person.enabled = jsondata['enabled']
+            person.enabled = True if jsondata['enabled'] else False
         if 'autorisations' in jsondata:
-            pass
-            # person.autorisations = jsondata['autorisations']
-            # person.autorisations = dict()
-            # person.autorisations[0] = pickle.dumps(None, protocol=None, fix_imports=False)
-            # person.autorisations[1] = pickle.dumps(None, protocol=None, fix_imports=False)
-            # person.autorisations[2] = pickle.dumps(None, protocol=None, fix_imports=False)
-            # person.autorisations[3] = pickle.dumps(None, protocol=None, fix_imports=False)
-            # person.autorisations[4] = pickle.dumps(None, protocol=None, fix_imports=False)
-            # person.autorisations[5] = pickle.dumps(None, protocol=None, fix_imports=False)
+            autorisation_json = jsondata['autorisations']
+            person.autorisations = dict()
+            for i in range(len(autorisation_json)):
+                if autorisation_json[i]:
+                    autorisation = autorisation()
+                    autorisation.write = True if autorisation_json[i]['write'] else False
+                    autorisation.enabled = True if autorisation_json[i]['enabled'] else False
+                    if autorisation_json[i]['module_config']:
+                        autorisation.module_config = autorisation_json[i]['module_config']
+                    person.autorisations[i] = autorisation
         return person
 

@@ -33,13 +33,8 @@ struct LongMemoryLoginInputObject {
     3 : optional string code
 }
 
-struct LongMemoryLoginOutputObject {
-    1 : optional string person
-    2 : optional string token
-}
-
 service LongMemoryService {
-    LongMemoryLoginOutputObject loginCall(1: LongMemoryLoginInputObject loginobject) throws(1: ThriftException.BadHashException badHashException)
+    Person loginCall(1: LongMemoryLoginInputObject loginobject) throws(1: ThriftException.BadHashException badHashException)
     Person getPersonConfig(1: string uniquename)
     list<Person> getAll()
     void storeNewPerson(1: Person person)

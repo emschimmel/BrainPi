@@ -48,6 +48,6 @@ def test3():
     except Thrift.TException as tx:
         print("%s" % (tx.message))
 
-test2()
 test1()
+test2()
 test3()

@@ -1,5 +1,5 @@
 
-
+from LongMemory.ttypes import *
 from . import ConnectionManager
 
 class AutorisationActions():
@@ -14,11 +14,9 @@ class AutorisationActions():
                 query['password'] = loginobject.password
             if loginobject.code:
                 query['code'] = loginobject.code
-            query['enabled'] = True
-            print(query)
+            query['enabled'] = 1
             personList = self.con.get_by_query(query)
             if personList:
-                print('return person')
                 return personList[0]
             return None
         else:
