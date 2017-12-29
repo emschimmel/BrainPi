@@ -15,7 +15,7 @@ struct LongMemoryLoginInputObject {
 
 
 service LongMemoryService {
-    AutorisationStruct.Person loginCall(1: LongMemoryLoginInputObject loginobject) throws(1: ThriftException.BadHashException badHashException)
+    AutorisationStruct.Person loginCall(1: LongMemoryLoginInputObject loginobject) throws(1: ThriftException.BadHashException bad, 2: ThriftException.LoginFailedException fail)
     AutorisationStruct.Person getPersonConfig(1: string uniquename)
     list<AutorisationStruct.Person> getAll()
     void storeNewPerson(1: AutorisationStruct.Person person)

@@ -83,21 +83,20 @@ class ShortTermLogMemoryClient:
 
     def write_log(self, input):
         print('short term memory handler, write log')
+        ip, port = self.resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
         try:
-            ip, port = self.resolve_config()
-            transport = TSocket.TSocket(ip, port)  # Make socket
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-
             client.writeLog(input)
-            transport.close()
-
         except Thrift.TException as tx:
             print('%s' % (tx.message))
         except Exception as ex:
             print('whot??? %s' % ex)
+        finally:
+            transport.close()
 
     def resolve_config(self):
         consul_resolver = resolver.Resolver()

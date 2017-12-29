@@ -29,27 +29,24 @@ class ConnectEyePi:
         return ip, port
 
     def login(self, input):
+        ip, port = self.resolve_eye_config()
+        transport = TSocket.TSocket(ip, port)
         try:
-            ip, port = self.resolve_eye_config()
-            transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = EyePiThriftService.Client(protocol)
             transport.open()
-            output = client.login(input)
-            print(output)
-
-            transport.close()
-            return output
-
+            return client.login(input)
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        finally:
+            transport.close()
 
 
     def handleRequest(self, input):
+        ip, port = self.resolve_eye_config()
+        transport = TSocket.TSocket(ip, port)
         try:
-            ip, port = self.resolve_eye_config()
-            transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = EyePiThriftService.Client(protocol)
@@ -58,42 +55,40 @@ class ConnectEyePi:
             print(output)
             if output.ok:
                 print("YAY!")
-
-            transport.close()
             return output
 
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        finally:
+            transport.close()
 
     def confimFace(self, input):
+        ip, port = self.resolve_eye_config()
+        transport = TSocket.TSocket(ip, port)
         try:
-            ip, port = self.resolve_eye_config()
-            transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = EyePiThriftService.Client(protocol)
             transport.open()
             client.confimFace(input)
-
-            transport.close()
-
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        finally:
+            transport.close()
 
     def writeLog(self, input):
+        ip, port = self.resolve_eye_config()
+        transport = TSocket.TSocket(ip, port)
         try:
-            ip, port = self.resolve_eye_config()
-            transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = EyePiThriftService.Client(protocol)
             transport.open()
             client.writeLog(input)
-
-            transport.close()
-
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        finally:
+            transport.close()
 
 
 

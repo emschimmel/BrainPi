@@ -18,7 +18,10 @@ from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 
 from EyePi import EyePiThriftService
 from EyePi.ttypes import *
-from ThriftException.ttypes import *
+from ThriftException.ttypes import BadHashException
+from ThriftException.ttypes import LoginFailedException
+from ThriftException.ttypes import ExternalEndpointUnavailable
+from ThriftException.ttypes import ThriftServiceException
 from GenericStruct.ttypes import *
 
 from thrift.transport import TSocket

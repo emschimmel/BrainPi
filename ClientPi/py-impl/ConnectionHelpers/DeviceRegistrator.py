@@ -34,9 +34,9 @@ class DeviceRegistrator:
 
     def register_device(self):
         if not self.device_token:
+            ip, port = self.resolve_stm_config()
+            transport = TSocket.TSocket(ip, port)  # Make socket
             try:
-                ip, port = self.resolve_stm_config()
-                transport = TSocket.TSocket(ip, port)  # Make socket
                 transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
                 protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
                 client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
@@ -45,12 +45,11 @@ class DeviceRegistrator:
                 inputDevice.ip = '127.0.0.1'
                 inputDevice.devicetype = 'Development'
                 self.device_token = client.generateDeviceToken(inputDevice)
-
-                transport.close()
-
             except Thrift.TException as tx:
                 print('%s' % (tx.message))
             except Exception as ex:
                 print('whot??? %s' % ex)
+            finally:
+                transport.close()
         return self.device_token
 

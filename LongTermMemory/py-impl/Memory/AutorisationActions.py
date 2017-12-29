@@ -1,6 +1,10 @@
+import sys
+sys.path.append('../gen-py')
 
 from LongMemory.ttypes import *
-from ThriftException.ttypes import *
+from ThriftException.ttypes import BadHashException
+from ThriftException.ttypes import LoginFailedException
+
 from . import ConnectionManager
 
 class AutorisationActions():
@@ -19,7 +23,7 @@ class AutorisationActions():
             personList = self.con.get_by_query(query)
             if personList:
                 return personList[0]
-            return LoginFailedException()
+            raise LoginFailedException()
         else:
             raise BadHashException()
 

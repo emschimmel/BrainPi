@@ -29,67 +29,67 @@ class ConnectLongMemory:
         return ip, port
 
     def getPersonConfig(self, input):
+        ip, port = self.resolve_longmemory_config()
+        transport = TSocket.TSocket(ip, port)
         try:
-            ip, port = self.resolve_longmemory_config()
-            transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = LongMemoryService.Client(protocol)
             transport.open()
             output = client.getPersonConfig(input)
             print(output)
-
-            transport.close()
             return output
 
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        finally:
+            transport.close()
 
     def getAll(self):
+        ip, port = self.resolve_longmemory_config()
+        transport = TSocket.TSocket(ip, port)
         try:
-            ip, port = self.resolve_longmemory_config()
-            transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = LongMemoryService.Client(protocol)
             transport.open()
             output = client.getAll()
             print(output)
-
-            transport.close()
             return output
 
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        finally:
+            transport.close()
 
     def storeNewPerson(self, input):
+        ip, port = self.resolve_longmemory_config()
+        transport = TSocket.TSocket(ip, port)
         try:
-            ip, port = self.resolve_longmemory_config()
-            transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = LongMemoryService.Client(protocol)
             transport.open()
             client.storeNewPerson(input)
-
-            transport.close()
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        finally:
+            transport.close()
 
     def login(self, input):
+        ip, port = self.resolve_longmemory_config()
+        transport = TSocket.TSocket(ip, port)
         try:
-            ip, port = self.resolve_longmemory_config()
-            transport = TSocket.TSocket(ip, port)
             transport = TTransport.TBufferedTransport(transport)
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = LongMemoryService.Client(protocol)
             transport.open()
-            output = client.loginCall(input)
+            return client.loginCall(input)
 
-            transport.close()
-            return output
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        finally:
+            transport.close()
 
 
 

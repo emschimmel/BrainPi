@@ -2,6 +2,8 @@ import sys
 
 sys.path.append('../../')
 import config
+
+sys.path.append('../gen-py')
 from AutorisationStruct.ttypes import *
 
 import json
