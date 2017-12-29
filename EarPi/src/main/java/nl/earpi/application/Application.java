@@ -44,17 +44,17 @@ public class Application {
         return new ResponseEntity<LoginOutputObject> (output, HttpStatus.OK);
     }
 
-    @GetMapping("/device-registration")
-    public String deviceRegistration() {
-        DeviceTokenInput deviceTokenInput = new DeviceTokenInput();
-        deviceTokenInput.setIp("localhost");
-        deviceTokenInput.setDevicetype("MyLaptop");
-        deviceTokenInput.setPerson("The Devil");
-        deviceTokenInput.setUserAgent("user agent");
-
-        shortTermConnectClient.RegisterDevice(deviceTokenInput);
-        return "Response in slash";
-    }
+//    @GetMapping("/device-registration")
+//    public String deviceRegistration() {
+//        DeviceTokenInput deviceTokenInput = new DeviceTokenInput();
+//        deviceTokenInput.setIp("localhost");
+//        deviceTokenInput.setDevicetype("MyLaptop");
+//        deviceTokenInput.setPerson("The Devil");
+//        deviceTokenInput.setUserAgent("user agent");
+//
+//        shortTermConnectClient.RegisterDevice(deviceTokenInput);
+//        return "Response in slash";
+//    }
 
     @GetMapping("/configure-user")
     public String configureUser() {

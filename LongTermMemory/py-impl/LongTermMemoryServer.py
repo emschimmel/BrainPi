@@ -7,6 +7,7 @@ from multiprocessing.managers import SyncManager
 sys.path.append('../gen-py')
 from LongMemory import LongMemoryService
 from LongMemory.ttypes import *
+from ThriftException.ttypes import *
 
 from Memory.PersonMemory import PersonMemory
 from Memory.AutorisationActions import AutorisationActions

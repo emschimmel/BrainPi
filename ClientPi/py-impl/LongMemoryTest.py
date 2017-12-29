@@ -4,7 +4,7 @@
 
 import sys
 sys.path.append('../gen-py')
-from LongMemory.ttypes import *
+from AutorisationStruct.ttypes import *
 import sys
 
 sys.path.append('../gen-py')
