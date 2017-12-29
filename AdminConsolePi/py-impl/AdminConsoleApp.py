@@ -1,7 +1,10 @@
+from thrift.Thrift import TType, TMessageType, TFrozenDict, TException, TApplicationException
+
 from kivy.app import App
 
 from MainViewApp import MainView
 from LoginViewApp import LoginViewApp
+from ErrorViewApp import ErrorViewApp
 from AppConfig import AppConfig
 
 
@@ -20,12 +23,16 @@ class AdminConsoleApp(App):
             'adminconsole.ini')
 
     def on_start(self, **kwargs):
-        ip, port = AppConfig().resolve_config(self.config.get('consul', 'host'), self.config.getint('consul', 'port'))
+        try:
+            ip, port = AppConfig().resolve_config(self.config.get('consul', 'host'), self.config.getint('consul', 'port'))
+            connectionSuccessful = True
+        except:
+            popup = ErrorViewApp.build(self)
+            popup.open()
+            connectionSuccessful = False
 
-        print(ip)
-        print(port)
-
-        popup = LoginViewApp.build(self)
-        popup.open()
+        if (connectionSuccessful):
+            popup = LoginViewApp.build(self)
+            popup.open()
 
 AdminConsoleApp().run()
