@@ -5,7 +5,6 @@ from dns import resolver
 class AppConfig:
     def resolve_config(self, host, port):
         consul_resolver = resolver.Resolver()
-        print(consul_resolver)
         consul_resolver.port = port
         consul_resolver.nameservers = [host]
 
