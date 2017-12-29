@@ -1,5 +1,6 @@
 
 from LongMemory.ttypes import *
+from ThriftException.ttypes import *
 from . import ConnectionManager
 
 class AutorisationActions():
@@ -18,15 +19,15 @@ class AutorisationActions():
             personList = self.con.get_by_query(query)
             if personList:
                 return personList[0]
-            return None
+            return LoginFailedException()
         else:
-            raise Exception
+            raise BadHashException()
 
     def changePassword(self, username, password):
         if self.checkHash(password):
             pass
         else:
-            raise Exception
+            raise BadHashException()
 
     def checkHash(self, password):
         return True

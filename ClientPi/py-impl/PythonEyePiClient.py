@@ -7,6 +7,7 @@ sys.path.append('../gen-py')
 
 from EyePi.ttypes import *
 from GenericStruct.ttypes import *
+from AutorisationStruct.ttypes import *
 from WeatherPi.ttypes import *
 
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator

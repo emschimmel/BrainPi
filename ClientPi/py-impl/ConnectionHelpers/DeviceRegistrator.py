@@ -5,6 +5,7 @@ sys.path.append('../gen-py')
 from ThriftException.ttypes import *
 from ShortMemory import ShortMemoryService
 from ShortMemory.ttypes import *
+from AutorisationStruct.ttypes import *
 
 from thrift import Thrift
 from thrift.transport import TSocket

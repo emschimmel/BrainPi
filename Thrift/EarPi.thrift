@@ -2,6 +2,7 @@ namespace java nl.earpi.generated.earpi
 
 include "GenericStruct.thrift"
 include "AutorisationStruct.thrift"
+include "ThriftException.thrift"
 
 # Configure user management
 # Configure module management
@@ -40,5 +41,5 @@ service EarPiService {
     oneway void configureModuleSettings(1: string person, 2: GenericStruct.ActionEnum action, 3: binary module_config) # change the module settings and store in longterm
     list<DeviceTokenItem> getDeviceList()
     oneway void confirmDevice(1: string deviceToken, 2: bool active)
-
+    void changePassword(1: string username, 2: string password) throws (1: ThriftException.BadHashException bad)
 }

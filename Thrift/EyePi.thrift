@@ -32,7 +32,7 @@ struct EyePiOutput {
 struct LoginInputObject {
     1 : required string username
     2 : optional string password
-    3 : optional i16 code
+    3 : optional string code
     4 : optional AutorisationStruct.DeviceTokenInput deviceInput
     5 : optional string deviceToken
     6 : optional string token
@@ -52,5 +52,5 @@ service EyePiThriftService {
     oneway void confimFace(1: ConfirmInput input)
     oneway void writeLog(1: EyePiInput input)
     void ping(1: GenericStruct.PingObject pingObject) throws (1: ThriftException.ExternalEndpointUnavailable endPointUnavailiable 2: ThriftException.ThriftServiceException thriftException)
-    LoginOutputObject login(1: LoginInputObject loginObject)
+    LoginOutputObject login(1: LoginInputObject loginObject) throws (1: ThriftException.BadHashException badHash 2: ThriftException.LoginFailedException fail)
 }

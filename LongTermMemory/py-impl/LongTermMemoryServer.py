@@ -38,8 +38,10 @@ class LongTermMemoryThriftServer:
         try:
             person = AutorisationActions().login(loginobject)
             return person
-        except Exception as ex:
-            raise BadHashException()
+        except BadHashException as bad:
+            raise BadHashException
+        except LoginFailedException as fail:
+            raise LoginFailedException
 
     @stat.timer("getPersonConfig")
     def getPersonConfig(self, uniquename):
@@ -59,8 +61,8 @@ class LongTermMemoryThriftServer:
     def changePassword(self, username, password):
         try:
             AutorisationActions().changePassword(username, password)
-        except Exception as ex:
-            raise BadHashException()
+        except BadHashException as bad:
+            raise bad
 
     def getAll(self):
         try:

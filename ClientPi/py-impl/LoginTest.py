@@ -4,45 +4,58 @@
 
 import sys
 sys.path.append('../gen-py')
-from LongMemory.ttypes import *
+from EyePi.ttypes import *
+from AutorisationStruct.ttypes import *
 import sys
 
 sys.path.append('../gen-py')
 
-from ConnectionHelpers.ConnectLongMemory import ConnectLongMemory
+from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 
 from thrift import Thrift
 
 
 def test1():
     try:
-        input = LongMemoryLoginInputObject()
+        input = LoginInputObject()
         input.username = 'AnyRandomString'
         input.password = None
         input.code = '12345'
-        output = ConnectLongMemory().login(input)
+        inputDevice = DeviceTokenInput()
+        inputDevice.ip = '127.0.0.1'
+        inputDevice.devicetype = 'Development'
+        input.deviceInput = inputDevice
+        output = ConnectEyePi().login(input)
         print(output)
     except Thrift.TException as tx:
         print("%s" % (tx.message))
 
 def test2():
     try:
-        input = LongMemoryLoginInputObject()
+        input = LoginInputObject()
         input.username = 'sesy'
         input.password = None
         input.code = '12345'
-        output = ConnectLongMemory().login(input)
+        inputDevice = DeviceTokenInput()
+        inputDevice.ip = '127.0.0.1'
+        inputDevice.devicetype = 'Development'
+        input.deviceInput = inputDevice
+        output = ConnectEyePi().login(input)
         print(output)
     except Thrift.TException as tx:
         print("%s" % (tx.message))
 
 def test3():
     try:
-        input = LongMemoryLoginInputObject()
+        input = LoginInputObject()
         input.username = 'sesy'
         input.password = None
         input.code = '456'
-        output = ConnectLongMemory().login(input)
+        inputDevice = DeviceTokenInput()
+        inputDevice.ip = '127.0.0.1'
+        inputDevice.devicetype = 'Development'
+        input.deviceInput = inputDevice
+        output = ConnectEyePi().login(input)
         print(output)
 
     except Thrift.TException as tx:
