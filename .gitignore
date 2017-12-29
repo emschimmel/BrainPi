@@ -9,6 +9,7 @@ Thrift/gen-java/*
 Thrift/gen-py/*
 ClientPi/gen-py/*
 EyePi/gen-py/*
+AdminConsolePi/gen-py/*
 FacePi/gen-py/*
 WeatherPi/gen-py/*
 ShortTermMemory/gen-py/*
