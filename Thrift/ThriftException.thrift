@@ -15,3 +15,8 @@ exception BadHashException {
     1 : required string serviceName = "LongMemoryPi";
     2 : required string message = "Unable to change the password";
 }
+
+exception LoginFailedException {
+    1 : required string serviceName = "LongMemoryPi";
+    2 : required string message = "Can't with login given credentials";
+}

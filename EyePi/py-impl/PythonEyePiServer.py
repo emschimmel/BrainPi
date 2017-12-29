@@ -43,6 +43,37 @@ class EyePiThriftHandler:
     def __init__(self):
         self.log = {}
 
+    @stat.timer("login")
+    def login(self, loginObject):
+        try:
+            output = LoginOutputObject()
+            if not loginObject.deviceInput and not loginObject.deviceToken:
+                return output
+
+            person = LongTermPersonMemoryClient().loginCall(loginObject)
+            print(person)
+            if person:
+                output.uniquename = person.uniquename
+                output.details = person.details
+                output.autorisations = person.autorisations
+            if not person:
+                return output
+
+            if not loginObject.deviceToken:
+                output.deviceToken = ShortTermTokenMemoryClient().register_device(loginObject.deviceInput)
+            else:
+                output.deviceToken = loginObject.deviceToken
+
+            # todo: check this
+            # output.token = ShortTermTokenMemoryClient().getToken(input)
+            return output
+        except BadHashException as badHash:
+            # ShortTermLogMemoryClient().log_thrift_exception(loginObject, badHash)
+            raise badHash
+        except LoginFailedException as fail:
+            # ShortTermLogMemoryClient().log_thrift_exception(loginObject, badHash)
+            raise fail
+
     @stat.timer("handleRequest")
     def handleRequest(self, input):
         try:

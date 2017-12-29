@@ -28,6 +28,24 @@ class ConnectEyePi:
         port = int(str(random.choice(dnsanswer_srv)).split()[2])
         return ip, port
 
+    def login(self, input):
+        try:
+            ip, port = self.resolve_eye_config()
+            transport = TSocket.TSocket(ip, port)
+            transport = TTransport.TBufferedTransport(transport)
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)
+            client = EyePiThriftService.Client(protocol)
+            transport.open()
+            output = client.login(input)
+            print(output)
+
+            transport.close()
+            return output
+
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
+
     def handleRequest(self, input):
         try:
             ip, port = self.resolve_eye_config()

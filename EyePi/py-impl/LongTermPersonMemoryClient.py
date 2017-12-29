@@ -3,6 +3,7 @@ import sys
 sys.path.append('../gen-py')
 from LongMemory import LongMemoryService
 from LongMemory.ttypes import *
+from LongMemory.ttypes import *
 from ThriftException.ttypes import *
 
 from thrift import Thrift
@@ -17,6 +18,29 @@ import config
 class LongTermPersonMemoryClient:
     def __init__(self):
         self.log = {}
+
+    def loginCall(self, loginInput):
+        print('Long term memory handler, login %s' % input)
+        try:
+            lmLoginInput = LongMemoryLoginInputObject()
+            lmLoginInput.username = loginInput.username
+            lmLoginInput.password = loginInput.password
+            lmLoginInput.code = loginInput.code
+            ip, port = self.resolve_config()
+            transport = TSocket.TSocket(ip, port)  # Make socket
+            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
+            client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
+            transport.open()  # Connect!
+            person = client.loginCall(lmLoginInput)
+            transport.close()
+            return person
+        except Thrift.TException as tx:
+            print('%s' % (tx.message))
+            raise tx
+        except BadHashException as badHash:
+            print('Bad hash %s' % badHash)
+            raise badHash
 
     def get_Person(self, input):
         print('Long term memory handler, get Person %s' % input)

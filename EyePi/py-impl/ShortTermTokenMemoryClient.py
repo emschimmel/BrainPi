@@ -50,6 +50,26 @@ class ShortTermTokenMemoryClient:
             print('%s' % (tx.message))
         except Exception as ex:
             print('whot??? %s' % ex)
+
+    def register_device(self, inputDevice):
+        device_token = None
+        try:
+            ip, port = self.resolve_config()
+            transport = TSocket.TSocket(ip, port)  # Make socket
+            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
+            client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
+            transport.open()  # Connect!
+            device_token = client.generateDeviceToken(inputDevice)
+
+            transport.close()
+
+        except Thrift.TException as tx:
+            print('%s' % (tx.message))
+        except Exception as ex:
+            print('whot??? %s' % ex)
+        return device_token
+
     def get_token_from_service(self, inputToken):
         outputToken = False
         try:
