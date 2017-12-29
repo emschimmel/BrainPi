@@ -67,4 +67,5 @@ cp -Rf ./gen-py/ThriftException     ../LongTermMemory/gen-py/
 #EarPI
 cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/src/main/java/nl/earpi/generated/
 
-
+# AdminConsole
+cp -Rf ./gen-py/EyePi           ../AdminConsolePi/gen-py/

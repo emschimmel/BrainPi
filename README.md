@@ -32,7 +32,7 @@ Authentication is done by device registration wich will generate a DeviceToken.
 For every call we need to provide a DeviceToken and eighter an image of a face or a token.
 
 # Install:
-1. pip install opencv, thrift, python-consul, dnspython, statsd, pyowm, hvac, thrift_json
+1. pip install opencv, thrift, python-consul, dnspython, statsd, pyowm, hvac
 2. Thrift/generate-sources.sh
 
 # Start

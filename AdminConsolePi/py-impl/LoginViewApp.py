@@ -61,7 +61,16 @@ class LoginView(Popup):
         app.username = loginText
         app.password = passwordText
 
-        print(app)
+        try:
+            input = LongMemoryLoginInputObject()
+            input.username = loginText
+            input.password = passwordText
+            input.code = '12345'
+            output = ConnectLongMemory().login(input)
+            print(output)
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
 
     def exit_application(self):
         App.get_running_app().stop()
