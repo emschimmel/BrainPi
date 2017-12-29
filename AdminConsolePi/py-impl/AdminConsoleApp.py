@@ -1,5 +1,3 @@
-from thrift.Thrift import TType, TMessageType, TFrozenDict, TException, TApplicationException
-
 from kivy.app import App
 
 from MainViewApp import MainView

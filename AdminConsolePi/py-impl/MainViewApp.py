@@ -6,6 +6,7 @@ from kivy.uix.floatlayout import FloatLayout
 from NavigationPanelApp import NavigationPanel
 
 from widget.ConsulWidget import Consul
+from widget.UserWidget import User
 from widget.WeatherWidget import Weather
 from widget.CameraWidget import Camera
 
@@ -25,6 +26,13 @@ root = Builder.load_string('''
             Screen:
                 name: 'Consul'
                 ConsulWidget:
+                    size: self.size
+                    pos: self.pos
+                    rows: 1
+                    row_force_default: True
+            Screen:
+                name: 'User'
+                UserWidget:
                     size: self.size
                     pos: self.pos
                     rows: 1
@@ -55,6 +63,11 @@ root = Builder.load_string('''
                     _screen_manager.transition.direction = 'up'
                     _screen_manager.current = 'Consul'
             Button:
+                text: 'User'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'User'     
+            Button:
                 text: 'Weather'
                 on_press:
                     _screen_manager.transition.direction = 'up'
@@ -72,6 +85,10 @@ root = Builder.load_string('''
 class ConsulWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(ConsulWidget.build(self), self).__init__(**kwargs)
+
+class UserWidget(BoxLayout):
+    def __init__(self, **kwargs):
+        super(UserWidget.build(self), self).__init__(**kwargs)
 
 class WeatherWidget(BoxLayout):
     def __init__(self, **kwargs):
