@@ -1,7 +1,3 @@
-import sys
-
-sys.path.append('../gen-py')
-from ShortMemory.ttypes import *
 from . import ConnectionManager
 
 class LogMemory:

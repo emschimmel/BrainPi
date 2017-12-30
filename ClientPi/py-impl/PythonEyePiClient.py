@@ -8,7 +8,6 @@ sys.path.append('../gen-py')
 from EyePi.ttypes import EyePiInput
 from EyePi.ttypes import ConfirmInput
 from GenericStruct.ttypes import ActionEnum
-from AutorisationStruct.ttypes import *
 from WeatherPi.ttypes import WeatherInput
 
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
@@ -48,6 +47,7 @@ try:
     nparr = np.fromstring(readfile, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     input.image = pickle.dumps(image, protocol=None, fix_imports=False)
+
     actions = dict()
     weather_input = WeatherInput()
     weather_input.location = 'Amsterdam,nl'

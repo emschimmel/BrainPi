@@ -1,7 +1,5 @@
 import sys
 sys.path.append('../gen-py')
-
-from LongMemory.ttypes import *
 from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
 

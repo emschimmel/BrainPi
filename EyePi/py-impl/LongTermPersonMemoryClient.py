@@ -2,8 +2,7 @@ import random
 import sys
 sys.path.append('../gen-py')
 from LongMemory import LongMemoryService
-from LongMemory.ttypes import *
-from LongMemory.ttypes import *
+from LongMemory.ttypes import LongMemoryLoginInputObject
 from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
 

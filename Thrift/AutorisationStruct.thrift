@@ -3,8 +3,8 @@ namespace java nl.earpi.generated.autorisationstruct
 include "GenericStruct.thrift"
 
 struct Autorisation {
-    1 : required bool write
-    2 : required bool enabled
+    1 : required bool write_enabled = false
+    2 : required bool enabled = false
     3 : optional binary module_config
 }
 

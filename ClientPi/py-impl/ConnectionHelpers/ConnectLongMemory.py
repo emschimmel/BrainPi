@@ -3,9 +3,6 @@ import random
 import sys
 sys.path.append('../gen-py')
 from LongMemory import LongMemoryService
-from LongMemory.ttypes import *
-from GenericStruct.ttypes import *
-from ThriftException.ttypes import *
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -38,6 +35,7 @@ class ConnectLongMemory:
             transport.open()
             output = client.getPersonConfig(input)
             print(output)
+            transport.close()
             return output
 
         except Thrift.TException as tx:
@@ -55,6 +53,7 @@ class ConnectLongMemory:
             transport.open()
             output = client.getAll()
             print(output)
+            transport.close()
             return output
 
         except Thrift.TException as tx:
@@ -71,6 +70,7 @@ class ConnectLongMemory:
             client = LongMemoryService.Client(protocol)
             transport.open()
             client.storeNewPerson(input)
+            transport.close()
         except Thrift.TException as tx:
             print("%s" % (tx.message))
         finally:
@@ -84,8 +84,9 @@ class ConnectLongMemory:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = LongMemoryService.Client(protocol)
             transport.open()
-            return client.loginCall(input)
-
+            output = client.loginCall(input)
+            transport.close()
+            return output
         except Thrift.TException as tx:
             print("%s" % (tx.message))
         finally:

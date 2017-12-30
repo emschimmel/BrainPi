@@ -82,7 +82,7 @@ class EyePiThriftHandler:
             # ShortTermLogMemoryClient().log_thrift_exception(loginObject, badHash)
             raise badHash
         except LoginFailedException as fail:
-            # ShortTermLogMemoryClient().log_thrift_exception(loginObject, badHash)
+            # ShortTermLogMemoryClient().log_thrift_exception(loginObject, fail)
             raise fail
 
     @stat.timer("handleRequest")

@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-
 class LocalImplementation():
 
     tokenMemory = defaultdict(list)

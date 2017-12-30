@@ -3,9 +3,6 @@ import random
 import sys
 sys.path.append('../gen-py')
 from EyePi import EyePiThriftService
-from EyePi.ttypes import *
-from GenericStruct.ttypes import *
-from ThriftException.ttypes import *
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -36,7 +33,9 @@ class ConnectEyePi:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = EyePiThriftService.Client(protocol)
             transport.open()
-            return client.login(input)
+            output = client.login(input)
+            transport.close()
+            return output
         except Thrift.TException as tx:
             print("%s" % (tx.message))
         finally:
@@ -55,6 +54,7 @@ class ConnectEyePi:
             print(output)
             if output.ok:
                 print("YAY!")
+            transport.close()
             return output
 
         except Thrift.TException as tx:
@@ -71,6 +71,7 @@ class ConnectEyePi:
             client = EyePiThriftService.Client(protocol)
             transport.open()
             client.confimFace(input)
+            transport.close()
         except Thrift.TException as tx:
             print("%s" % (tx.message))
         finally:
@@ -85,6 +86,7 @@ class ConnectEyePi:
             client = EyePiThriftService.Client(protocol)
             transport.open()
             client.writeLog(input)
+            transport.close()
         except Thrift.TException as tx:
             print("%s" % (tx.message))
         finally:

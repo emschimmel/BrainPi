@@ -11,7 +11,6 @@ sys.path.append('../gen-py')
 sys.path.append('../')
 
 from GenericServerPi import GenericPiThriftService
-from GenericServerPi.ttypes import *
 from GenericStruct.ttypes import ActionEnum
 from ThriftException.ttypes import ThriftServiceException
 from WeatherPi.ttypes import WeatherOutput
@@ -21,7 +20,6 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
-# import cv2
 sys.path.append('../../')
 import config
 

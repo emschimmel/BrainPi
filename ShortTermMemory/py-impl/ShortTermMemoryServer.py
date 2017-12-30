@@ -6,8 +6,6 @@ from multiprocessing.managers import SyncManager
 
 sys.path.append('../gen-py')
 from ShortMemory import ShortMemoryService
-from ShortMemory.ttypes import *
-
 from AuthToken.TokenMemory import TokenMemory
 from Logging.LogMemory import LogMemory
 from DeviceMemory import DeviceMemory

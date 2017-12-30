@@ -25,7 +25,7 @@ class State_d:
 class ConnectionManager():
     try:
         from pymongo import MongoClient
-#        MongoClient = None
+    #    MongoClient = None
     except ImportError:
         MongoClient = None
     if MongoClient:
@@ -61,6 +61,7 @@ class ConnectionManager():
         thrift_json_string = TSerialization.serialize(
             value, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
         result = json.loads(thrift_json_string)
+        print(result)
         self.storage.store_new(result)
 
     def update(self, uniquename, value, field):
@@ -96,7 +97,7 @@ class ConnectionManager():
             for key in autorisation_json:
                 value = autorisation_json[key]
                 autorisation = Autorisation()
-                autorisation.write = True if value['write'] else False
+                autorisation.write_enabled = True if value['write_enabled'] else False
                 autorisation.enabled = True if value['enabled'] else False
                 if value['module_config']:
                     autorisation.module_config = value['module_config']

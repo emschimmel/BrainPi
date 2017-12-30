@@ -5,8 +5,7 @@ sys.path.append('../gen-py')
  
 from FacePi import FacePiThriftService
 from FacePi.ttypes import FacePiInput
-from FacePi.constants import *
- 
+
 from thrift import Thrift
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -24,9 +23,9 @@ class FacePiThriftClient:
         self.log = {}
 
     def handle_request(self, image):
+        ip, port = self.resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
         try:
-            ip, port = self.resolve_config()
-            transport = TSocket.TSocket(ip, port)     # Make socket
             transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport) # Wrap in a protocol
             client = FacePiThriftService.Client(protocol) # Create a client to use the protocol encoder
@@ -42,11 +41,13 @@ class FacePiThriftClient:
         except Thrift.TException as tx:
             print ('%s' % (tx.message))
             raise tx
+        finally:
+            transport.close()
 
     def confim_face(self, input):
+        ip, port = self.resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
         try:
-            ip, port = self.resolve_config()
-            transport = TSocket.TSocket(ip, port)     # Make socket
             transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport) # Wrap in a protocol
             client = FacePiThriftService.Client(protocol) # Create a client to use the protocol encoder
@@ -69,6 +70,8 @@ class FacePiThriftClient:
         except Exception as ex:
             print('whot??? %s' % ex)
             raise ex
+        finally:
+            transport.close()
 
     def resolve_config(self):
         consul_resolver = resolver.Resolver()

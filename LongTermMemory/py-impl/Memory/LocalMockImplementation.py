@@ -1,6 +1,4 @@
-# from LongMemory.ttypes import *
 import json
-#import pickle
 
 class LocalMockImplementation():
 

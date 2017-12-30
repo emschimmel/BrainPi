@@ -2,9 +2,7 @@ import random
 
 import sys
 sys.path.append('../gen-py')
-from ThriftException.ttypes import *
 from ShortMemory import ShortMemoryService
-from ShortMemory.ttypes import *
 from AutorisationStruct.ttypes import DeviceTokenInput
 
 from thrift import Thrift
@@ -45,6 +43,7 @@ class DeviceRegistrator:
                 inputDevice.ip = '127.0.0.1'
                 inputDevice.devicetype = 'Development'
                 self.device_token = client.generateDeviceToken(inputDevice)
+                transport.close()
             except Thrift.TException as tx:
                 print('%s' % (tx.message))
             except Exception as ex:

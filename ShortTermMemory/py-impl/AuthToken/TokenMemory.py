@@ -1,7 +1,3 @@
-import sys
-
-sys.path.append('../gen-py')
-from ShortMemory.ttypes import *
 import random, string
 import time
 import datetime

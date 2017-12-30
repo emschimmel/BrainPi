@@ -1,7 +1,5 @@
 from collections import defaultdict
 
-from ShortMemory.ttypes import *
-
 class LocalImplementation():
 
     logMemory = defaultdict(list)

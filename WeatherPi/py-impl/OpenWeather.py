@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 
-import sys
-
-sys.path.append('../../')
-import config
 import pyowm
 
 # Parse configuration
