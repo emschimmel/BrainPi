@@ -4,7 +4,8 @@
 
 import sys
 sys.path.append('../gen-py')
-from AutorisationStruct.ttypes import *
+from AutorisationStruct.ttypes import Person
+from AutorisationStruct.ttypes import user_detail
 import sys
 
 sys.path.append('../gen-py')

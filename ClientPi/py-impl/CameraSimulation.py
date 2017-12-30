@@ -1,9 +1,9 @@
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 
-from EyePi.ttypes import *
-from GenericStruct.ttypes import *
-from WeatherPi.ttypes import *
+from EyePi.ttypes import EyePiInput
+from GenericStruct.ttypes import ActionEnum
+from WeatherPi.ttypes import WeatherInput
 import cv2
 import threading
 import time

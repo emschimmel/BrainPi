@@ -11,8 +11,9 @@ sys.path.append('./FaceRecognition')
 
 
 from FacePi import FacePiThriftService
-from FacePi.ttypes import *
-from ThriftException.ttypes import *
+from FacePi.ttypes import FacePiOutput
+from FacePi.ttypes import PersonEntry
+from ThriftException.ttypes import ThriftServiceException
 
 from FaceDetection.DetectFaces import DetectFaces
 from FaceRecognition.RecognitionManager import RecognitionManager

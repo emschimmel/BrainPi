@@ -4,8 +4,8 @@
 
 import sys
 sys.path.append('../gen-py')
-from EyePi.ttypes import *
-from AutorisationStruct.ttypes import *
+from EyePi.ttypes import LoginInputObject
+from AutorisationStruct.ttypes import DeviceTokenInput
 import sys
 
 sys.path.append('../gen-py')

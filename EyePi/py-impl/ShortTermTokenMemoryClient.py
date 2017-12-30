@@ -2,7 +2,7 @@ import random
 import sys
 sys.path.append('../gen-py')
 from ShortMemory import ShortMemoryService
-from ShortMemory.ttypes import *
+from ShortMemory.ttypes import TokenObject
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -42,7 +42,7 @@ class ShortTermTokenMemoryClient:
             transport.open()  # Connect!
 
             output = client.validateToken(inputToken, deviceToken)
-            print(output)
+            transport.close()
             return output
         except Thrift.TException as tx:
             print('%s' % (tx.message))
@@ -59,7 +59,9 @@ class ShortTermTokenMemoryClient:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-            return client.generateDeviceToken(inputDevice)
+            output = client.generateDeviceToken(inputDevice)
+            transport.close()
+            return output
         except Thrift.TException as tx:
             print('%s' % (tx.message))
         except Exception as ex:
@@ -75,7 +77,9 @@ class ShortTermTokenMemoryClient:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-            return client.generateToken(inputToken)
+            output = client.generateToken(inputToken)
+            transport.close()
+            return output
         except Thrift.TException as tx:
             print('%s' % (tx.message))
         except Exception as ex:

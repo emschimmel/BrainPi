@@ -36,6 +36,7 @@ class LongTermPersonMemoryClient:
             client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
             person = client.loginCall(lmLoginInput)
+            transport.close()
             return person
         except LoginFailedException as fail:
             print('login failed %s' % fail)
@@ -59,6 +60,7 @@ class LongTermPersonMemoryClient:
             client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
             person = client.getPersonConfig(input)
+            transport.close()
             return person
         except Thrift.TException as tx:
             print('%s' % (tx.message))

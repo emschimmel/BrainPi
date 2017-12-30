@@ -17,12 +17,14 @@ from ShortTermLogMemoryClient import ShortTermLogMemoryClient
 from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 
 from EyePi import EyePiThriftService
-from EyePi.ttypes import *
+from EyePi.ttypes import LoginOutputObject
+from EyePi.ttypes import EyePiInput
+from EyePi.ttypes import EyePiOutput
 from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
 from ThriftException.ttypes import ExternalEndpointUnavailable
 from ThriftException.ttypes import ThriftServiceException
-from GenericStruct.ttypes import *
+from GenericStruct.ttypes import ActionEnum
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -30,6 +32,7 @@ from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
 sys.path.append('../../')
+import pickle
 import config
 import logging
 import random
@@ -52,9 +55,7 @@ class EyePiThriftHandler:
             output = LoginOutputObject()
             if not loginObject.deviceInput and not loginObject.deviceToken:
                 return output
-
             person = LongTermPersonMemoryClient().loginCall(loginObject)
-            print(person)
             if person:
                 output.uniquename = person.uniquename
                 output.details = person.details
@@ -62,13 +63,20 @@ class EyePiThriftHandler:
             if not person:
                 return output
 
-            if not loginObject.deviceToken:
-                output.deviceToken = ShortTermTokenMemoryClient().register_device(loginObject.deviceInput)
-            else:
+            eyeInput = EyePiInput()
+            actions = dict()
+            actions[ActionEnum.LOGIN] = pickle.dumps(person.uniquename, protocol=None, fix_imports=False)
+            eyeInput.action = actions
+            eyeInput.person = person.uniquename
+            if loginObject.deviceToken:
                 output.deviceToken = loginObject.deviceToken
+                eyeInput.deviceToken = loginObject.deviceToken
+            else:
+                deviceToken = ShortTermTokenMemoryClient().register_device(loginObject.deviceInput)
+                output.deviceToken = deviceToken
+                eyeInput.deviceToken = deviceToken
 
-            # todo: check this
-            # output.token = ShortTermTokenMemoryClient().getToken(input)
+            output.token = ShortTermTokenMemoryClient().getToken(eyeInput)
             return output
         except BadHashException as badHash:
             # ShortTermLogMemoryClient().log_thrift_exception(loginObject, badHash)

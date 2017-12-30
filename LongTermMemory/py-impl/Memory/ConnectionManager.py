@@ -4,7 +4,9 @@ sys.path.append('../../')
 import config
 
 sys.path.append('../gen-py')
-from AutorisationStruct.ttypes import *
+from AutorisationStruct.ttypes import Person
+from AutorisationStruct.ttypes import Autorisation
+from AutorisationStruct.ttypes import user_detail
 
 import json
 from thrift import TSerialization
@@ -23,7 +25,7 @@ class State_d:
 class ConnectionManager():
     try:
         from pymongo import MongoClient
-    #    MongoClient = None
+#        MongoClient = None
     except ImportError:
         MongoClient = None
     if MongoClient:
@@ -90,14 +92,15 @@ class ConnectionManager():
             person.enabled = True if jsondata['enabled'] else False
         if 'autorisations' in jsondata:
             autorisation_json = jsondata['autorisations']
-            person.autorisations = dict()
-            for i in range(len(autorisation_json)):
-                if autorisation_json[i]:
-                    autorisation = autorisation()
-                    autorisation.write = True if autorisation_json[i]['write'] else False
-                    autorisation.enabled = True if autorisation_json[i]['enabled'] else False
-                    if autorisation_json[i]['module_config']:
-                        autorisation.module_config = autorisation_json[i]['module_config']
-                    person.autorisations[i] = autorisation
+            person.autorisations = {}
+            for key in autorisation_json:
+                value = autorisation_json[key]
+                autorisation = Autorisation()
+                autorisation.write = True if value['write'] else False
+                autorisation.enabled = True if value['enabled'] else False
+                if value['module_config']:
+                    autorisation.module_config = value['module_config']
+                person.autorisations[int(key)] = autorisation
+        print(person)
         return person
 

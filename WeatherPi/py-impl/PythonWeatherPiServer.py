@@ -12,9 +12,9 @@ sys.path.append('../')
 
 from GenericServerPi import GenericPiThriftService
 from GenericServerPi.ttypes import *
-from GenericStruct.ttypes import *
-from ThriftException.ttypes import *
-from WeatherPi.ttypes import *
+from GenericStruct.ttypes import ActionEnum
+from ThriftException.ttypes import ThriftServiceException
+from WeatherPi.ttypes import WeatherOutput
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport

@@ -5,10 +5,11 @@
 import sys
 sys.path.append('../gen-py')
 
-from EyePi.ttypes import *
-from GenericStruct.ttypes import *
+from EyePi.ttypes import EyePiInput
+from EyePi.ttypes import ConfirmInput
+from GenericStruct.ttypes import ActionEnum
 from AutorisationStruct.ttypes import *
-from WeatherPi.ttypes import *
+from WeatherPi.ttypes import WeatherInput
 
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi

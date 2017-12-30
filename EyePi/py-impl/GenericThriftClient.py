@@ -13,7 +13,8 @@ from GenericStruct.constants import *
 from GenericServerPi import GenericPiThriftService
 from GenericServerPi.ttypes import *
 from GenericServerPi.constants import *
-from ThriftException.ttypes import *
+from ThriftException.ttypes import ThriftServiceException
+from ThriftException.ttypes import ExternalEndpointUnavailable
 
 from thrift import Thrift
 from thrift.transport import TSocket

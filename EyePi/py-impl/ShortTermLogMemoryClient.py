@@ -2,7 +2,8 @@ import random
 import sys
 sys.path.append('../gen-py')
 from ShortMemory import ShortMemoryService
-from ShortMemory.ttypes import *
+from ShortMemory.ttypes import LogObject
+from ShortMemory.ttypes import Log
 from ThriftException.ttypes import *
 
 from thrift import Thrift
@@ -91,6 +92,7 @@ class ShortTermLogMemoryClient:
             client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
             client.writeLog(input)
+            transport.close()
         except Thrift.TException as tx:
             print('%s' % (tx.message))
         except Exception as ex:

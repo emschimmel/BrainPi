@@ -7,9 +7,8 @@ sys.path.append('../gen-py')
 
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 
-from EyePi.ttypes import *
-from EyePi.constants import *
-from GenericStruct.ttypes import *
+from EyePi.ttypes import EyePiInput
+from GenericStruct.ttypes import ActionEnum
  
 from thrift import Thrift
 import pickle

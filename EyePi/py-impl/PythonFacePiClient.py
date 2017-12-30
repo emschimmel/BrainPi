@@ -4,13 +4,15 @@ import sys
 sys.path.append('../gen-py')
  
 from FacePi import FacePiThriftService
-from FacePi.ttypes import *
+from FacePi.ttypes import FacePiInput
 from FacePi.constants import *
  
 from thrift import Thrift
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
+from ThriftException.ttypes import ThriftServiceException
+from ThriftException.ttypes import ExternalEndpointUnavailable
 
 from dns import resolver
 sys.path.append('../../')
