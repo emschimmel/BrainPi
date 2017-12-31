@@ -110,7 +110,6 @@ def unregister():
     c.agent.service.deregister("short-term-memory-%d" % port)
     c.agent.service.deregister("short-term-memory")
     log.info("services: " + str(c.agent.services()))
-    print(str(c.agent.services()))
 
 def interupt_manager():
     signal.signal(signal.SIGINT, signal.SIG_IGN)
