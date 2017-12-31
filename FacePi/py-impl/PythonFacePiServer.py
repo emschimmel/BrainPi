@@ -46,7 +46,7 @@ class FacePiThriftHandler:
     @stat.timer("handleRequest")
     def handleRequest(self, input):
         try:
-            inputImage = pickle.loads(bytes_object=input.image, fix_imports=False, encoding="ASCII", errors="strict")
+            inputImage = pickle.loads(input.image, fix_imports=False, encoding="ASCII", errors="strict")
             # inputImage = input.image
             #HaarFaceDetection().detectFaceWithEyes(inputImage)
             #faces = RecognitionManager().recon_face(inputImage)

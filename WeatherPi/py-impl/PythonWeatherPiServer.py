@@ -43,7 +43,7 @@ class WeatherPiThriftHandler:
     def handleRequest(self, input):
         print("weather pi!")
         try:
-            input_object = pickle.loads(bytes_object=input, fix_imports=False, encoding="ASCII", errors="strict")
+            input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
             wind, humidity, temperature = OpenWeather().getWeather(input=input_object.location)
 
             output = WeatherOutput()
