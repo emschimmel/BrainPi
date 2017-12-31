@@ -46,12 +46,12 @@ try:
 
     nparr = np.fromstring(readfile, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    input.image = pickle.dumps(image, protocol=None, fix_imports=False)
+    input.image = pickle.dumps(obj=image, protocol=None, fix_imports=False)
 
     actions = dict()
     weather_input = WeatherInput()
     weather_input.location = 'Amsterdam,nl'
-    actionParameter = pickle.dumps(weather_input, protocol=None, fix_imports=False)
+    actionParameter = pickle.dumps(obj=weather_input, protocol=None, fix_imports=False)
     actions[ActionEnum.WEATHER] = actionParameter
     input.action = actions
     #parameter = GenericObject()

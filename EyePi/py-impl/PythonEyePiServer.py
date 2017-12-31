@@ -55,7 +55,7 @@ class EyePiThriftHandler:
             output = LoginOutputObject()
             if not loginObject.deviceInput and not loginObject.deviceToken:
                 return output
-            person = LongTermPersonMemoryClient().loginCall(loginObject)
+            person = LongTermPersonMemoryClient().loginCall(loginobject=loginObject)
             if person:
                 output.uniquename = person.uniquename
                 output.details = person.details
@@ -65,7 +65,7 @@ class EyePiThriftHandler:
 
             eyeInput = EyePiInput()
             actions = dict()
-            actions[ActionEnum.LOGIN] = pickle.dumps(person.uniquename, protocol=None, fix_imports=False)
+            actions[ActionEnum.LOGIN] = pickle.dumps(obj=person.uniquename, protocol=None, fix_imports=False)
             eyeInput.action = actions
             eyeInput.person = person.uniquename
             if loginObject.deviceToken:

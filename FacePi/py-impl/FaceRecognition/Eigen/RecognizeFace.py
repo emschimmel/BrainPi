@@ -14,7 +14,7 @@ class RecognizeFace():
     def reconFaceWithCam(self):
         output = dict()
         with open('./Data/namedIds.yml', 'rb') as namedIdsFile:
-            self.namedIds = pickle.loads(namedIdsFile.read())
+            self.namedIds = pickle.loads(bytes_object=namedIdsFile.read())
         recon = self.recon_face_with_camera()
         print(recon)
         list_names = []
@@ -29,7 +29,7 @@ class RecognizeFace():
     def reconFaceFromImage(self, image):
         output = dict()
         with open('./Data/namedIds.yml', 'rb') as namedIdsFile:
-            self.namedIds = pickle.loads(namedIdsFile.read())
+            self.namedIds = pickle.loads(bytes_object=namedIdsFile.read())
         recon = self.recon_face_with_file(image)
         print(recon)
         list_names = []

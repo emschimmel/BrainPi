@@ -46,7 +46,7 @@ class FacePiThriftHandler:
     @stat.timer("handleRequest")
     def handleRequest(self, input):
         try:
-            inputImage = pickle.loads(input.image, fix_imports=False, encoding="ASCII", errors="strict")
+            inputImage = pickle.loads(bytes_object=input.image, fix_imports=False, encoding="ASCII", errors="strict")
             # inputImage = input.image
             #HaarFaceDetection().detectFaceWithEyes(inputImage)
             #faces = RecognitionManager().recon_face(inputImage)
@@ -60,7 +60,7 @@ class FacePiThriftHandler:
                     person.person = '== Hans =='
                     person.chance = 90.0
                 #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
-                    person.image = pickle.dumps(face, protocol=None, fix_imports=False)
+                    person.image = pickle.dumps(obj=face, protocol=None, fix_imports=False)
                     personList.append(person)
             output = FacePiOutput()
             output.personCollection = personList

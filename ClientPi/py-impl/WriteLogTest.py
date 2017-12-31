@@ -17,7 +17,7 @@ try:
     input = EyePiInput()
     input.deviceToken = 'myLaptop'
     action = dict()
-    action[ActionEnum.LOGIN] = pickle.dumps("testdata", protocol=None, fix_imports=False)
+    action[ActionEnum.LOGIN] = pickle.dumps(obj="testdata", protocol=None, fix_imports=False)
     input.action = action
     ConnectEyePi().writeLog(input)
  

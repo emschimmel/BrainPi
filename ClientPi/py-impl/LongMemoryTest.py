@@ -58,7 +58,7 @@ def test2():
         autorisation = Autorisation()
         autorisation.write_enabled = True
         autorisation.enabled = True
-        autorisation.module_config = pickle.dumps("unique name", protocol=None, fix_imports=False)
+        autorisation.module_config = pickle.dumps(obj="unique name", protocol=None, fix_imports=False)
 
         actions = dict()
         actions[ActionEnum.LOGIN] = autorisation

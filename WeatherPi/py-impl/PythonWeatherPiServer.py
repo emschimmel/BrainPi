@@ -43,7 +43,7 @@ class WeatherPiThriftHandler:
     def handleRequest(self, input):
         print("weather pi!")
         try:
-            input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
+            input_object = pickle.loads(bytes_object=input, fix_imports=False, encoding="ASCII", errors="strict")
             wind, humidity, temperature = OpenWeather().getWeather(input_object.location)
 
             output = WeatherOutput()
@@ -53,7 +53,7 @@ class WeatherPiThriftHandler:
             output.temperature_temp = "%s" % temperature['temp']
             output.temperature_temp_max = "%s" % temperature['temp_max']
             output.temperature_temp_min = "%s" % temperature['temp_min']
-            pickle_output = pickle.dumps(output, protocol=None, fix_imports=False)
+            pickle_output = pickle.dumps(obj=output, protocol=None, fix_imports=False)
             return pickle_output
 
         except Exception as ex:
