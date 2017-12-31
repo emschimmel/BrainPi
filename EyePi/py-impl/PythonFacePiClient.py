@@ -23,7 +23,7 @@ class FacePiThriftClient:
         self.log = {}
 
     def handle_request(self, image):
-        ip, port = self.resolve_config()
+        ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
@@ -45,7 +45,7 @@ class FacePiThriftClient:
             transport.close()
 
     def confim_face(self, input):
-        ip, port = self.resolve_config()
+        ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             transport = TTransport.TBufferedTransport(transport) # Buffering is critical. Raw sockets are very slow
@@ -73,7 +73,7 @@ class FacePiThriftClient:
         finally:
             transport.close()
 
-    def resolve_config(self):
+    def __resolve_config(self):
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

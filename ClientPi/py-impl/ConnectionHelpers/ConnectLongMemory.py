@@ -15,18 +15,8 @@ import config
 
 class ConnectLongMemory:
 
-    def resolve_longmemory_config(self):
-        consul_resolver = resolver.Resolver()
-        consul_resolver.port = config.consul_resolver_port
-        consul_resolver.nameservers = [config.consul_ip]
-        dnsanswer = consul_resolver.query("long-term-memory.service.consul.", "A")
-        ip = str(dnsanswer[0])
-        dnsanswer_srv = consul_resolver.query("long-term-memory.service.consul.", "SRV")
-        port = int(str(random.choice(dnsanswer_srv)).split()[2])
-        return ip, port
-
     def getPersonConfig(self, input):
-        ip, port = self.resolve_longmemory_config()
+        ip, port = self.__resolve_longmemory_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -44,7 +34,7 @@ class ConnectLongMemory:
             transport.close()
 
     def getAll(self):
-        ip, port = self.resolve_longmemory_config()
+        ip, port = self.__resolve_longmemory_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -62,7 +52,7 @@ class ConnectLongMemory:
             transport.close()
 
     def storeNewPerson(self, input):
-        ip, port = self.resolve_longmemory_config()
+        ip, port = self.__resolve_longmemory_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -77,7 +67,7 @@ class ConnectLongMemory:
             transport.close()
 
     def login(self, input):
-        ip, port = self.resolve_longmemory_config()
+        ip, port = self.__resolve_longmemory_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -92,7 +82,15 @@ class ConnectLongMemory:
         finally:
             transport.close()
 
-
+    def __resolve_longmemory_config(self):
+        consul_resolver = resolver.Resolver()
+        consul_resolver.port = config.consul_resolver_port
+        consul_resolver.nameservers = [config.consul_ip]
+        dnsanswer = consul_resolver.query("long-term-memory.service.consul.", "A")
+        ip = str(dnsanswer[0])
+        dnsanswer_srv = consul_resolver.query("long-term-memory.service.consul.", "SRV")
+        port = int(str(random.choice(dnsanswer_srv)).split()[2])
+        return ip, port
 
 
 

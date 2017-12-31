@@ -43,18 +43,18 @@ class ConnectionManager():
         storage = State_d(LocalMockImplementation.LocalMockImplementation())
 
     def get(self, key):
-        return self.translateToJson(self.storage.get(key))
+        return self.__translateToJson(self.storage.get(key))
 
     def get_all(self):
         result = []
         for item in self.storage.get_all():
-            result.append(self.translateToJson(item))
+            result.append(self.__translateToJson(item))
         return result
 
     def get_by_query(self, query):
         result = []
         for item in self.storage.get_by_query(query):
-            result.append(self.translateToJson(item))
+            result.append(self.__translateToJson(item))
         return result
 
     def store_new(self, value):
@@ -70,7 +70,7 @@ class ConnectionManager():
     def delete(self, uniquename):
         self.storage.delete(uniquename)
 
-    def translateToJson(self, jsondata):
+    def __translateToJson(self, jsondata):
         # thrift_string = TSerialization.deserialize(
         #     jsondata, None, TBinaryProtocol.TBinaryProtocolFactory())
         # person = thrift_string

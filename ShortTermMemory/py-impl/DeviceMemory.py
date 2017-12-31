@@ -14,7 +14,7 @@ class DeviceMemory:
 
     def generateDeviceToken(self, input):
         print("generate device token")
-        key = self.generateNewDeviceToken()
+        key = self.__generateNewDeviceToken()
         print(key)
         self.consul_instance.kv.put(key, str(input))
 
@@ -27,9 +27,9 @@ class DeviceMemory:
             return True
         return False
 
-    def generateNewDeviceToken(self):
+    def __generateNewDeviceToken(self):
         newToken = ''.join(random.choice(string.ascii_uppercase) for _ in range(8))
         if self.validateDeviceToken(newToken):
-            self.generateNewDeviceToken()
+            self.__generateNewDeviceToken()
         else:
             return newToken

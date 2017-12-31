@@ -29,11 +29,11 @@ class ShortTermTokenMemoryClient:
         ts = time.time()
         inputToken.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         inputToken.time = ts
-        return self.get_token_from_service(inputToken)
+        return self.__get_token_from_service(inputToken)
 
     def validateToken(self, inputToken, deviceToken):
         print('short term memory handler')
-        ip, port = self.resolve_config()
+        ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
@@ -52,7 +52,7 @@ class ShortTermTokenMemoryClient:
             transport.close()
 
     def register_device(self, inputDevice):
-        ip, port = self.resolve_config()
+        ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
@@ -69,8 +69,8 @@ class ShortTermTokenMemoryClient:
         finally:
             transport.close()
 
-    def get_token_from_service(self, inputToken):
-        ip, port = self.resolve_config()
+    def __get_token_from_service(self, inputToken):
+        ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
@@ -87,7 +87,7 @@ class ShortTermTokenMemoryClient:
         finally:
             transport.close()
 
-    def resolve_config(self):
+    def __resolve_config(self):
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

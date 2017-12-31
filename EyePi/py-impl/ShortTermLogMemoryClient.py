@@ -34,7 +34,7 @@ class ShortTermLogMemoryClient:
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         log.key = ts
         log.value = logObject
-        self.write_log(log)
+        self.__write_log(log)
 
     def log_thrift_exception(self, input, exception):
         log = Log()
@@ -49,7 +49,7 @@ class ShortTermLogMemoryClient:
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         log.key = ts
         log.value = logObject
-        self.write_log(log)
+        self.__write_log(log)
 
     def log_thrift_endpoint_exception(self, input, exception):
         log = Log()
@@ -64,7 +64,7 @@ class ShortTermLogMemoryClient:
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         log.key = ts
         log.value = logObject
-        self.write_log(log)
+        self.__write_log(log)
 
     def log_event(self, input, message):
         log = Log()
@@ -79,11 +79,11 @@ class ShortTermLogMemoryClient:
         log.key = ts
         log.value = logObject
         print(log)
-        self.write_log(log)
+        self.__write_log(log)
 
-    def write_log(self, input):
+    def __write_log(self, input):
         print('short term memory handler, write log')
-        ip, port = self.resolve_config()
+        ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
@@ -99,7 +99,7 @@ class ShortTermLogMemoryClient:
         finally:
             transport.close()
 
-    def resolve_config(self):
+    def __resolve_config(self):
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

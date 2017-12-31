@@ -67,6 +67,7 @@ class LongTermMemoryThriftServer:
         except BadHashException as bad:
             raise bad
 
+    @stat.timer("getAll")
     def getAll(self):
         try:
             return PersonMemory().getAll()

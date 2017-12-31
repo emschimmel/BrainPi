@@ -21,7 +21,7 @@ class LongTermPersonMemoryClient:
 
     def loginCall(self, loginInput):
         print('Long term memory handler, login %s' % input)
-        ip, port = self.resolve_config()
+        ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             lmLoginInput = LongMemoryLoginInputObject()
@@ -51,7 +51,7 @@ class LongTermPersonMemoryClient:
 
     def get_Person(self, input):
         print('Long term memory handler, get Person %s' % input)
-        ip, port = self.resolve_config()
+        ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
@@ -68,7 +68,7 @@ class LongTermPersonMemoryClient:
         finally:
             transport.close()
 
-    def resolve_config(self):
+    def __resolve_config(self):
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

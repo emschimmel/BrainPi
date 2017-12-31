@@ -27,7 +27,7 @@ class GenericThriftClient:
 
     def handle_request(self, action, input, output):
         print('generic handler %s' % action)
-        ip, port = self.resolve_config(action)
+        ip, port = self.__resolve_config(action)
         transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
@@ -53,7 +53,7 @@ class GenericThriftClient:
         finally:
             transport.close()
 
-    def resolve_config(self, action):
+    def __resolve_config(self, action):
         c = consul.Consul(host=config.consul_ip, port=config.consul_resolver_port)
         key = '%d' % action
         index, data = c.kv.get(key)

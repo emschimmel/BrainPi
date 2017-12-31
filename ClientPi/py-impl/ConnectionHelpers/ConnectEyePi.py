@@ -15,18 +15,8 @@ import config
 
 class ConnectEyePi:
 
-    def resolve_eye_config(self):
-        consul_resolver = resolver.Resolver()
-        consul_resolver.port = config.consul_resolver_port
-        consul_resolver.nameservers = [config.consul_ip]
-        dnsanswer = consul_resolver.query("eye-pi.service.consul.", "A")
-        ip = str(dnsanswer[0])
-        dnsanswer_srv = consul_resolver.query("eye-pi.service.consul.", "SRV")
-        port = int(str(random.choice(dnsanswer_srv)).split()[2])
-        return ip, port
-
     def login(self, input):
-        ip, port = self.resolve_eye_config()
+        ip, port = self.__resolve_eye_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -43,7 +33,7 @@ class ConnectEyePi:
 
 
     def handleRequest(self, input):
-        ip, port = self.resolve_eye_config()
+        ip, port = self.__resolve_eye_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -63,7 +53,7 @@ class ConnectEyePi:
             transport.close()
 
     def confimFace(self, input):
-        ip, port = self.resolve_eye_config()
+        ip, port = self.__resolve_eye_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -78,7 +68,7 @@ class ConnectEyePi:
             transport.close()
 
     def writeLog(self, input):
-        ip, port = self.resolve_eye_config()
+        ip, port = self.__resolve_eye_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -92,6 +82,15 @@ class ConnectEyePi:
         finally:
             transport.close()
 
+    def __resolve_eye_config(self):
+        consul_resolver = resolver.Resolver()
+        consul_resolver.port = config.consul_resolver_port
+        consul_resolver.nameservers = [config.consul_ip]
+        dnsanswer = consul_resolver.query("eye-pi.service.consul.", "A")
+        ip = str(dnsanswer[0])
+        dnsanswer_srv = consul_resolver.query("eye-pi.service.consul.", "SRV")
+        port = int(str(random.choice(dnsanswer_srv)).split()[2])
+        return ip, port
 
 
 

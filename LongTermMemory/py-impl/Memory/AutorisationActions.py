@@ -10,7 +10,7 @@ class AutorisationActions():
     con = ConnectionManager.ConnectionManager()
 
     def login(self, loginobject):
-        if self.checkHash(loginobject.password):
+        if self.__checkHash(loginobject.password):
             query = dict()
             query['username'] = loginobject.username
             if loginobject.password:
@@ -26,10 +26,10 @@ class AutorisationActions():
             raise BadHashException()
 
     def changePassword(self, username, password):
-        if self.checkHash(password):
+        if self.__checkHash(password):
             pass
         else:
             raise BadHashException()
 
-    def checkHash(self, password):
+    def __checkHash(self, password):
         return True

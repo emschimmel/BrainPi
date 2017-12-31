@@ -19,20 +19,9 @@ class DeviceRegistrator:
 
     device_token = None
 
-    def resolve_stm_config(self):
-        consul_resolver = resolver.Resolver()
-        consul_resolver.port = config.consul_resolver_port
-        consul_resolver.nameservers = [config.consul_ip]
-
-        dnsanswer = consul_resolver.query("short-term-memory.service.consul.", 'A')
-        ip = str(dnsanswer[0])
-        dnsanswer_srv = consul_resolver.query("short-term-memory.service.consul.", 'SRV')
-        port = int(str(random.choice(dnsanswer_srv)).split()[2])
-        return ip, port
-
     def register_device(self):
         if not self.device_token:
-            ip, port = self.resolve_stm_config()
+            ip, port = self.__resolve_stm_config()
             transport = TSocket.TSocket(ip, port)  # Make socket
             try:
                 transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
@@ -51,4 +40,16 @@ class DeviceRegistrator:
             finally:
                 transport.close()
         return self.device_token
+
+    def __resolve_stm_config(self):
+        consul_resolver = resolver.Resolver()
+        consul_resolver.port = config.consul_resolver_port
+        consul_resolver.nameservers = [config.consul_ip]
+
+        dnsanswer = consul_resolver.query("short-term-memory.service.consul.", 'A')
+        ip = str(dnsanswer[0])
+        dnsanswer_srv = consul_resolver.query("short-term-memory.service.consul.", 'SRV')
+        port = int(str(random.choice(dnsanswer_srv)).split()[2])
+        return ip, port
+
 
