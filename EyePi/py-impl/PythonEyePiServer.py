@@ -55,7 +55,7 @@ class EyePiThriftHandler:
             output = LoginOutputObject()
             if not loginObject.deviceInput and not loginObject.deviceToken:
                 return output
-            person = LongTermPersonMemoryClient().loginCall(loginobject=loginObject)
+            person = LongTermPersonMemoryClient().loginCall(loginObject)
             if person:
                 output.uniquename = person.uniquename
                 output.details = person.details

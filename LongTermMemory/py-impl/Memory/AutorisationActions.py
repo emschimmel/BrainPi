@@ -7,7 +7,7 @@ from . import ConnectionManager
 
 class AutorisationActions():
 
-    con = ConnectionManager.ConnectionManager()
+    __con = ConnectionManager.ConnectionManager()
 
     def login(self, loginobject):
         if self.__checkHash(loginobject.password):
@@ -18,7 +18,7 @@ class AutorisationActions():
             if loginobject.code:
                 query['code'] = loginobject.code
             query['enabled'] = 1
-            personList = self.con.get_by_query(query)
+            personList = self.__con.get_by_query(query)
             if personList:
                 return personList[0]
             raise LoginFailedException()

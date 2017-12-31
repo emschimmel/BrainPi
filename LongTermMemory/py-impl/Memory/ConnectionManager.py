@@ -32,45 +32,51 @@ class ConnectionManager():
         try:
             client = MongoClient(host=config.mongo_service_ip, port=config.mongo_service_port)
             from . import MongoImplementation
-            storage = State_d(MongoImplementation.MongoImplementation())
+            storage = State_d(imp=MongoImplementation.MongoImplementation())
         except Exception as ex:
             print("mongodb is a requirement")
             from . import LocalMockImplementation
-            storage = State_d(LocalMockImplementation.LocalMockImplementation())
+            storage = State_d(imp=LocalMockImplementation.LocalMockImplementation())
     else:
         print("mongodb is a requirement")
         from . import LocalMockImplementation
-        storage = State_d(LocalMockImplementation.LocalMockImplementation())
+        storage = State_d(imp=LocalMockImplementation.LocalMockImplementation())
 
+    @classmethod
     def get(self, key):
-        return self.__translateToJson(self.storage.get(key))
+        return self.__translateToJson(jsondata=self.storage.get(uniquename=key))
 
+    @classmethod
     def get_all(self):
         result = []
         for item in self.storage.get_all():
-            result.append(self.__translateToJson(item))
+            result.append(self.__translateToJson(jsondata=item))
         return result
 
+    @classmethod
     def get_by_query(self, query):
         result = []
-        for item in self.storage.get_by_query(query):
-            result.append(self.__translateToJson(item))
+        for item in self.storage.get_by_query(criteria=query):
+            result.append(self.__translateToJson(jsondata=item))
         return result
 
+    @classmethod
     def store_new(self, value):
         thrift_json_string = TSerialization.serialize(
             value, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
         result = json.loads(thrift_json_string)
-        print(result)
         self.storage.store_new(result)
 
+    @classmethod
     def update(self, uniquename, value, field):
-        self.storage.update(uniquename, value, field)
+        self.storage.update(uniquename=uniquename, value=value, field=field)
 
+    @classmethod
     def delete(self, uniquename):
-        self.storage.delete(uniquename)
+        self.storage.delete(uniquename=uniquename)
 
-    def __translateToJson(self, jsondata):
+    @staticmethod
+    def __translateToJson(jsondata):
         # thrift_string = TSerialization.deserialize(
         #     jsondata, None, TBinaryProtocol.TBinaryProtocolFactory())
         # person = thrift_string
@@ -102,6 +108,5 @@ class ConnectionManager():
                 if value['module_config']:
                     autorisation.module_config = value['module_config']
                 person.autorisations[int(key)] = autorisation
-        print(person)
         return person
 

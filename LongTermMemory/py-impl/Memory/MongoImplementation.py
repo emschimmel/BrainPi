@@ -6,40 +6,48 @@ from pymongo import MongoClient
 
 
 class MongoImplementation():
+    __mongoClient = MongoClient(host=config.mongo_service_ip, port=config.mongo_service_port)
+    __person_db = __mongoClient.person_database
+
     def __init__(self):
-        self.mongoClient = MongoClient(host=config.mongo_service_ip, port=config.mongo_service_port)
-        self.person_db = self.mongoClient.person_database
+        pass
 
-
+    @classmethod
     def get(self, uniquename):
         print('mongo get')
-        return self.person_db.person_collection.find_one({'uniquename': uniquename})
+        return self.__person_db.person_collection.find_one({'uniquename': uniquename})
 
+    @classmethod
     def get_all(self):
         print('mongo get all')
         documents = []
-        cursor = self.person_db.person_collection.find({})
+        cursor = self.__person_db.person_collection.find({})
         for document in cursor:
             documents.append(document)
         return cursor
 
+    @classmethod
     def drop_collection(self):
-        self.person_db.person_collection.drop()
+        self.__person_db.person_collection.drop()
 
+    @classmethod
     def get_by_query(self, criteria):
         print('mongo get by query')
-        return self.person_db.person_collection.find(criteria)
+        return self.__person_db.person_collection.find(criteria)
 
+    @classmethod
     def store_new(self, value):
         print('mongo put')
-        self.person_db.person_collection.insert_one(value)
+        self.__person_db.person_collection.insert_one(value)
 
+    @classmethod
     def update(self, uniquename, value, field):
         person = self.get(uniquename)
         person[field] = value
-        self.person_db.person_collection.update({'_id':person._id}, {'$set': person}, upsert=False)
+        self.__person_db.person_collection.update({'_id':person._id}, {'$set': person}, upsert=False)
         print('mongo update')
 
+    @classmethod
     def delete(self, uniquename):
         print('mongo delete')
-        self.person_db.person_collection.delete_one({'uniquename' : uniquename})
+        self.__person_db.person_collection.delete_one({'uniquename' : uniquename})
