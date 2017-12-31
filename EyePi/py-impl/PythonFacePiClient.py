@@ -22,6 +22,7 @@ class FacePiThriftClient:
     def __init__(self):
         self.log = {}
 
+    @classmethod
     def handle_request(self, image):
         ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
@@ -33,7 +34,7 @@ class FacePiThriftClient:
 
             input = FacePiInput()
             input.image = image
-            output = client.handleRequest(input)
+            output = client.handleRequest(input=input)
             print(output)
             transport.close()
             return output.personCollection
@@ -44,6 +45,7 @@ class FacePiThriftClient:
         finally:
             transport.close()
 
+    @classmethod
     def confim_face(self, input):
         ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket
@@ -56,7 +58,7 @@ class FacePiThriftClient:
             # input = ConfirmInput()
             # input.image = image
             # input.person = person
-            client.confimFace(input)
+            client.confimFace(input=input)
             transport.close()
         except Thrift.TException as tx:
             print('%s' % (tx.message))
@@ -73,7 +75,8 @@ class FacePiThriftClient:
         finally:
             transport.close()
 
-    def __resolve_config(self):
+    @staticmethod
+    def __resolve_config():
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

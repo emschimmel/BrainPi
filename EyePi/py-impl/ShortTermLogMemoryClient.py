@@ -22,6 +22,7 @@ class ShortTermLogMemoryClient:
     def __init__(self):
         self.log = {}
 
+    @classmethod
     def log_exception(self, input, exception):
         log = Log()
         logObject = LogObject()
@@ -36,6 +37,7 @@ class ShortTermLogMemoryClient:
         log.value = logObject
         self.__write_log(log)
 
+    @classmethod
     def log_thrift_exception(self, input, exception):
         log = Log()
         logObject = LogObject()
@@ -51,6 +53,7 @@ class ShortTermLogMemoryClient:
         log.value = logObject
         self.__write_log(log)
 
+    @classmethod
     def log_thrift_endpoint_exception(self, input, exception):
         log = Log()
         logObject = LogObject()
@@ -66,6 +69,7 @@ class ShortTermLogMemoryClient:
         log.value = logObject
         self.__write_log(log)
 
+    @classmethod
     def log_event(self, input, message):
         log = Log()
         logObject = LogObject()
@@ -81,6 +85,7 @@ class ShortTermLogMemoryClient:
         print(log)
         self.__write_log(log)
 
+    @classmethod
     def __write_log(self, input):
         print('short term memory handler, write log')
         ip, port = self.__resolve_config()
@@ -99,7 +104,8 @@ class ShortTermLogMemoryClient:
         finally:
             transport.close()
 
-    def __resolve_config(self):
+    @staticmethod
+    def __resolve_config():
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

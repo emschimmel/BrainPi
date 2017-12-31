@@ -19,6 +19,7 @@ class LongTermPersonMemoryClient:
     def __init__(self):
         self.log = {}
 
+    @classmethod
     def loginCall(self, loginInput):
         print('Long term memory handler, login %s' % input)
         ip, port = self.__resolve_config()
@@ -34,7 +35,7 @@ class LongTermPersonMemoryClient:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-            person = client.loginCall(lmLoginInput)
+            person = client.loginCall(loginobject=lmLoginInput)
             transport.close()
             return person
         except LoginFailedException as fail:
@@ -49,6 +50,7 @@ class LongTermPersonMemoryClient:
         finally:
             transport.close()
 
+    @classmethod
     def get_Person(self, input):
         print('Long term memory handler, get Person %s' % input)
         ip, port = self.__resolve_config()
@@ -58,7 +60,7 @@ class LongTermPersonMemoryClient:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-            person = client.getPersonConfig(input)
+            person = client.getPersonConfig(uniquename=input)
             transport.close()
             return person
         except Thrift.TException as tx:
@@ -68,7 +70,8 @@ class LongTermPersonMemoryClient:
         finally:
             transport.close()
 
-    def __resolve_config(self):
+    @staticmethod
+    def __resolve_config():
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]
