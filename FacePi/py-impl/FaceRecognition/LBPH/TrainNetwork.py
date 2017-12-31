@@ -23,7 +23,7 @@ class TrainNetwork():
         faceSamples.append(gray_image)
         Ids = []
         Ids.append(id)
-        self.__write_to_disc(image, name)
+        self.__write_to_disc(image=image, name=name)
         recognizer.update(faceSamples, np.array(Ids))
         # recognizer.save('./Data/trainer.yml')
         recognizer.write(config.lbph_trainer_file)
