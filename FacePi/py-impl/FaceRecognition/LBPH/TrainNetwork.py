@@ -11,11 +11,10 @@ import config
 class TrainNetwork():
 
     def __init__(self):
-        self.log = {}
+        pass
 
+    @classmethod
     def learn(self, image, name, id):
-
-        self.log = {}
         recognizer = cv2.face.LBPHFaceRecognizer_create()
         recognizer.read(config.lbph_trainer_file)
     #    faces, Ids
@@ -24,20 +23,23 @@ class TrainNetwork():
         faceSamples.append(gray_image)
         Ids = []
         Ids.append(id)
-        self.write_to_disc(image, name)
+        self.__write_to_disc(image, name)
         recognizer.update(faceSamples, np.array(Ids))
         # recognizer.save('./Data/trainer.yml')
         recognizer.write(config.lbph_trainer_file)
 
+    @classmethod
     def basicTrain(self):
         self.getImagesAndLabels()
 
-    def trainAndWrite(self, faces, Ids):
+    @staticmethod
+    def trainAndWrite(faces, Ids):
         recognizer = cv2.face.LBPHFaceRecognizer_create()
         recognizer.train(faces, np.array(Ids))
         #recognizer.save('./Data/trainer.yml')
         recognizer.write(config.lbph_trainer_file)
 
+    @classmethod
     def getImagesAndLabels(self):
         path = config.lbph_data_path
 
@@ -52,7 +54,7 @@ class TrainNetwork():
             print(name)
             print(label)
             print(imagePath)
-            imageCollection = self.read_image(imagePath)
+            imageCollection = self.__read_image(path=imagePath)
             print(len(imageCollection))
             for filename in imageCollection:
                 try:
@@ -81,13 +83,15 @@ class TrainNetwork():
             with open(config.lbph_name_id_file, 'wb') as namedIdsFile:
                 pickle.dump(namedIds, namedIdsFile)
 
-    def write_to_disc(self, image, name):
+    @staticmethod
+    def __write_to_disc(image, name):
         save_name = name.replace(' ', '_', -1)
         file_name = config.lbph_data_path + save_name + '/' + save_name + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '.jpg'
         print(file_name)
         cv2.imwrite(file_name, image)
 
-    def read_image(self, path):
+    @staticmethod
+    def __read_image(path):
         print(path)
         try:
             root, dirs, files=next(os.walk(path))

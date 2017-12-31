@@ -44,7 +44,7 @@ class WeatherPiThriftHandler:
         print("weather pi!")
         try:
             input_object = pickle.loads(bytes_object=input, fix_imports=False, encoding="ASCII", errors="strict")
-            wind, humidity, temperature = OpenWeather().getWeather(input_object.location)
+            wind, humidity, temperature = OpenWeather().getWeather(input=input_object.location)
 
             output = WeatherOutput()
             output.humidity = "%s" % humidity
