@@ -3,6 +3,7 @@
 thrift -gen py ThriftException.thrift
 thrift -gen py GenericStruct.thrift
 thrift -gen py AutorisationStruct.thrift
+thrift -gen py EarPi.thrift
 thrift -gen py EyePi.thrift
 thrift -gen py FacePi.thrift
 thrift -gen py GenericServerPi.thrift
@@ -65,7 +66,17 @@ cp -Rf ./gen-py/LongMemory          ../LongTermMemory/gen-py/
 cp -Rf ./gen-py/ThriftException     ../LongTermMemory/gen-py/
 
 #EarPI
-cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/src/main/java/nl/earpi/generated/
+cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/Java/src/main/java/nl/earpi/generated/
+cp -Rf ./gen-py/EarPi                   ../EarPi/Python/gen-py/
+cp -Rf ./gen-py/GenericStruct           ../EarPi/Python/gen-py/
+cp -Rf ./gen-py/AutorisationStruct      ../EarPi/Python/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../EarPi/Python/gen-py/
+cp -Rf ./gen-py/ShortMemory             ../EarPi/Python/gen-py/
+cp -Rf ./gen-py/LongMemory              ../EarPi/Python/gen-py/
+cp -Rf ./gen-py/ThriftException         ../EarPi/Python/gen-py/
 
 # AdminConsole
-cp -Rf ./gen-py/EyePi           ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/GenericStruct       ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/EyePi               ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/AutorisationStruct  ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/ThriftException     ../AdminConsolePi/gen-py/

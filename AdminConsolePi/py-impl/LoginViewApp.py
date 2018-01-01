@@ -1,6 +1,19 @@
+import sys
+
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.popup import Popup
+
+sys.path.append('../gen-py')
+
+from EyePi import EyePiThriftService
+from EyePi.ttypes import *
+from AutorisationStruct.ttypes import *
+
+from ConnectionHelpers.ConnectEyePi import ConnectEyePi
+
+
+from ThriftException.ttypes import *
 
 root = Builder.load_string('''
 #:import Factory kivy.factory.Factory
@@ -62,11 +75,15 @@ class LoginView(Popup):
         app.password = passwordText
 
         try:
-            input = LongMemoryLoginInputObject()
+            input = LoginInputObject()
             input.username = loginText
             input.password = passwordText
             input.code = '12345'
-            output = ConnectLongMemory().login(input)
+            inputDevice = DeviceTokenInput()
+            inputDevice.ip = '127.0.0.1'
+            inputDevice.devicetype = 'Development'
+            input.deviceInput = inputDevice
+            output = ConnectEyePi().login(input)
             print(output)
         except Thrift.TException as tx:
             print("%s" % (tx.message))
