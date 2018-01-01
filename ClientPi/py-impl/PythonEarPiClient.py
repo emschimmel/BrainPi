@@ -79,9 +79,29 @@ class testFlow:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    def getUserList(self):
+        try:
+            tokenInput = self.createEarPiAuthObject()
+            output = ConnectEarPi().getUserList(tokenInput)
+            print(output.personList)
+            self.__token = output.token
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
+    def createEarPiAuthObject(self):
+        tokenObject = EarPiAuthObject()
+        tokenObject.token = self.__token
+        tokenObject.deviceToken = self.__devicetoken
+        return tokenObject
+
+
+
+
 
 
 if __name__ == '__main__':
-    testFlow().enterFirstPerson()
-    testFlow().loginWithUser()
+    classUnderTest = testFlow()
+    classUnderTest.enterFirstPerson()
+    classUnderTest.loginWithUser()
+    classUnderTest.getUserList()
 

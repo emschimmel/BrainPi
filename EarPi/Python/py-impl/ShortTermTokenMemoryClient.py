@@ -82,7 +82,7 @@ class ShortTermTokenMemoryClient:
             client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
 
-            output = client.validateToken(inputToken=earPiAuthObject.token, deviceToken=earPiAuthObject.deviceToken)
+            output = client.validateToken(token=earPiAuthObject.token, deviceToken=earPiAuthObject.deviceToken)
             transport.close()
             return output
         except Thrift.TException as tx:

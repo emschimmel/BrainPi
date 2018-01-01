@@ -30,7 +30,7 @@ class TokenMemory:
         key = self.__generateKey(tokenString, deviceToken)
         tokenObject = self.__con.get(key)
         if (tokenObject):
-            if tokenObject.time - datetime.datetime.utcnow() <= self.max_token_time:
+            # if tokenObject.time - datetime.datetime.utcnow() <= self.max_token_time:
                 return True
         return False
 
