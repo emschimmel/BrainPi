@@ -24,7 +24,7 @@ class MongoImplementation():
         cursor = self.__person_db.person_collection.find({})
         for document in cursor:
             documents.append(document)
-        return cursor
+        return documents
 
     @classmethod
     def drop_collection(self):
