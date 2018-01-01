@@ -13,7 +13,7 @@ class RedisImplementation():
 
     @classmethod
     def get(self, key):
-        print('redis get')
+        print('ShortTermMemory: redis get')
         return self.__redisService.get(key)
 
     # Redis docs:
@@ -21,10 +21,10 @@ class RedisImplementation():
     # - px = expiretime in miliseconds
     @classmethod
     def put(self, key, value):
-        print('redis put')
+        print('ShortTermMemory: redis put')
         self.__redisService.set(key, value=value, ex=config.max_token_time_seconds)
 
     @classmethod
     def delete(self, key):
-        print('redis delete')
+        print('ShortTermMemory: redis delete')
         self.__redisService.delete(key)

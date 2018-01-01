@@ -14,12 +14,12 @@ class MongoImplementation():
 
     @classmethod
     def get(self, uniquename):
-        print('mongo get')
+        print('LongTermMemory: mongo get')
         return self.__person_db.person_collection.find_one({'uniquename': uniquename})
 
     @classmethod
     def get_all(self):
-        print('mongo get all')
+        print('LongTermMemory: mongo get all')
         documents = []
         cursor = self.__person_db.person_collection.find({})
         for document in cursor:
@@ -32,12 +32,12 @@ class MongoImplementation():
 
     @classmethod
     def get_by_query(self, criteria):
-        print('mongo get by query')
+        print('LongTermMemory: mongo get by query')
         return self.__person_db.person_collection.find(criteria)
 
     @classmethod
     def store_new(self, value):
-        print('mongo put')
+        print('LongTermMemory: mongo put')
         self.__person_db.person_collection.insert_one(value)
 
     @classmethod
@@ -45,9 +45,9 @@ class MongoImplementation():
         person = self.get(uniquename)
         person[field] = value
         self.__person_db.person_collection.update({'_id':person._id}, {'$set': person}, upsert=False)
-        print('mongo update')
+        print('LongTermMemory: mongo update')
 
     @classmethod
     def delete(self, uniquename):
-        print('mongo delete')
+        print('LongTermMemory: mongo delete')
         self.__person_db.person_collection.delete_one({'uniquename' : uniquename})

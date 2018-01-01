@@ -34,11 +34,11 @@ class ConnectionManager():
             from . import MongoImplementation
             storage = State_d(imp=MongoImplementation.MongoImplementation())
         except Exception as ex:
-            print("mongodb is a requirement")
+            print("mongodb is a requirement, using LocalMockImplementation")
             from . import LocalMockImplementation
             storage = State_d(imp=LocalMockImplementation.LocalMockImplementation())
     else:
-        print("mongodb is a requirement")
+        print("mongodb is a requirement, using LocalMockImplementation")
         from . import LocalMockImplementation
         storage = State_d(imp=LocalMockImplementation.LocalMockImplementation())
 

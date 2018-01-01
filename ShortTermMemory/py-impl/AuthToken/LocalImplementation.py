@@ -6,15 +6,15 @@ class LocalImplementation():
 
     @classmethod
     def get(self, key):
-        print('local get')
+        print('ShortTermMemory: local get')
         return self.tokenMemory.get(key)
 
     @classmethod
     def put(self, key, value):
-        print('local put')
+        print('ShortTermMemory: local put')
         self.tokenMemory[key] = value
 
     @classmethod
     def delete(self, key):
-        print('local delete')
+        print('ShortTermMemory: local delete')
         del self.tokenMemory[key]

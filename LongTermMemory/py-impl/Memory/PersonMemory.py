@@ -24,4 +24,4 @@ class PersonMemory():
 
     @classmethod
     def updatePerson(self, uniquename, field, person):
-        self.__con.update(uniquename=uniquename, field=field, value=person[field])
+        self.__con.update(uniquename=uniquename, field=field, value=getattr(person, field))
