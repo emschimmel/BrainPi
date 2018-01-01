@@ -26,3 +26,7 @@ class PersonMemory():
     def getPersonFromDatabase(self, uniquename):
         # get from database
         return self.__con.get(key=uniquename)
+
+    @classmethod
+    def updatePerson(self, uniquename, field, person):
+        self.__con.update(uniquename=uniquename, field=field, value=person[field])

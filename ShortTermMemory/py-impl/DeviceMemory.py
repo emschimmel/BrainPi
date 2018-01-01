@@ -37,3 +37,23 @@ class DeviceMemory:
             self.__generateNewDeviceToken()
         else:
             return newToken
+
+    @classmethod
+    def getDeviceList(self):
+        # TODO: implement this
+        print('TODO: unimplemented')
+        index, data = self.__consul_instance.kv.get()
+        print(data)
+        if data is not None:
+            return True
+        return False
+
+    @classmethod
+    def confirmDevice(self, devicetoken, enabled):
+        # TODO: implement this
+        print('TODO: unimplemented')
+        index, data = self.__consul_instance.kv.get(devicetoken)
+        print(data)
+        if data is not None:
+            return True
+        return False

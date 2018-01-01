@@ -17,5 +17,6 @@ service LongMemoryService {
     AutorisationStruct.Person getPersonConfig(1: string uniquename)
     list<AutorisationStruct.Person> getAll()
     void storeNewPerson(1: AutorisationStruct.Person person)
+    void updatePerson(1: string field 2: AutorisationStruct.Person person)
     void changePassword(1: string username, 2: string password) throws(1: ThriftException.BadHashException badHashException)
 }

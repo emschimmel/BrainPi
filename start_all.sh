@@ -12,6 +12,10 @@ python3 ShortTermMemoryServer.py &
 cd ${home}/LongTermMemory/py-impl
 python3 LongTermMemoryServer.py &
 
+### EarPi Server
+cd ${home}/EarPi/Python/py-impl
+python3 PythonEarPiServer.py &
+
 ### EyePi Server
 cd ${home}/EyePi/py-impl
 python3 PythonEyePiServer.py &

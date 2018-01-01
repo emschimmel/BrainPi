@@ -75,6 +75,21 @@ class ShortTermMemoryThriftServer:
         except Exception as ex:
             print('invalid request %s' % ex)
 
+    @stat.timer("confirmDevice")
+    def confirmDevice(self, devicetoken, enabled):
+        try:
+            DeviceMemory().confirmDevice(devicetoken=devicetoken, enabled=enabled)
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
+    @stat.timer("getDeviceList")
+    def getDeviceList(self):
+        try:
+            return DeviceMemory().getDeviceList()
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
+
 def get_ip():
     import socket
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

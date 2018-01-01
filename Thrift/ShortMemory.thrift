@@ -40,4 +40,6 @@ service ShortMemoryService {
     oneway void writeLog(1: Log log)
     string generateDeviceToken(1: DeviceTokenInput input)
     bool validateDeviceToken(1: string deviceToken)
+    list<DeviceTokenInput> getDeviceList()
+    oneway void confirmDevice(1: string deviceToken, 2: bool enabled)
 }
