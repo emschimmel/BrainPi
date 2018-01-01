@@ -49,7 +49,8 @@ class DeviceMemory:
         devicedict = {}
 
         for item in data:
-            devicedict[item.get('Key')] = self.__deserializeDeviceToken(item.get('Value'))
+            if len(item.get('Key')) > 1:
+                devicedict[item.get('Key')] = self.__deserializeDeviceToken(item.get('Value'))
         return devicedict
 
     @classmethod
