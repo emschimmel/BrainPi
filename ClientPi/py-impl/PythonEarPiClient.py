@@ -2,6 +2,8 @@
 
 # not used in this project.
 
+import time
+import datetime
 import sys
 sys.path.append('../gen-py')
 
@@ -26,6 +28,7 @@ import config
 
 class testFlow:
 
+    __displayLists = False
     __person = None
     __uniquename = 'MockPerson'
     __username = 'admin'
@@ -83,7 +86,8 @@ class testFlow:
             tokenInput = self.createEarPiAuthObject()
             output = ConnectEarPi().getUserList(tokenInput)
             self.__token = output.token
-            if output.personList:
+            print("%d items" % len(output.personList))
+            if output.personList and self.__displayLists:
                 for item in output.personList:
                     print(item)
         except Thrift.TException as tx:
@@ -130,7 +134,8 @@ class testFlow:
             tokenInput = self.createEarPiAuthObject()
             output = ConnectEarPi().getDeviceList(tokenInput)
             self.__token = output.token
-            if output.deviceList:
+            print("%d items" % len(output.deviceList))
+            if output.deviceList and self.__displayLists:
                 for key in output.deviceList:
                     print(key+" - %s" % output.deviceList[key])
         except Thrift.TException as tx:
@@ -143,22 +148,51 @@ class testFlow:
         return tokenObject
 
 if __name__ == '__main__':
+    starttime = datetime.datetime.utcnow()
     classUnderTest = testFlow()
+
     print("----> enterFirstPerson")
     classUnderTest.enterFirstPerson()
+    print((datetime.datetime.utcnow() - starttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
     print("----> loginWithUser failed, no registered device")
     classUnderTest.loginWithUser()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
     print("----> trust that first device")
     classUnderTest.confirmFirstDevice()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
     print("----> loginWithUser succes, device registered")
     classUnderTest.loginWithUser()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
     print("----> getUserList")
     classUnderTest.getUserList()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
     print("----> changeUser")
     classUnderTest.changeUser()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
     print("----> getUserList")
     classUnderTest.getUserList()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
     print("----> register and confirm a second device")
     classUnderTest.confirmDevice()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
     print("----> get deviceList")
     classUnderTest.getDeviceList()
+    endtime = datetime.datetime.utcnow()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    print((endtime - starttime).total_seconds())
