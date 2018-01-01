@@ -13,16 +13,13 @@ from AutorisationStruct.ttypes import user_detail
 from AutorisationStruct.ttypes import Autorisation
 from AutorisationStruct.ttypes import DeviceTokenInput
 
+from ConnectionHelpers.ConnectShortMemory import ConnectShortMemory
 from ConnectionHelpers.ConnectLongMemory import ConnectLongMemory
 from ConnectionHelpers.ConnectEarPi import ConnectEarPi
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
+from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
 
 from thrift import Thrift
-import cv2
-import os.path
-import random # test
-import numpy as np
-import pickle
 
 sys.path.append('../../')
 import config
@@ -107,6 +104,32 @@ class testFlow:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    ### Somehow we have to trust the first device
+    def confirmFirstDevice(self):
+        try:
+            ConnectShortMemory().confirmDevice(input=self.__devicetoken)
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
+    ### Make a new device and register it
+    def confirmDevice(self):
+        try:
+            device_token = DeviceRegistrator().register_device()
+            tokenInput = self.createEarPiAuthObject()
+            output = ConnectEarPi().confirmDevice(device_token, True, tokenInput)
+            self.__token = output
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
+    def getDeviceList(self):
+        try:
+            tokenInput = self.createEarPiAuthObject()
+            output = ConnectEarPi().getDeviceList(tokenInput)
+            self.__token = output.token
+            print(output.deviceList)
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
     def createEarPiAuthObject(self):
         tokenObject = EarPiAuthObject()
         tokenObject.token = self.__token
@@ -117,7 +140,11 @@ if __name__ == '__main__':
     classUnderTest = testFlow()
     print("----> enterFirstPerson")
     classUnderTest.enterFirstPerson()
-    print("----> loginWithUser")
+    print("----> loginWithUser failed, no registered device")
+    classUnderTest.loginWithUser()
+    print("----> trust that first device")
+    classUnderTest.confirmFirstDevice()
+    print("----> loginWithUser succes, device registered")
     classUnderTest.loginWithUser()
     print("----> getUserList")
     classUnderTest.getUserList()
@@ -125,3 +152,7 @@ if __name__ == '__main__':
     classUnderTest.changeUser()
     print("----> getUserList")
     classUnderTest.getUserList()
+    print("----> register and confirm a second device")
+    classUnderTest.confirmDevice()
+    print("----> get deviceList")
+    classUnderTest.getDeviceList()
