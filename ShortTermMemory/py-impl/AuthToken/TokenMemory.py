@@ -31,7 +31,7 @@ class TokenMemory:
         tokenObject = self.__con.get(key)
         if (tokenObject):
             # if tokenObject.time - datetime.datetime.utcnow() <= self.max_token_time:
-                return True
+            return True
         return False
 
     @staticmethod

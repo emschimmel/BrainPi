@@ -30,10 +30,10 @@ import config
 class testFlow:
 
     __person = None
-    __uniquename = 'CelyneUniqueString'
-    __username = 'uname'
-    __password = 'pass'
-    __code = '12345'
+    __uniquename = 'MockPerson'
+    __username = 'admin'
+    __password = 'admin'
+    __code = '123456ABCD'
     __devicetoken = None
     __token = None
     __autorisations = dict
@@ -44,10 +44,10 @@ class testFlow:
             input.uniquename = self.__uniquename
 
             details = user_detail()
-            details.firstname = 'Celyne'
-            details.lastname = 'van der Pol'
-            details.gender = 'undefined'
-            details.dob = '5-1-2017'
+            details.firstname = 'Mock'
+            details.lastname = 'Person'
+            details.gender = 'Cat'
+            details.dob = '03-09-1966'
             input.details = details
             input.username = self.__username
             input.password = self.__password
