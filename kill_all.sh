@@ -14,7 +14,7 @@ EyePiServerPID=$(ps -ef | awk -F" " '/PythonEyePiServer.py/ && !/awk/{print $2}'
 
 # Kill PythonEarPiServer if running
 EarPiServerPID=$(ps -ef | awk -F" " '/PythonEarPiServer.py/ && !/awk/{print $2}')
-[[ !  -z  $EyePiServerPID  ]] && kill -9 EarPiServerPID
+[[ !  -z  $EarPiServerPID  ]] && kill -9 $EarPiServerPID
 
 # Kill ShortTermMemoryServer if running
 ShortTermMemoryServerPID=$(ps -ef | awk -F" " '/ShortTermMemoryServer.py/ && !/awk/{print $2}')
