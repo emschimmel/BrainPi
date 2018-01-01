@@ -77,4 +77,7 @@ cp -Rf ./gen-py/LongMemory              ../EarPi/Python/gen-py/
 cp -Rf ./gen-py/ThriftException         ../EarPi/Python/gen-py/
 
 # AdminConsole
-cp -Rf ./gen-py/EyePi           ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/GenericStruct       ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/EyePi               ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/AutorisationStruct  ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/ThriftException     ../AdminConsolePi/gen-py/
