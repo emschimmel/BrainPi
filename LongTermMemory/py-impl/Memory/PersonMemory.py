@@ -9,11 +9,6 @@ class PersonMemory():
         return self.getPersonFromDatabase(uniquename=uniquename)
 
     @classmethod
-    def updatePerson(self, person):
-        # todo
-        self.__con.update(uniquename=person, field="", value="")
-
-    @classmethod
     def storeNewPerson(self, person):
         # todo
         self.__con.store_new(value=person)

@@ -29,6 +29,7 @@ import config
 
 class testFlow:
 
+    __person = None
     __uniquename = 'CelyneUniqueString'
     __username = 'uname'
     __password = 'pass'
@@ -52,6 +53,7 @@ class testFlow:
             input.password = self.__password
             input.code = self.__code
             input.enabled = True
+            self.__person = input
             ConnectLongMemory().storeNewPerson(input)
         except Thrift.TException as tx:
             print("%s" % (tx.message))
@@ -76,6 +78,8 @@ class testFlow:
 
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+
+
 
 if __name__ == '__main__':
     testFlow().enterFirstPerson()
