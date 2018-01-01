@@ -24,7 +24,7 @@ public class ShortMemoryService {
 
     public boolean validateDeviceToken(java.lang.String deviceToken) throws org.apache.thrift.TException;
 
-    public java.util.List<DeviceTokenInput> getDeviceList() throws org.apache.thrift.TException;
+    public java.util.Map<java.lang.String,DeviceTokenInput> getDeviceList() throws org.apache.thrift.TException;
 
     public void confirmDevice(java.lang.String deviceToken, boolean enabled) throws org.apache.thrift.TException;
 
@@ -44,7 +44,7 @@ public class ShortMemoryService {
 
     public void validateDeviceToken(java.lang.String deviceToken, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void getDeviceList(org.apache.thrift.async.AsyncMethodCallback<java.util.List<DeviceTokenInput>> resultHandler) throws org.apache.thrift.TException;
+    public void getDeviceList(org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,DeviceTokenInput>> resultHandler) throws org.apache.thrift.TException;
 
     public void confirmDevice(java.lang.String deviceToken, boolean enabled, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -200,7 +200,7 @@ public class ShortMemoryService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "validateDeviceToken failed: unknown result");
     }
 
-    public java.util.List<DeviceTokenInput> getDeviceList() throws org.apache.thrift.TException
+    public java.util.Map<java.lang.String,DeviceTokenInput> getDeviceList() throws org.apache.thrift.TException
     {
       send_getDeviceList();
       return recv_getDeviceList();
@@ -212,7 +212,7 @@ public class ShortMemoryService {
       sendBase("getDeviceList", args);
     }
 
-    public java.util.List<DeviceTokenInput> recv_getDeviceList() throws org.apache.thrift.TException
+    public java.util.Map<java.lang.String,DeviceTokenInput> recv_getDeviceList() throws org.apache.thrift.TException
     {
       getDeviceList_result result = new getDeviceList_result();
       receiveBase(result, "getDeviceList");
@@ -454,15 +454,15 @@ public class ShortMemoryService {
       }
     }
 
-    public void getDeviceList(org.apache.thrift.async.AsyncMethodCallback<java.util.List<DeviceTokenInput>> resultHandler) throws org.apache.thrift.TException {
+    public void getDeviceList(org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,DeviceTokenInput>> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getDeviceList_call method_call = new getDeviceList_call(resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class getDeviceList_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<DeviceTokenInput>> {
-      public getDeviceList_call(org.apache.thrift.async.AsyncMethodCallback<java.util.List<DeviceTokenInput>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class getDeviceList_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.Map<java.lang.String,DeviceTokenInput>> {
+      public getDeviceList_call(org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,DeviceTokenInput>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
       }
 
@@ -473,7 +473,7 @@ public class ShortMemoryService {
         prot.writeMessageEnd();
       }
 
-      public java.util.List<DeviceTokenInput> getResult() throws org.apache.thrift.TException {
+      public java.util.Map<java.lang.String,DeviceTokenInput> getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
@@ -1067,7 +1067,7 @@ public class ShortMemoryService {
       }
     }
 
-    public static class getDeviceList<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, getDeviceList_args, java.util.List<DeviceTokenInput>> {
+    public static class getDeviceList<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, getDeviceList_args, java.util.Map<java.lang.String,DeviceTokenInput>> {
       public getDeviceList() {
         super("getDeviceList");
       }
@@ -1076,10 +1076,10 @@ public class ShortMemoryService {
         return new getDeviceList_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<java.util.List<DeviceTokenInput>> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,DeviceTokenInput>> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<java.util.List<DeviceTokenInput>>() { 
-          public void onComplete(java.util.List<DeviceTokenInput> o) {
+        return new org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,DeviceTokenInput>>() { 
+          public void onComplete(java.util.Map<java.lang.String,DeviceTokenInput> o) {
             getDeviceList_result result = new getDeviceList_result();
             result.success = o;
             try {
@@ -1123,7 +1123,7 @@ public class ShortMemoryService {
         return false;
       }
 
-      public void start(I iface, getDeviceList_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<DeviceTokenInput>> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, getDeviceList_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,DeviceTokenInput>> resultHandler) throws org.apache.thrift.TException {
         iface.getDeviceList(resultHandler);
       }
     }
@@ -5756,12 +5756,12 @@ public class ShortMemoryService {
   public static class getDeviceList_result implements org.apache.thrift.TBase<getDeviceList_result, getDeviceList_result._Fields>, java.io.Serializable, Cloneable, Comparable<getDeviceList_result>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getDeviceList_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.MAP, (short)0);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getDeviceList_resultStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getDeviceList_resultTupleSchemeFactory();
 
-    public java.util.List<DeviceTokenInput> success; // required
+    public java.util.Map<java.lang.String,DeviceTokenInput> success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -5826,7 +5826,8 @@ public class ShortMemoryService {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+          new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
               new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, DeviceTokenInput.class))));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getDeviceList_result.class, metaDataMap);
@@ -5836,7 +5837,7 @@ public class ShortMemoryService {
     }
 
     public getDeviceList_result(
-      java.util.List<DeviceTokenInput> success)
+      java.util.Map<java.lang.String,DeviceTokenInput> success)
     {
       this();
       this.success = success;
@@ -5847,9 +5848,17 @@ public class ShortMemoryService {
      */
     public getDeviceList_result(getDeviceList_result other) {
       if (other.isSetSuccess()) {
-        java.util.List<DeviceTokenInput> __this__success = new java.util.ArrayList<DeviceTokenInput>(other.success.size());
-        for (DeviceTokenInput other_element : other.success) {
-          __this__success.add(new DeviceTokenInput(other_element));
+        java.util.Map<java.lang.String,DeviceTokenInput> __this__success = new java.util.HashMap<java.lang.String,DeviceTokenInput>(other.success.size());
+        for (java.util.Map.Entry<java.lang.String, DeviceTokenInput> other_element : other.success.entrySet()) {
+
+          java.lang.String other_element_key = other_element.getKey();
+          DeviceTokenInput other_element_value = other_element.getValue();
+
+          java.lang.String __this__success_copy_key = other_element_key;
+
+          DeviceTokenInput __this__success_copy_value = new DeviceTokenInput(other_element_value);
+
+          __this__success.put(__this__success_copy_key, __this__success_copy_value);
         }
         this.success = __this__success;
       }
@@ -5868,22 +5877,18 @@ public class ShortMemoryService {
       return (this.success == null) ? 0 : this.success.size();
     }
 
-    public java.util.Iterator<DeviceTokenInput> getSuccessIterator() {
-      return (this.success == null) ? null : this.success.iterator();
-    }
-
-    public void addToSuccess(DeviceTokenInput elem) {
+    public void putToSuccess(java.lang.String key, DeviceTokenInput val) {
       if (this.success == null) {
-        this.success = new java.util.ArrayList<DeviceTokenInput>();
+        this.success = new java.util.HashMap<java.lang.String,DeviceTokenInput>();
       }
-      this.success.add(elem);
+      this.success.put(key, val);
     }
 
-    public java.util.List<DeviceTokenInput> getSuccess() {
+    public java.util.Map<java.lang.String,DeviceTokenInput> getSuccess() {
       return this.success;
     }
 
-    public getDeviceList_result setSuccess(java.util.List<DeviceTokenInput> success) {
+    public getDeviceList_result setSuccess(java.util.Map<java.lang.String,DeviceTokenInput> success) {
       this.success = success;
       return this;
     }
@@ -5909,7 +5914,7 @@ public class ShortMemoryService {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((java.util.List<DeviceTokenInput>)value);
+          setSuccess((java.util.Map<java.lang.String,DeviceTokenInput>)value);
         }
         break;
 
@@ -6065,18 +6070,20 @@ public class ShortMemoryService {
           }
           switch (schemeField.id) {
             case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
                 {
-                  org.apache.thrift.protocol.TList _list18 = iprot.readListBegin();
-                  struct.success = new java.util.ArrayList<DeviceTokenInput>(_list18.size);
-                  DeviceTokenInput _elem19;
-                  for (int _i20 = 0; _i20 < _list18.size; ++_i20)
+                  org.apache.thrift.protocol.TMap _map18 = iprot.readMapBegin();
+                  struct.success = new java.util.HashMap<java.lang.String,DeviceTokenInput>(2*_map18.size);
+                  java.lang.String _key19;
+                  DeviceTokenInput _val20;
+                  for (int _i21 = 0; _i21 < _map18.size; ++_i21)
                   {
-                    _elem19 = new DeviceTokenInput();
-                    _elem19.read(iprot);
-                    struct.success.add(_elem19);
+                    _key19 = iprot.readString();
+                    _val20 = new DeviceTokenInput();
+                    _val20.read(iprot);
+                    struct.success.put(_key19, _val20);
                   }
-                  iprot.readListEnd();
+                  iprot.readMapEnd();
                 }
                 struct.setSuccessIsSet(true);
               } else { 
@@ -6101,12 +6108,13 @@ public class ShortMemoryService {
         if (struct.success != null) {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
-            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
-            for (DeviceTokenInput _iter21 : struct.success)
+            oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
+            for (java.util.Map.Entry<java.lang.String, DeviceTokenInput> _iter22 : struct.success.entrySet())
             {
-              _iter21.write(oprot);
+              oprot.writeString(_iter22.getKey());
+              _iter22.getValue().write(oprot);
             }
-            oprot.writeListEnd();
+            oprot.writeMapEnd();
           }
           oprot.writeFieldEnd();
         }
@@ -6135,9 +6143,10 @@ public class ShortMemoryService {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (DeviceTokenInput _iter22 : struct.success)
+            for (java.util.Map.Entry<java.lang.String, DeviceTokenInput> _iter23 : struct.success.entrySet())
             {
-              _iter22.write(oprot);
+              oprot.writeString(_iter23.getKey());
+              _iter23.getValue().write(oprot);
             }
           }
         }
@@ -6149,14 +6158,16 @@ public class ShortMemoryService {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list23 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-            struct.success = new java.util.ArrayList<DeviceTokenInput>(_list23.size);
-            DeviceTokenInput _elem24;
-            for (int _i25 = 0; _i25 < _list23.size; ++_i25)
+            org.apache.thrift.protocol.TMap _map24 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new java.util.HashMap<java.lang.String,DeviceTokenInput>(2*_map24.size);
+            java.lang.String _key25;
+            DeviceTokenInput _val26;
+            for (int _i27 = 0; _i27 < _map24.size; ++_i27)
             {
-              _elem24 = new DeviceTokenInput();
-              _elem24.read(iprot);
-              struct.success.add(_elem24);
+              _key25 = iprot.readString();
+              _val26 = new DeviceTokenInput();
+              _val26.read(iprot);
+              struct.success.put(_key25, _val26);
             }
           }
           struct.setSuccessIsSet(true);

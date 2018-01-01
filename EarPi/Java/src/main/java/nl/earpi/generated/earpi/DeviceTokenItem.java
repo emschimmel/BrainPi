@@ -12,18 +12,21 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DeviceTokenItem");
 
   private static final org.apache.thrift.protocol.TField DEVICE_FIELD_DESC = new org.apache.thrift.protocol.TField("device", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-  private static final org.apache.thrift.protocol.TField ACTIVE_FIELD_DESC = new org.apache.thrift.protocol.TField("active", org.apache.thrift.protocol.TType.BOOL, (short)2);
+  private static final org.apache.thrift.protocol.TField KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("key", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField ACTIVE_FIELD_DESC = new org.apache.thrift.protocol.TField("active", org.apache.thrift.protocol.TType.BOOL, (short)3);
 
   private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DeviceTokenItemStandardSchemeFactory();
   private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DeviceTokenItemTupleSchemeFactory();
 
   public nl.earpi.generated.autorisationstruct.DeviceTokenInput device; // required
+  public java.lang.String key; // required
   public boolean active; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     DEVICE((short)1, "device"),
-    ACTIVE((short)2, "active");
+    KEY((short)2, "key"),
+    ACTIVE((short)3, "active");
 
     private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -40,7 +43,9 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
       switch(fieldId) {
         case 1: // DEVICE
           return DEVICE;
-        case 2: // ACTIVE
+        case 2: // KEY
+          return KEY;
+        case 3: // ACTIVE
           return ACTIVE;
         default:
           return null;
@@ -89,6 +94,8 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.DEVICE, new org.apache.thrift.meta_data.FieldMetaData("device", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, nl.earpi.generated.autorisationstruct.DeviceTokenInput.class)));
+    tmpMap.put(_Fields.KEY, new org.apache.thrift.meta_data.FieldMetaData("key", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.ACTIVE, new org.apache.thrift.meta_data.FieldMetaData("active", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -100,10 +107,12 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
 
   public DeviceTokenItem(
     nl.earpi.generated.autorisationstruct.DeviceTokenInput device,
+    java.lang.String key,
     boolean active)
   {
     this();
     this.device = device;
+    this.key = key;
     this.active = active;
     setActiveIsSet(true);
   }
@@ -116,6 +125,9 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     if (other.isSetDevice()) {
       this.device = new nl.earpi.generated.autorisationstruct.DeviceTokenInput(other.device);
     }
+    if (other.isSetKey()) {
+      this.key = other.key;
+    }
     this.active = other.active;
   }
 
@@ -126,6 +138,7 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
   @Override
   public void clear() {
     this.device = null;
+    this.key = null;
     setActiveIsSet(false);
     this.active = false;
   }
@@ -151,6 +164,30 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
   public void setDeviceIsSet(boolean value) {
     if (!value) {
       this.device = null;
+    }
+  }
+
+  public java.lang.String getKey() {
+    return this.key;
+  }
+
+  public DeviceTokenItem setKey(java.lang.String key) {
+    this.key = key;
+    return this;
+  }
+
+  public void unsetKey() {
+    this.key = null;
+  }
+
+  /** Returns true if field key is set (has been assigned a value) and false otherwise */
+  public boolean isSetKey() {
+    return this.key != null;
+  }
+
+  public void setKeyIsSet(boolean value) {
+    if (!value) {
+      this.key = null;
     }
   }
 
@@ -187,6 +224,14 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
       }
       break;
 
+    case KEY:
+      if (value == null) {
+        unsetKey();
+      } else {
+        setKey((java.lang.String)value);
+      }
+      break;
+
     case ACTIVE:
       if (value == null) {
         unsetActive();
@@ -202,6 +247,9 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     switch (field) {
     case DEVICE:
       return getDevice();
+
+    case KEY:
+      return getKey();
 
     case ACTIVE:
       return isActive();
@@ -219,6 +267,8 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     switch (field) {
     case DEVICE:
       return isSetDevice();
+    case KEY:
+      return isSetKey();
     case ACTIVE:
       return isSetActive();
     }
@@ -249,6 +299,15 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
         return false;
     }
 
+    boolean this_present_key = true && this.isSetKey();
+    boolean that_present_key = true && that.isSetKey();
+    if (this_present_key || that_present_key) {
+      if (!(this_present_key && that_present_key))
+        return false;
+      if (!this.key.equals(that.key))
+        return false;
+    }
+
     boolean this_present_active = true;
     boolean that_present_active = true;
     if (this_present_active || that_present_active) {
@@ -269,6 +328,10 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     if (isSetDevice())
       hashCode = hashCode * 8191 + device.hashCode();
 
+    hashCode = hashCode * 8191 + ((isSetKey()) ? 131071 : 524287);
+    if (isSetKey())
+      hashCode = hashCode * 8191 + key.hashCode();
+
     hashCode = hashCode * 8191 + ((active) ? 131071 : 524287);
 
     return hashCode;
@@ -288,6 +351,16 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     }
     if (isSetDevice()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.device, other.device);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.valueOf(isSetKey()).compareTo(other.isSetKey());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetKey()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.key, other.key);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -330,6 +403,14 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     }
     first = false;
     if (!first) sb.append(", ");
+    sb.append("key:");
+    if (this.key == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.key);
+    }
+    first = false;
+    if (!first) sb.append(", ");
     sb.append("active:");
     sb.append(this.active);
     first = false;
@@ -341,6 +422,9 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     // check for required fields
     if (device == null) {
       throw new org.apache.thrift.protocol.TProtocolException("Required field 'device' was not present! Struct: " + toString());
+    }
+    if (key == null) {
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'key' was not present! Struct: " + toString());
     }
     // alas, we cannot check 'active' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
@@ -394,7 +478,15 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // ACTIVE
+          case 2: // KEY
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.key = iprot.readString();
+              struct.setKeyIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 3: // ACTIVE
             if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
               struct.active = iprot.readBool();
               struct.setActiveIsSet(true);
@@ -425,6 +517,11 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
         struct.device.write(oprot);
         oprot.writeFieldEnd();
       }
+      if (struct.key != null) {
+        oprot.writeFieldBegin(KEY_FIELD_DESC);
+        oprot.writeString(struct.key);
+        oprot.writeFieldEnd();
+      }
       oprot.writeFieldBegin(ACTIVE_FIELD_DESC);
       oprot.writeBool(struct.active);
       oprot.writeFieldEnd();
@@ -446,6 +543,7 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
     public void write(org.apache.thrift.protocol.TProtocol prot, DeviceTokenItem struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       struct.device.write(oprot);
+      oprot.writeString(struct.key);
       oprot.writeBool(struct.active);
     }
 
@@ -455,6 +553,8 @@ public class DeviceTokenItem implements org.apache.thrift.TBase<DeviceTokenItem,
       struct.device = new nl.earpi.generated.autorisationstruct.DeviceTokenInput();
       struct.device.read(iprot);
       struct.setDeviceIsSet(true);
+      struct.key = iprot.readString();
+      struct.setKeyIsSet(true);
       struct.active = iprot.readBool();
       struct.setActiveIsSet(true);
     }

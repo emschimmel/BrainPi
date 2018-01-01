@@ -63,20 +63,14 @@ class EyePiThriftHandler:
             if not person:
                 return output
 
-            eyeInput = EyePiInput()
-            actions = dict()
-            actions[ActionEnum.LOGIN] = pickle.dumps(obj=person.uniquename, protocol=None, fix_imports=False)
-            eyeInput.action = actions
-            eyeInput.person = person.uniquename
-            if loginObject.deviceToken:
+            if loginObject.deviceToken is not None:
                 output.deviceToken = loginObject.deviceToken
-                eyeInput.deviceToken = loginObject.deviceToken
+                if ShortTermTokenMemoryClient().validateDeviceToken(loginObject.deviceToken):
+                    output.token = self.__get_request_token(uniquename=person.uniquename, deviceToken=loginObject.deviceToken)
+
             else:
                 deviceToken = ShortTermTokenMemoryClient().register_device(loginObject.deviceInput)
                 output.deviceToken = deviceToken
-                eyeInput.deviceToken = deviceToken
-
-            output.token = ShortTermTokenMemoryClient().getToken(eyeInput)
             return output
         except BadHashException as badHash:
             # ShortTermLogMemoryClient().log_thrift_exception(loginObject, badHash)
@@ -84,6 +78,16 @@ class EyePiThriftHandler:
         except LoginFailedException as fail:
             # ShortTermLogMemoryClient().log_thrift_exception(loginObject, fail)
             raise fail
+
+    @staticmethod
+    def __get_request_token(uniquename, deviceToken):
+        eyeInput = EyePiInput()
+        actions = dict()
+        actions[ActionEnum.LOGIN] = pickle.dumps(obj=uniquename, protocol=None, fix_imports=False)
+        eyeInput.action = actions
+        eyeInput.person = uniquename
+        eyeInput.deviceToken = deviceToken
+        return ShortTermTokenMemoryClient().getToken(eyeInput)
 
     @stat.timer("handleRequest")
     def handleRequest(self, input):
@@ -113,7 +117,7 @@ class EyePiThriftHandler:
             if tokenValide and not input.image:
                 eyeOutput.ok = False
             if eyeOutput.ok:
-                eyeOutput.data = self.make_generic_call(input.action)
+                eyeOutput.data = self.__make_generic_call(input.action)
             return eyeOutput
         except ThriftServiceException as tex:
             ShortTermLogMemoryClient().log_thrift_exception(input, tex)
@@ -126,7 +130,8 @@ class EyePiThriftHandler:
             print('invalid request %s' % ex)
             raise ThriftServiceException('EyePi', 'invalid request %s' % ex)
 
-    def make_generic_call(self, input):
+    @staticmethod
+    def __make_generic_call(input):
         threads = [None] * len(ActionEnum._VALUES_TO_NAMES)
         call_result = [{}] * len(ActionEnum._VALUES_TO_NAMES)
         for key, request in input.items():

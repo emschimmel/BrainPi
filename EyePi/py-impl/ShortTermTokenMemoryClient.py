@@ -55,6 +55,27 @@ class ShortTermTokenMemoryClient:
             transport.close()
 
     @classmethod
+    def validateDeviceToken(self, deviceToken):
+        print('short term memory handler')
+        ip, port = self.__resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
+        try:
+            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
+            client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
+            transport.open()  # Connect!
+
+            output = client.validateDeviceToken(deviceToken=deviceToken)
+            transport.close()
+            return output
+        except Thrift.TException as tx:
+            print('%s' % (tx.message))
+        except Exception as ex:
+            print('whot??? %s' % ex)
+        finally:
+            transport.close()
+
+    @classmethod
     def register_device(self, inputDevice):
         ip, port = self.__resolve_config()
         transport = TSocket.TSocket(ip, port)  # Make socket

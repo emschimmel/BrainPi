@@ -7,6 +7,7 @@ struct DeviceTokenInput {
     2 : required string devicetype
     3 : optional string userAgent
     4 : optional string person
+    5 : required bool enabled = false
 }
 
 struct TokenObject {
@@ -40,6 +41,6 @@ service ShortMemoryService {
     oneway void writeLog(1: Log log)
     string generateDeviceToken(1: DeviceTokenInput input)
     bool validateDeviceToken(1: string deviceToken)
-    list<DeviceTokenInput> getDeviceList()
+    map<string, DeviceTokenInput> getDeviceList()
     oneway void confirmDevice(1: string deviceToken, 2: bool enabled)
 }

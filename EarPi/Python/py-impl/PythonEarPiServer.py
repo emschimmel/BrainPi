@@ -97,7 +97,7 @@ class EarPiThriftHandler:
     def confirmDevice(self, deviceToken, active, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
-        ShortTermTokenMemoryClient().confirmDevice(deviceToken=deviceToken, active=active)
+        ShortTermTokenMemoryClient().confirmDevice(devicetoken=deviceToken, active=active)
         output = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
