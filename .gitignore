@@ -20,9 +20,4 @@ FacePi/py-impl/FaceRecognition/Data/*
 EarPi/Java/src/main/java/nl/earpi/generated/*
 EarPi/Java/target
 EarPi/Python/gen-py/*
-ShortTermMemory/log
-LongTermMemory/log
-EarPi/Python/log
-EyePi/log
-FacePi/log
-WeatherPi/log
+
