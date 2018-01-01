@@ -1,25 +1,23 @@
-# from LongMemory.ttypes import *
 import json
-#import pickle
 
-class LocalMockImplementation():
+class LocalMockImplementation(object):
+
 
     def __init__(self):
-        self.data = self.load_mock()
-        self.mockList = [self.data]
-        pass
+        self.__data = self.__load_mock()
+        self.__mockList = [self.__data]
 
     def get(self, uniquename):
-        print('local get %s' % self.data)
-        return self.data
+        print('local get %s' % self.__data)
+        return self.__data
 
     def get_all(self):
         print('local get')
-        return self.mockList
+        return self.__mockList
 
     def get_by_query(self, criteria):
         print('local get')
-        return self.mockList
+        return self.__mockList
 
     def store_new(self, value):
         print('local put')
@@ -30,6 +28,7 @@ class LocalMockImplementation():
     def delete(self, uniquename):
         print('local delete')
 
-    def load_mock(self):
+    def __load_mock(self):
         return json.load(open('./Memory/personMock.json'))
+
 

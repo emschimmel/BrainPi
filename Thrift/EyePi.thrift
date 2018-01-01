@@ -52,5 +52,5 @@ service EyePiThriftService {
     oneway void confimFace(1: ConfirmInput input)
     oneway void writeLog(1: EyePiInput input)
     void ping(1: GenericStruct.PingObject pingObject) throws (1: ThriftException.ExternalEndpointUnavailable endPointUnavailiable 2: ThriftException.ThriftServiceException thriftException)
-    LoginOutputObject login(1: LoginInputObject loginObject) throws (1: ThriftException.BadHashException badHash 2: ThriftException.LoginFailedException fail)
+    LoginOutputObject login(1: LoginInputObject loginObject) throws (1: ThriftException.BadHashException bad, 2: ThriftException.LoginFailedException fail)
 }

@@ -8,12 +8,9 @@ import consul
 
 sys.path.append('../gen-py')
 
-from GenericStruct.ttypes import *
-from GenericStruct.constants import *
 from GenericServerPi import GenericPiThriftService
-from GenericServerPi.ttypes import *
-from GenericServerPi.constants import *
-from ThriftException.ttypes import *
+from ThriftException.ttypes import ThriftServiceException
+from ThriftException.ttypes import ExternalEndpointUnavailable
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -28,22 +25,23 @@ class GenericThriftClient:
     def __init__(self):
         self.log = {}
 
+    @classmethod
     def handle_request(self, action, input, output):
         print('generic handler %s' % action)
+        ip, port = self.__resolve_config(action)
+        transport = TSocket.TSocket(ip, port)  # Make socket
         try:
-            ip, port = self.resolve_config(action)
-            transport = TSocket.TSocket(ip, port)  # Make socket
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = GenericPiThriftService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
 
-            output[action] = client.handleRequest(input)
+            output[action] = client.handleRequest(input=input)
             transport.close()
 
         except Thrift.TException as tx:
             print('%s' % (tx.message))
-            raise ThriftServiceException('generic', tx.message)
+            raise ThriftServiceException(serviceName='generic', message=tx.message)
         except ThriftServiceException as tex:
             print('thrift exception request %s' % tex)
             raise tex
@@ -53,8 +51,11 @@ class GenericThriftClient:
         except Exception as ex:
             print('whot generic thrift??? %s' % ex)
             raise ex
+        finally:
+            transport.close()
 
-    def resolve_config(self, action):
+    @staticmethod
+    def __resolve_config(action):
         c = consul.Consul(host=config.consul_ip, port=config.consul_resolver_port)
         key = '%d' % action
         index, data = c.kv.get(key)

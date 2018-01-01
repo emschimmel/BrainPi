@@ -11,8 +11,9 @@ sys.path.append('./FaceRecognition')
 
 
 from FacePi import FacePiThriftService
-from FacePi.ttypes import *
-from ThriftException.ttypes import *
+from FacePi.ttypes import FacePiOutput
+from FacePi.ttypes import PersonEntry
+from ThriftException.ttypes import ThriftServiceException
 
 from FaceDetection.DetectFaces import DetectFaces
 from FaceRecognition.RecognitionManager import RecognitionManager
@@ -59,7 +60,7 @@ class FacePiThriftHandler:
                     person.person = '== Hans =='
                     person.chance = 90.0
                 #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
-                    person.image = pickle.dumps(face, protocol=None, fix_imports=False)
+                    person.image = pickle.dumps(obj=face, protocol=None, fix_imports=False)
                     personList.append(person)
             output = FacePiOutput()
             output.personCollection = personList

@@ -2,9 +2,9 @@ import random
 import sys
 sys.path.append('../gen-py')
 from LongMemory import LongMemoryService
-from LongMemory.ttypes import *
-from LongMemory.ttypes import *
-from ThriftException.ttypes import *
+from LongMemory.ttypes import LongMemoryLoginInputObject
+from ThriftException.ttypes import BadHashException
+from ThriftException.ttypes import LoginFailedException
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -19,47 +19,59 @@ class LongTermPersonMemoryClient:
     def __init__(self):
         self.log = {}
 
+    @classmethod
     def loginCall(self, loginInput):
         print('Long term memory handler, login %s' % input)
+        ip, port = self.__resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
         try:
             lmLoginInput = LongMemoryLoginInputObject()
             lmLoginInput.username = loginInput.username
             lmLoginInput.password = loginInput.password
             lmLoginInput.code = loginInput.code
-            ip, port = self.resolve_config()
-            transport = TSocket.TSocket(ip, port)  # Make socket
+
+
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-            person = client.loginCall(lmLoginInput)
+            person = client.loginCall(loginobject=lmLoginInput)
             transport.close()
             return person
+        except LoginFailedException as fail:
+            print('login failed %s' % fail)
+            raise fail
+        except BadHashException as bad:
+            print('Bad hash %s' % bad)
+            raise bad
         except Thrift.TException as tx:
             print('%s' % (tx.message))
             raise tx
-        except BadHashException as badHash:
-            print('Bad hash %s' % badHash)
-            raise badHash
+        finally:
+            transport.close()
 
+    @classmethod
     def get_Person(self, input):
         print('Long term memory handler, get Person %s' % input)
+        ip, port = self.__resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
         try:
-            ip, port = self.resolve_config()
-            transport = TSocket.TSocket(ip, port)  # Make socket
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-            person = client.getPersonConfig(input)
+            person = client.getPersonConfig(uniquename=input)
             transport.close()
             return person
         except Thrift.TException as tx:
             print('%s' % (tx.message))
         except Exception as ex:
             print('whot??? %s' % ex)
+        finally:
+            transport.close()
 
-    def resolve_config(self):
+    @staticmethod
+    def __resolve_config():
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

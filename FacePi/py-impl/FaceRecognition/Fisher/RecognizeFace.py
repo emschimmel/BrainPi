@@ -9,7 +9,7 @@ from FaceDetection.DetectFaces import DetectFaces
 class RecognizeFace():
 
     def __init__(self):
-        self.log = {}
+        pass
 
     def reconFaceWithCam(self):
         output = dict()
@@ -30,7 +30,7 @@ class RecognizeFace():
         output = dict()
         with open('./Data/namedIds.yml', 'rb') as namedIdsFile:
             self.namedIds = pickle.loads(namedIdsFile.read())
-        recon = self.recon_face_with_file(image)
+        recon = self.recon_face_with_file(im=image)
         print(recon)
         list_names = []
         for conf in recon:

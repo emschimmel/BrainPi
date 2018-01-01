@@ -13,6 +13,7 @@ class HaarFaceDetection:
 
     cap = cv2.VideoCapture(0)
 
+    @classmethod
     def testWithMacCamera(self):
         while (True):
             # Capture frame-by-frame
@@ -30,7 +31,8 @@ class HaarFaceDetection:
         self.cap.release()
         cv2.destroyAllWindows()
 
-    def detectFaceWithEyes(self, img):
+    @staticmethod
+    def detectFaceWithEyes(img):
         face_cascade = cv2.CascadeClassifier('data/haarcascades/haarcascade_frontalface_default.xml')
         # face_cascade = cv2.CascadeClassifier('data/haarcascades/haarcascade_frontalface_alt.xml')
         # face_cascade = cv2.CascadeClassifier('data/haarcascades/haarcascade_frontalface_alt2.xml')

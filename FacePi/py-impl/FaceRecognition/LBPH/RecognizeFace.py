@@ -9,7 +9,7 @@ from FaceDetection.DetectFaces import DetectFaces
 class RecognizeFace():
 
     def __init__(self):
-        self.log = {}
+        pass
 
     def reconFaceWithCam(self):
         output = dict()
@@ -41,7 +41,7 @@ class RecognizeFace():
                     TrainNetwork().learn(conf[2], conf[0], conf[3])
         print(output)
 
-    def sort_output(self, recon_collection):
+    def sort_output(recon_collection):
         list_names = dict(list)
 
     def recon_face_with_camera(self):

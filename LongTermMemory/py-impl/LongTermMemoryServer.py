@@ -17,6 +17,9 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
+from ThriftException.ttypes import BadHashException
+from ThriftException.ttypes import LoginFailedException
+
 sys.path.append('../../')
 import config
 import logging
@@ -64,6 +67,7 @@ class LongTermMemoryThriftServer:
         except BadHashException as bad:
             raise bad
 
+    @stat.timer("getAll")
     def getAll(self):
         try:
             return PersonMemory().getAll()

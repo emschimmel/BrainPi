@@ -9,7 +9,7 @@ from FaceDetection.DetectFaces import DetectFaces
 class RecognizeFace():
 
     def __init__(self):
-        self.log = {}
+        pass
 
     def reconFaceWithCam(self):
         output = dict()

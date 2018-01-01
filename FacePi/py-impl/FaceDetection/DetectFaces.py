@@ -9,13 +9,15 @@ class DetectFaces():
     def __init__(self):
         self.log = {}
 
-    def DetectFromBinaryFromCamera(self, image):
+    @staticmethod
+    def DetectFromBinaryFromCamera(image):
         face_cascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
         return faces
 
-    def DetectFromBinaryFromFile(self, image):
+    @staticmethod
+    def DetectFromBinaryFromFile(image):
         try:
             # print(image)
             face_cascade = cv2.CascadeClassifier("./haarcascade_frontalface_default.xml")

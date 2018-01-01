@@ -4,8 +4,11 @@
 
 import sys
 sys.path.append('../gen-py')
-from AutorisationStruct.ttypes import *
-import sys
+from AutorisationStruct.ttypes import Person
+from AutorisationStruct.ttypes import user_detail
+from AutorisationStruct.ttypes import Autorisation
+from GenericStruct.ttypes import ActionEnum
+import pickle
 
 sys.path.append('../gen-py')
 
@@ -52,6 +55,14 @@ def test2():
         input.code = '456'
         input.enabled = True
 
+        autorisation = Autorisation()
+        autorisation.write_enabled = True
+        autorisation.enabled = True
+        autorisation.module_config = pickle.dumps(obj="unique name", protocol=None, fix_imports=False)
+
+        actions = dict()
+        actions[ActionEnum.LOGIN] = autorisation
+        input.autorisations = actions
         ConnectLongMemory().storeNewPerson(input)
 
     except Thrift.TException as tx:
@@ -71,7 +82,7 @@ def test4():
     except Thrift.TException as tx:
         print("%s" % (tx.message))
 
-test1()
-#test2()
+#test1()
+test2()
 #test3()
-test4()
+#test4()

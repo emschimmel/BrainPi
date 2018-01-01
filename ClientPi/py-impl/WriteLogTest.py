@@ -7,9 +7,8 @@ sys.path.append('../gen-py')
 
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 
-from EyePi.ttypes import *
-from EyePi.constants import *
-from GenericStruct.ttypes import *
+from EyePi.ttypes import EyePiInput
+from GenericStruct.ttypes import ActionEnum
  
 from thrift import Thrift
 import pickle
@@ -18,7 +17,7 @@ try:
     input = EyePiInput()
     input.deviceToken = 'myLaptop'
     action = dict()
-    action[ActionEnum.LOGIN] = pickle.dumps("testdata", protocol=None, fix_imports=False)
+    action[ActionEnum.LOGIN] = pickle.dumps(obj="testdata", protocol=None, fix_imports=False)
     input.action = action
     ConnectEyePi().writeLog(input)
  

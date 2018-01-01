@@ -9,13 +9,12 @@
   "username"    : "admin",
   "password"    : "admin",
   "code"        : "123456ABCD",
-  "enabled"     : true,
-  "autorisations" : [
-    {"0" : null},
-    {"1" : null},
-    {"2" : null},
-    {"3" : null},
-    {"4" : null},
-    {"5" : null}
-  ]
+  "enabled"     : 1,
+  "autorisations" :
+    {"0" : {
+      "write_enabled" : 1,
+      "enabled" : 1,
+      "module_config" : null
+    }}
+
 }

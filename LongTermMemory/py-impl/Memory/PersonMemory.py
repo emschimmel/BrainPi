@@ -1,27 +1,28 @@
-
-import sys
-sys.path.append('../gen-py')
-from LongMemory.ttypes import *
 from . import ConnectionManager
 
 class PersonMemory():
 
-    con = ConnectionManager.ConnectionManager()
+    __con = ConnectionManager.ConnectionManager()
 
+    @classmethod
     def getPerson(self, uniquename):
         return self.getPersonFromDatabase(uniquename=uniquename)
 
+    @classmethod
     def updatePerson(self, person):
         # todo
-        self.con.update(uniquename=person, field="", value="")
+        self.__con.update(uniquename=person, field="", value="")
 
+    @classmethod
     def storeNewPerson(self, person):
         # todo
-        self.con.store_new(value=person)
+        self.__con.store_new(value=person)
 
+    @classmethod
     def getAll(self):
-        return self.con.get_all()
+        return self.__con.get_all()
 
+    @classmethod
     def getPersonFromDatabase(self, uniquename):
         # get from database
-        return self.con.get(key=uniquename)
+        return self.__con.get(key=uniquename)

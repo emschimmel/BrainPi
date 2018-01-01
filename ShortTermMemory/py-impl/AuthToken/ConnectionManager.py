@@ -22,21 +22,21 @@ class ConnectionManager():
             r = redis.StrictRedis(host=config.redis_service_ip, port=config.redis_service_port, db=0)
             r.ping()
             from . import RedisImplementation
-            storage = State_d(RedisImplementation.RedisImplementation())
+            storage = State_d(imp=RedisImplementation.RedisImplementation())
         except Exception as ex:
             from . import LocalImplementation
-            storage = State_d(LocalImplementation.LocalImplementation())
+            storage = State_d(imp=LocalImplementation.LocalImplementation())
     else:
         from . import LocalImplementation
-        storage = State_d(LocalImplementation.LocalImplementation())
+        storage = State_d(imp=LocalImplementation.LocalImplementation())
 
     def get(self, key):
-        return self.storage.get(key)
+        return self.storage.get(key=key)
 
     def put(self, key, value):
-        self.storage.put(key, value)
+        self.storage.put(key=key, value=value)
 
     def delete(self, key):
-        self.storage.delete(key)
+        self.storage.delete(key=key)
 
 

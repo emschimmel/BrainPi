@@ -186,8 +186,8 @@ class Client(Iface):
         iprot.readMessageEnd()
         if result.success is not None:
             return result.success
-        if result.badHash is not None:
-            raise result.badHash
+        if result.bad is not None:
+            raise result.bad
         if result.fail is not None:
             raise result.fail
         raise TApplicationException(TApplicationException.MISSING_RESULT, "login failed: unknown result")
@@ -300,9 +300,9 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
-        except ThriftException.ttypes.BadHashException as badHash:
+        except ThriftException.ttypes.BadHashException as bad:
             msg_type = TMessageType.REPLY
-            result.badHash = badHash
+            result.bad = bad
         except ThriftException.ttypes.LoginFailedException as fail:
             msg_type = TMessageType.REPLY
             result.fail = fail
@@ -787,19 +787,19 @@ class login_result(object):
     """
     Attributes:
      - success
-     - badHash
+     - bad
      - fail
     """
 
     thrift_spec = (
         (0, TType.STRUCT, 'success', (LoginOutputObject, LoginOutputObject.thrift_spec), None, ),  # 0
-        (1, TType.STRUCT, 'badHash', (ThriftException.ttypes.BadHashException, ThriftException.ttypes.BadHashException.thrift_spec), None, ),  # 1
+        (1, TType.STRUCT, 'bad', (ThriftException.ttypes.BadHashException, ThriftException.ttypes.BadHashException.thrift_spec), None, ),  # 1
         (2, TType.STRUCT, 'fail', (ThriftException.ttypes.LoginFailedException, ThriftException.ttypes.LoginFailedException.thrift_spec), None, ),  # 2
     )
 
-    def __init__(self, success=None, badHash=None, fail=None,):
+    def __init__(self, success=None, bad=None, fail=None,):
         self.success = success
-        self.badHash = badHash
+        self.bad = bad
         self.fail = fail
 
     def read(self, iprot):
@@ -819,8 +819,8 @@ class login_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.badHash = ThriftException.ttypes.BadHashException()
-                    self.badHash.read(iprot)
+                    self.bad = ThriftException.ttypes.BadHashException()
+                    self.bad.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
@@ -843,9 +843,9 @@ class login_result(object):
             oprot.writeFieldBegin('success', TType.STRUCT, 0)
             self.success.write(oprot)
             oprot.writeFieldEnd()
-        if self.badHash is not None:
-            oprot.writeFieldBegin('badHash', TType.STRUCT, 1)
-            self.badHash.write(oprot)
+        if self.bad is not None:
+            oprot.writeFieldBegin('bad', TType.STRUCT, 1)
+            self.bad.write(oprot)
             oprot.writeFieldEnd()
         if self.fail is not None:
             oprot.writeFieldBegin('fail', TType.STRUCT, 2)

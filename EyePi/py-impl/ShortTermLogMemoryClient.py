@@ -2,8 +2,8 @@ import random
 import sys
 sys.path.append('../gen-py')
 from ShortMemory import ShortMemoryService
-from ShortMemory.ttypes import *
-from ThriftException.ttypes import *
+from ShortMemory.ttypes import LogObject
+from ShortMemory.ttypes import Log
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -22,6 +22,7 @@ class ShortTermLogMemoryClient:
     def __init__(self):
         self.log = {}
 
+    @classmethod
     def log_exception(self, input, exception):
         log = Log()
         logObject = LogObject()
@@ -34,8 +35,9 @@ class ShortTermLogMemoryClient:
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         log.key = ts
         log.value = logObject
-        self.write_log(log)
+        self.__write_log(log)
 
+    @classmethod
     def log_thrift_exception(self, input, exception):
         log = Log()
         logObject = LogObject()
@@ -49,8 +51,9 @@ class ShortTermLogMemoryClient:
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         log.key = ts
         log.value = logObject
-        self.write_log(log)
+        self.__write_log(log)
 
+    @classmethod
     def log_thrift_endpoint_exception(self, input, exception):
         log = Log()
         logObject = LogObject()
@@ -64,8 +67,9 @@ class ShortTermLogMemoryClient:
         logObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         log.key = ts
         log.value = logObject
-        self.write_log(log)
+        self.__write_log(log)
 
+    @classmethod
     def log_event(self, input, message):
         log = Log()
         logObject = LogObject()
@@ -79,27 +83,29 @@ class ShortTermLogMemoryClient:
         log.key = ts
         log.value = logObject
         print(log)
-        self.write_log(log)
+        self.__write_log(log)
 
-    def write_log(self, input):
+    @classmethod
+    def __write_log(self, input):
         print('short term memory handler, write log')
+        ip, port = self.__resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
         try:
-            ip, port = self.resolve_config()
-            transport = TSocket.TSocket(ip, port)  # Make socket
             transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-
             client.writeLog(input)
             transport.close()
-
         except Thrift.TException as tx:
             print('%s' % (tx.message))
         except Exception as ex:
             print('whot??? %s' % ex)
+        finally:
+            transport.close()
 
-    def resolve_config(self):
+    @staticmethod
+    def __resolve_config():
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

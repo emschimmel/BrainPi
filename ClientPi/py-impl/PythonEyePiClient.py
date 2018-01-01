@@ -5,10 +5,10 @@
 import sys
 sys.path.append('../gen-py')
 
-from EyePi.ttypes import *
-from GenericStruct.ttypes import *
-from AutorisationStruct.ttypes import *
-from WeatherPi.ttypes import *
+from EyePi.ttypes import EyePiInput
+from EyePi.ttypes import ConfirmInput
+from GenericStruct.ttypes import ActionEnum
+from WeatherPi.ttypes import WeatherInput
 
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
@@ -46,11 +46,12 @@ try:
 
     nparr = np.fromstring(readfile, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    input.image = pickle.dumps(image, protocol=None, fix_imports=False)
+    input.image = pickle.dumps(obj=image, protocol=None, fix_imports=False)
+
     actions = dict()
     weather_input = WeatherInput()
     weather_input.location = 'Amsterdam,nl'
-    actionParameter = pickle.dumps(weather_input, protocol=None, fix_imports=False)
+    actionParameter = pickle.dumps(obj=weather_input, protocol=None, fix_imports=False)
     actions[ActionEnum.WEATHER] = actionParameter
     input.action = actions
     #parameter = GenericObject()

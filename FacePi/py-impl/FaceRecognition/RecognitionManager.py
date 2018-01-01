@@ -11,20 +11,23 @@ class RecognitionManager():
     def __init__(self):
         self.log = {}
 
-    def train(self):
+    @staticmethod
+    def train():
         # LbphTrain().basicTrain()
         # EigenTrain().basicTrain()
         # FisherTrain().basicTrain()
         pass
 
-    def recon_face(self, image):
+    @staticmethod
+    def recon_face(image):
         output = dict()
         # output['LBPH'] = LbphFace().reconFaceFromImage(image)
         # output['Eigen'] = EigenFace().reconFaceFromImage(image)
         # output['Fisher'] = FisherFace().reconFaceFromImage(image)
         return output
 
-    def recon_cam_face(self):
+    @staticmethod
+    def recon_cam_face():
         output = dict()
         # output['LBPH'] = LbphFace().reconFaceWithCam()
         # output['Eigen'] = EigenFace().reconFaceWithCam()

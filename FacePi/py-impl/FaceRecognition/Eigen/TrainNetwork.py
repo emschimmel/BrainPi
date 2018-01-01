@@ -11,11 +11,10 @@ import config
 class TrainNetwork():
 
     def __init__(self):
-        self.log = {}
+        pass
 
+    @classmethod
     def learn(self, image, name, id):
-
-        self.log = {}
         recognizer = cv2.face.EigenFaceRecognizer_create()
         recognizer.read(config.eigen_trainer_file)
     #    faces, Ids
@@ -24,20 +23,23 @@ class TrainNetwork():
         faceSamples.append(gray_image)
         Ids = []
         Ids.append(id)
-        self.write_to_disc(image, name)
+        self.__write_to_disc(image=image, name=name)
         recognizer.update(faceSamples, np.array(Ids))
         # recognizer.save('./Data/trainer.yml')
         recognizer.write(config.eigen_trainer_file)
 
+    @classmethod
     def basicTrain(self):
         self.getImagesAndLabels()
 
-    def trainAndWrite(self, faces, Ids):
+    @staticmethod
+    def trainAndWrite(faces, Ids):
         recognizer = cv2.face.EigenFaceRecognizer_create()
         recognizer.train(faces, np.array(Ids))
         #recognizer.save('./Data/trainer.yml')
         recognizer.write(config.eigen_trainer_file)
 
+    @classmethod
     def getImagesAndLabels(self):
         path = config.eigen_data_path
 
@@ -51,7 +53,7 @@ class TrainNetwork():
             name = name[1].replace('_', ' ', -1)
             print(name)
             print(label)
-            imageCollection = self.read_image(imagePath)
+            imageCollection = self.__read_image(imagePath)
             for filename in imageCollection:
                 try:
                     file = open(imagePath+'/'+filename, 'rb')
@@ -79,13 +81,15 @@ class TrainNetwork():
             with open(config.eigen_name_id_file, 'wb') as namedIdsFile:
                 pickle.dump(namedIds, namedIdsFile)
 
-    def write_to_disc(self, image, name):
+    @staticmethod
+    def __write_to_disc(self, image, name):
         save_name = name.replace(' ', '_', -1)
         file_name = config.eigen_data_path + save_name + '/' + save_name + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '.jpg'
         print(file_name)
         cv2.imwrite(file_name, image)
 
-    def read_image(self, path):
+    @staticmethod
+    def __read_image(path):
         print(path)
         try:
             root, dirs, files=next(os.walk(path))
@@ -94,7 +98,7 @@ class TrainNetwork():
 
             return imageCollection
         except Exception as ex:
-            print('Read_image gooit error onder het tapijt!')
+            print('__read_image gooit error onder het tapijt!')
             return []
 
 if __name__ == '__main__':

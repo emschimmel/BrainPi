@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 
-import sys
-
-sys.path.append('../../')
-import config
 import pyowm
 
 # Parse configuration
@@ -14,9 +10,10 @@ parser.read('../config/weather.ini')
 
 class OpenWeather:
     def __init__(self):
-        self.log = {}
+        pass
 
-    def getWeather(self, input):
+    @staticmethod
+    def getWeather(input):
         owm = pyowm.OWM(parser.get('DEFAULT', 'owmapikey'))
         observation = owm.weather_at_place(input)
         w = observation.get_weather()

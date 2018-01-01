@@ -1,14 +1,16 @@
+import sys
+sys.path.append('../gen-py')
+from ThriftException.ttypes import BadHashException
+from ThriftException.ttypes import LoginFailedException
 
-from LongMemory.ttypes import *
-from ThriftException.ttypes import *
 from . import ConnectionManager
 
 class AutorisationActions():
 
-    con = ConnectionManager.ConnectionManager()
+    __con = ConnectionManager.ConnectionManager()
 
     def login(self, loginobject):
-        if self.checkHash(loginobject.password):
+        if self.__checkHash(loginobject.password):
             query = dict()
             query['username'] = loginobject.username
             if loginobject.password:
@@ -16,18 +18,18 @@ class AutorisationActions():
             if loginobject.code:
                 query['code'] = loginobject.code
             query['enabled'] = 1
-            personList = self.con.get_by_query(query)
+            personList = self.__con.get_by_query(query)
             if personList:
                 return personList[0]
-            return LoginFailedException()
+            raise LoginFailedException()
         else:
             raise BadHashException()
 
     def changePassword(self, username, password):
-        if self.checkHash(password):
+        if self.__checkHash(password):
             pass
         else:
             raise BadHashException()
 
-    def checkHash(self, password):
+    def __checkHash(self, password):
         return True
