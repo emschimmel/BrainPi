@@ -82,8 +82,10 @@ class testFlow:
         try:
             tokenInput = self.createEarPiAuthObject()
             output = ConnectEarPi().getUserList(tokenInput)
-            print(output.personList)
             self.__token = output.token
+            if output.personList:
+                for item in output.personList:
+                    print(item)
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
@@ -128,7 +130,9 @@ class testFlow:
             tokenInput = self.createEarPiAuthObject()
             output = ConnectEarPi().getDeviceList(tokenInput)
             self.__token = output.token
-            print(output.deviceList)
+            if output.deviceList:
+                for key in output.deviceList:
+                    print(key+" - %s" % output.deviceList[key])
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 

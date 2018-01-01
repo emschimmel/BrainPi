@@ -69,6 +69,7 @@ class EyePiThriftHandler:
                     output.token = self.__get_request_token(uniquename=person.uniquename, deviceToken=loginObject.deviceToken)
 
             else:
+                loginObject.deviceInput.person = person.uniquename
                 deviceToken = ShortTermTokenMemoryClient().register_device(loginObject.deviceInput)
                 output.deviceToken = deviceToken
             return output
