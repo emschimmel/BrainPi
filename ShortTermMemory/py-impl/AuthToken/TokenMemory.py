@@ -29,9 +29,10 @@ class TokenMemory:
     def validateToken(self, tokenString, deviceToken):
         key = self.__generateKey(tokenString, deviceToken)
         tokenObject = self.__con.get(key)
+        # time=datetime.datetime(2018, 1, 1, 10, 58, 49, 723580))
         if (tokenObject):
-            # if tokenObject.time - datetime.datetime.utcnow() <= self.max_token_time:
-            return True
+            if (datetime.datetime.utcnow() - tokenObject.time).total_seconds() <= self.max_token_time:
+                return True
         return False
 
     @staticmethod
