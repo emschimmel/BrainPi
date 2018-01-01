@@ -61,6 +61,8 @@ class testFlow:
             input.username = self.__username
             input.password = self.__password
             input.code = self.__code
+            input.deviceToken = self.__devicetoken
+            input.token = self.__token
             inputDevice = DeviceTokenInput()
             inputDevice.ip = '127.0.0.1'
             inputDevice.devicetype = 'Development'
