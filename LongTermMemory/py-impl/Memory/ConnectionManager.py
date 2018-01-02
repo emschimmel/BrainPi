@@ -43,6 +43,15 @@ class ConnectionManager():
         storage = State_d(imp=LocalMockImplementation.LocalMockImplementation())
 
     @classmethod
+    def check_if_uniquename_exists(self, uniquename):
+        return self.storage.check_if_uniquename_exists(uniquename=uniquename)
+
+    @classmethod
+    def check_if_username_exists(self, username):
+        return self.storage.check_if_uniquename_exists(username=username)
+
+
+    @classmethod
     def get(self, key):
         return self.__translateToJson(jsondata=self.storage.get(uniquename=key))
 

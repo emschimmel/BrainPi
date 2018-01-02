@@ -14,6 +14,7 @@ from AutorisationStruct.ttypes import Person
 from AutorisationStruct.ttypes import user_detail
 from AutorisationStruct.ttypes import Autorisation
 from AutorisationStruct.ttypes import DeviceTokenInput
+from ThriftException.ttypes import UniqueFailedException
 
 from ConnectionHelpers.ConnectShortMemory import ConnectShortMemory
 from ConnectionHelpers.ConnectLongMemory import ConnectLongMemory
@@ -22,9 +23,6 @@ from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
 
 from thrift import Thrift
-
-sys.path.append('../../')
-import config
 
 class testFlow:
 
@@ -55,6 +53,10 @@ class testFlow:
             input.enabled = True
             self.__person = input
             ConnectLongMemory().storeNewPerson(input)
+        except UniqueFailedException as unique:
+            print('catching unique failed Exception')
+            for field in unique.field:
+                print('unique field %s already in database' % field)
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 

@@ -14,12 +14,14 @@ from LongTermPersonMemoryClient import LongTermPersonMemoryClient
 from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 
 from EarPi import EarPiThriftService
+from EarPi.ttypes import UserOutput
 from EarPi.ttypes import UserListOutput
 from EarPi.ttypes import DeviceListOutput
 from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
 from ThriftException.ttypes import ExternalEndpointUnavailable
 from ThriftException.ttypes import ThriftServiceException
+from ThriftException.ttypes import UniqueFailedException
 from GenericStruct.ttypes import ActionEnum
 
 from thrift.transport import TSocket
@@ -42,6 +44,27 @@ log.setLevel(logging.DEBUG)
 class EarPiThriftHandler:
     def __init__(self):
         self.log = {}
+
+    @stat.timer("createNewPerson")
+    def createNewPerson(self, person, tokenInput):
+        try:
+            if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
+                raise LoginFailedException
+            output = UserOutput()
+            output.person = LongTermPersonMemoryClient().createNewPerson(person=person)
+            output.token = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
+            return output
+        except UniqueFailedException as unique:
+            raise unique
+
+    @stat.timer("getUser")
+    def getUser(self, uniquename, tokenInput):
+        if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
+            raise LoginFailedException
+        output = UserOutput()
+        output.person = LongTermPersonMemoryClient().get_Person(input=uniquename)
+        output.token = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
+        return output
 
     @stat.timer("getUserList")
     def getUserList(self, tokenInput):

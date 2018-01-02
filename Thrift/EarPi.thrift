@@ -41,7 +41,12 @@ struct DeviceTokenItem {
 }
 
 struct UserListOutput {
-    1 : list<AutorisationStruct.Person> personList
+    1 : optional list<AutorisationStruct.Person> personList
+    2 : optional string token
+}
+
+struct UserOutput {
+    1 : optional AutorisationStruct.Person personList
     2 : optional string token
 }
 
@@ -54,11 +59,17 @@ struct DeviceTokenInput {
 }
 
 struct DeviceListOutput {
-    1 : map<string, DeviceTokenInput> deviceList
+    1 : optional map<string, DeviceTokenInput> deviceList
     2 : optional string token
 }
 
 service EarPiThriftService {
+    ### user management/account management create a new person (done by an excisting user)
+    string createNewPerson(1: AutorisationStruct.Person person, 2: EarPiAuthObject tokenInput) throws (1: ThriftException.LoginFailedException fail, 2: ThriftException.UniqueFailedException unique)
+
+    ### user management/account management get a single person
+    UserOutput getUser(1: string uniquename, 2: EarPiAuthObject tokenInput) throws (1: ThriftException.LoginFailedException fail)
+
     ### user management/account management get the person list
     UserListOutput getUserList(1: EarPiAuthObject tokenInput) throws (1: ThriftException.LoginFailedException fail)
 
@@ -82,4 +93,5 @@ service EarPiThriftService {
 
     ### change the password for a specific username
     string changePassword(1: string username, 2: string password, 3: EarPiAuthObject tokenInput) throws (1: ThriftException.BadHashException bad, 2: ThriftException.LoginFailedException fail)
+
 }

@@ -19,6 +19,7 @@ from thrift.server import TServer
 
 from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
+from ThriftException.ttypes import UniqueFailedException
 
 sys.path.append('../../')
 import config
@@ -57,6 +58,8 @@ class LongTermMemoryThriftServer:
     def storeNewPerson(self, person):
         try:
             PersonMemory().storeNewPerson(person=person)
+        except UniqueFailedException as unique:
+            raise unique
         except Exception as ex:
             print('invalid request %s' % ex)
 

@@ -7,6 +7,22 @@ class LocalMockImplementation(object):
         self.__data = self.__load_mock()
         self.__mockList = [self.__data]
 
+    def check_if_uniquename_exists(self, uniquename):
+        print('LongTermMemory: mongo check if available')
+        result = None
+        for item in self.__mockList:
+            if item.uniquename == uniquename:
+                result = item
+        return True if result is not None else False
+
+    def check_if_username_exists(self, username):
+        print('LongTermMemory: mongo check if available')
+        result = None
+        for item in self.__mockList:
+            if item.username == username:
+                result = item
+        return True if result is not None else False
+
     def get(self, uniquename):
         print('LongTermMemory: local get %s' % self.__data)
         for item in self.__mockList:

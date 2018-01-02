@@ -1,4 +1,7 @@
 from . import ConnectionManager
+import sys
+sys.path.append('../gen-py')
+from ThriftException.ttypes import UniqueFailedException
 
 class PersonMemory():
 
@@ -11,7 +14,20 @@ class PersonMemory():
     @classmethod
     def storeNewPerson(self, person):
         # todo
-        self.__con.store_new(value=person)
+        exception = UniqueFailedException()
+        exception.field = []
+        fail = False
+        if self.__con.check_if_username_exists(username=person.username):
+            exception.field.append("username")
+        elif person.uniquename is None:
+        ## generate uniquename?
+            pass
+        elif self.__con.check_if_uniquename_exists(uniquename=person.username):
+            exception.field.append("uniquename")
+        if len(exception.field) > 0:
+            raise exception
+        else:
+            self.__con.store_new(value=person)
 
     @classmethod
     def getAll(self):

@@ -6,6 +6,7 @@ from LongMemory.ttypes import LongMemoryLoginInputObject
 from AutorisationStruct.ttypes import Person
 from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
+from ThriftException.ttypes import UniqueFailedException
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -19,6 +20,46 @@ import config
 class LongTermPersonMemoryClient:
     def __init__(self):
         pass
+
+    @classmethod
+    def createNewPerson(self, person):
+        ip, port = self.__resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
+        try:
+            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
+            client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
+            transport.open()  # Connect!
+            person = client.storeNewPerson(person=person)
+            transport.close()
+            return person
+        except UniqueFailedException as unique:
+            raise unique
+        except Thrift.TException as tx:
+            print('%s' % (tx.message))
+        except Exception as ex:
+            print('whot??? %s' % ex)
+        finally:
+            transport.close()
+
+    @classmethod
+    def get_Person(self, input):
+        ip, port = self.__resolve_config()
+        transport = TSocket.TSocket(ip, port)  # Make socket
+        try:
+            transport = TTransport.TBufferedTransport(transport)  # Buffering is critical. Raw sockets are very slow
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
+            client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
+            transport.open()  # Connect!
+            person = client.getPersonConfig(uniquename=input)
+            transport.close()
+            return person
+        except Thrift.TException as tx:
+            print('%s' % (tx.message))
+        except Exception as ex:
+            print('whot??? %s' % ex)
+        finally:
+            transport.close()
 
     @classmethod
     def getUserList(self):
