@@ -72,7 +72,6 @@ class LongTermPersonMemoryClient:
             transport.open()
             personList = client.getAll()
             transport.close()
-            print(personList)
             return personList
         except Thrift.TException as tx:
             print('%s' % (tx.message))
@@ -152,9 +151,7 @@ class LongTermPersonMemoryClient:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = LongMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()
-            # client.updatePerson(field='autorisations', person=person)
-            # TODO implement this function
-            print('TODO: not implemented yet')
+            client.updateActionConfig(uniquename=uniquename, action=action, config=config)
             transport.close()
         except Thrift.TException as tx:
             print('%s' % (tx.message))

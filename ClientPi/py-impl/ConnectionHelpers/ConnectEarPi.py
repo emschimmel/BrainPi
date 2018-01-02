@@ -128,7 +128,7 @@ class ConnectEarPi:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = EarPiThriftService.Client(protocol)
             transport.open()
-            output = client.configureModuleSettings(uniquename=uniquename, action=action, config=config, tokenInput=tokenInput)
+            output = client.configureModuleSettings(uniquename=uniquename, action=action, module_config=config, tokenInput=tokenInput)
             transport.close()
             return output
         except Thrift.TException as tx:

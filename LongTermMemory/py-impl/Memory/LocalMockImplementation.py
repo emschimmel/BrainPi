@@ -47,6 +47,15 @@ class LocalMockImplementation(object):
             if item['uniquename'] == uniquename:
                 item[field] = value
 
+    def updateActionConfig(self, uniquename, action, value):
+        print('LongTermMemory: mongo config update')
+        print('LongTermMemory: local update')
+        for item in self.__mockList:
+            if item['uniquename'] == uniquename:
+                autorisations = item['autorisations']
+                autorisations[action] = value
+                item['autorisations'] = autorisations
+
     def delete(self, uniquename):
         print('LongTermMemory: local delete')
         for item in self.__mockList:

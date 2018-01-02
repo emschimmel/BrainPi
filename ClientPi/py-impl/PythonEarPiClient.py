@@ -21,6 +21,7 @@ from ConnectionHelpers.ConnectLongMemory import ConnectLongMemory
 from ConnectionHelpers.ConnectEarPi import ConnectEarPi
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
+import pickle
 
 from thrift import Thrift
 
@@ -157,6 +158,16 @@ class testFlow:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    def changeModuleSettings(self):
+        try:
+            tokenInput = self.createEarPiAuthObject()
+            newBinary = pickle.dumps(obj='hallo nieuwe config', protocol=None, fix_imports=False)
+            token = ConnectEarPi().configureModuleSettings(self.__uniquename, ActionEnum.LOGIN, newBinary, tokenInput)
+            self.__token = token
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
+
     ### Somehow we have to trust the first device
     def confirmFirstDevice(self):
         try:
@@ -236,6 +247,11 @@ if __name__ == '__main__':
 
     print("----> changeUser")
     classUnderTest.changeUser()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
+    print("----> changeModuleSettings")
+    classUnderTest.changeModuleSettings()
     print((datetime.datetime.utcnow() - currenttime).total_seconds())
     currenttime = datetime.datetime.utcnow()
 

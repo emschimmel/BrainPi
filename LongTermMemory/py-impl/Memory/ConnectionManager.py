@@ -81,6 +81,10 @@ class ConnectionManager():
         self.storage.update(uniquename=uniquename, value=value, field=field)
 
     @classmethod
+    def updateActionConfig(self, uniquename, action, value):
+        self.storage.updateActionConfig(uniquename=uniquename, action=action, value=value)
+
+    @classmethod
     def delete(self, uniquename):
         self.storage.delete(uniquename=uniquename)
 

@@ -58,10 +58,20 @@ class MongoImplementation():
 
     @classmethod
     def update(self, uniquename, value, field):
+        print('LongTermMemory: mongo update')
         person = self.get(uniquename)
         person[field] = value
         self.__person_db.person_collection.update({'_id':person._id}, {'$set': person}, upsert=False)
-        print('LongTermMemory: mongo update')
+
+
+    @classmethod
+    def updateActionConfig(self, uniquename, action, value):
+        print('LongTermMemory: mongo config update')
+        person = self.get(uniquename)
+        autorisations = person['autorisations']
+        autorisations[action] = value
+        person['autorisations'] = autorisations
+        self.__person_db.person_collection.update({'_id': person._id}, {'$set': person}, upsert=False)
 
     @classmethod
     def delete(self, uniquename):

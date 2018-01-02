@@ -70,6 +70,13 @@ class LongTermMemoryThriftServer:
         except Exception as ex:
             print('invalid request %s' % ex)
 
+    @stat.timer("updateActionConfig")
+    def updateActionConfig(self, uniquename, action, config):
+        try:
+            PersonMemory().updateActionConfig(uniquename=uniquename, action=action, config=config)
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
     @stat.timer("changePassword")
     def changePassword(self, username, password):
         try:

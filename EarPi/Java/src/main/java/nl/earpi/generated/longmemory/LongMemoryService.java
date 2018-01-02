@@ -18,6 +18,8 @@ public class LongMemoryService {
 
     public java.util.List<nl.earpi.generated.autorisationstruct.Person> getAll() throws org.apache.thrift.TException;
 
+    public void updateActionConfig(java.lang.String uniquename, nl.earpi.generated.genericstruct.ActionEnum action, java.nio.ByteBuffer config) throws org.apache.thrift.TException;
+
     public void storeNewPerson(nl.earpi.generated.autorisationstruct.Person person) throws nl.earpi.generated.exception.UniqueFailedException, org.apache.thrift.TException;
 
     public void updatePerson(java.lang.String field, nl.earpi.generated.autorisationstruct.Person person) throws org.apache.thrift.TException;
@@ -33,6 +35,8 @@ public class LongMemoryService {
     public void getPersonConfig(java.lang.String uniquename, org.apache.thrift.async.AsyncMethodCallback<nl.earpi.generated.autorisationstruct.Person> resultHandler) throws org.apache.thrift.TException;
 
     public void getAll(org.apache.thrift.async.AsyncMethodCallback<java.util.List<nl.earpi.generated.autorisationstruct.Person>> resultHandler) throws org.apache.thrift.TException;
+
+    public void updateActionConfig(java.lang.String uniquename, nl.earpi.generated.genericstruct.ActionEnum action, java.nio.ByteBuffer config, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void storeNewPerson(nl.earpi.generated.autorisationstruct.Person person, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -134,6 +138,28 @@ public class LongMemoryService {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getAll failed: unknown result");
+    }
+
+    public void updateActionConfig(java.lang.String uniquename, nl.earpi.generated.genericstruct.ActionEnum action, java.nio.ByteBuffer config) throws org.apache.thrift.TException
+    {
+      send_updateActionConfig(uniquename, action, config);
+      recv_updateActionConfig();
+    }
+
+    public void send_updateActionConfig(java.lang.String uniquename, nl.earpi.generated.genericstruct.ActionEnum action, java.nio.ByteBuffer config) throws org.apache.thrift.TException
+    {
+      updateActionConfig_args args = new updateActionConfig_args();
+      args.setUniquename(uniquename);
+      args.setAction(action);
+      args.setConfig(config);
+      sendBase("updateActionConfig", args);
+    }
+
+    public void recv_updateActionConfig() throws org.apache.thrift.TException
+    {
+      updateActionConfig_result result = new updateActionConfig_result();
+      receiveBase(result, "updateActionConfig");
+      return;
     }
 
     public void storeNewPerson(nl.earpi.generated.autorisationstruct.Person person) throws nl.earpi.generated.exception.UniqueFailedException, org.apache.thrift.TException
@@ -315,6 +341,44 @@ public class LongMemoryService {
       }
     }
 
+    public void updateActionConfig(java.lang.String uniquename, nl.earpi.generated.genericstruct.ActionEnum action, java.nio.ByteBuffer config, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      updateActionConfig_call method_call = new updateActionConfig_call(uniquename, action, config, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class updateActionConfig_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private java.lang.String uniquename;
+      private nl.earpi.generated.genericstruct.ActionEnum action;
+      private java.nio.ByteBuffer config;
+      public updateActionConfig_call(java.lang.String uniquename, nl.earpi.generated.genericstruct.ActionEnum action, java.nio.ByteBuffer config, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.uniquename = uniquename;
+        this.action = action;
+        this.config = config;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("updateActionConfig", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        updateActionConfig_args args = new updateActionConfig_args();
+        args.setUniquename(uniquename);
+        args.setAction(action);
+        args.setConfig(config);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
     public void storeNewPerson(nl.earpi.generated.autorisationstruct.Person person, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       storeNewPerson_call method_call = new storeNewPerson_call(person, resultHandler, this, ___protocolFactory, ___transport);
@@ -433,6 +497,7 @@ public class LongMemoryService {
       processMap.put("loginCall", new loginCall());
       processMap.put("getPersonConfig", new getPersonConfig());
       processMap.put("getAll", new getAll());
+      processMap.put("updateActionConfig", new updateActionConfig());
       processMap.put("storeNewPerson", new storeNewPerson());
       processMap.put("updatePerson", new updatePerson());
       processMap.put("changePassword", new changePassword());
@@ -501,6 +566,26 @@ public class LongMemoryService {
       public getAll_result getResult(I iface, getAll_args args) throws org.apache.thrift.TException {
         getAll_result result = new getAll_result();
         result.success = iface.getAll();
+        return result;
+      }
+    }
+
+    public static class updateActionConfig<I extends Iface> extends org.apache.thrift.ProcessFunction<I, updateActionConfig_args> {
+      public updateActionConfig() {
+        super("updateActionConfig");
+      }
+
+      public updateActionConfig_args getEmptyArgsInstance() {
+        return new updateActionConfig_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public updateActionConfig_result getResult(I iface, updateActionConfig_args args) throws org.apache.thrift.TException {
+        updateActionConfig_result result = new updateActionConfig_result();
+        iface.updateActionConfig(args.uniquename, args.action, args.config);
         return result;
       }
     }
@@ -589,6 +674,7 @@ public class LongMemoryService {
       processMap.put("loginCall", new loginCall());
       processMap.put("getPersonConfig", new getPersonConfig());
       processMap.put("getAll", new getAll());
+      processMap.put("updateActionConfig", new updateActionConfig());
       processMap.put("storeNewPerson", new storeNewPerson());
       processMap.put("updatePerson", new updatePerson());
       processMap.put("changePassword", new changePassword());
@@ -783,6 +869,66 @@ public class LongMemoryService {
 
       public void start(I iface, getAll_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<nl.earpi.generated.autorisationstruct.Person>> resultHandler) throws org.apache.thrift.TException {
         iface.getAll(resultHandler);
+      }
+    }
+
+    public static class updateActionConfig<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, updateActionConfig_args, Void> {
+      public updateActionConfig() {
+        super("updateActionConfig");
+      }
+
+      public updateActionConfig_args getEmptyArgsInstance() {
+        return new updateActionConfig_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+            updateActionConfig_result result = new updateActionConfig_result();
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            updateActionConfig_result result = new updateActionConfig_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, updateActionConfig_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.updateActionConfig(args.uniquename, args.action, args.config,resultHandler);
       }
     }
 
@@ -3309,6 +3455,856 @@ public class LongMemoryService {
           }
           struct.setSuccessIsSet(true);
         }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class updateActionConfig_args implements org.apache.thrift.TBase<updateActionConfig_args, updateActionConfig_args._Fields>, java.io.Serializable, Cloneable, Comparable<updateActionConfig_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("updateActionConfig_args");
+
+    private static final org.apache.thrift.protocol.TField UNIQUENAME_FIELD_DESC = new org.apache.thrift.protocol.TField("uniquename", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField ACTION_FIELD_DESC = new org.apache.thrift.protocol.TField("action", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField CONFIG_FIELD_DESC = new org.apache.thrift.protocol.TField("config", org.apache.thrift.protocol.TType.STRING, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new updateActionConfig_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new updateActionConfig_argsTupleSchemeFactory();
+
+    public java.lang.String uniquename; // required
+    /**
+     * 
+     * @see nl.earpi.generated.genericstruct.ActionEnum
+     */
+    public nl.earpi.generated.genericstruct.ActionEnum action; // required
+    public java.nio.ByteBuffer config; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      UNIQUENAME((short)1, "uniquename"),
+      /**
+       * 
+       * @see nl.earpi.generated.genericstruct.ActionEnum
+       */
+      ACTION((short)2, "action"),
+      CONFIG((short)3, "config");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // UNIQUENAME
+            return UNIQUENAME;
+          case 2: // ACTION
+            return ACTION;
+          case 3: // CONFIG
+            return CONFIG;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.UNIQUENAME, new org.apache.thrift.meta_data.FieldMetaData("uniquename", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.ACTION, new org.apache.thrift.meta_data.FieldMetaData("action", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, nl.earpi.generated.genericstruct.ActionEnum.class)));
+      tmpMap.put(_Fields.CONFIG, new org.apache.thrift.meta_data.FieldMetaData("config", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(updateActionConfig_args.class, metaDataMap);
+    }
+
+    public updateActionConfig_args() {
+    }
+
+    public updateActionConfig_args(
+      java.lang.String uniquename,
+      nl.earpi.generated.genericstruct.ActionEnum action,
+      java.nio.ByteBuffer config)
+    {
+      this();
+      this.uniquename = uniquename;
+      this.action = action;
+      this.config = org.apache.thrift.TBaseHelper.copyBinary(config);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public updateActionConfig_args(updateActionConfig_args other) {
+      if (other.isSetUniquename()) {
+        this.uniquename = other.uniquename;
+      }
+      if (other.isSetAction()) {
+        this.action = other.action;
+      }
+      if (other.isSetConfig()) {
+        this.config = org.apache.thrift.TBaseHelper.copyBinary(other.config);
+      }
+    }
+
+    public updateActionConfig_args deepCopy() {
+      return new updateActionConfig_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.uniquename = null;
+      this.action = null;
+      this.config = null;
+    }
+
+    public java.lang.String getUniquename() {
+      return this.uniquename;
+    }
+
+    public updateActionConfig_args setUniquename(java.lang.String uniquename) {
+      this.uniquename = uniquename;
+      return this;
+    }
+
+    public void unsetUniquename() {
+      this.uniquename = null;
+    }
+
+    /** Returns true if field uniquename is set (has been assigned a value) and false otherwise */
+    public boolean isSetUniquename() {
+      return this.uniquename != null;
+    }
+
+    public void setUniquenameIsSet(boolean value) {
+      if (!value) {
+        this.uniquename = null;
+      }
+    }
+
+    /**
+     * 
+     * @see nl.earpi.generated.genericstruct.ActionEnum
+     */
+    public nl.earpi.generated.genericstruct.ActionEnum getAction() {
+      return this.action;
+    }
+
+    /**
+     * 
+     * @see nl.earpi.generated.genericstruct.ActionEnum
+     */
+    public updateActionConfig_args setAction(nl.earpi.generated.genericstruct.ActionEnum action) {
+      this.action = action;
+      return this;
+    }
+
+    public void unsetAction() {
+      this.action = null;
+    }
+
+    /** Returns true if field action is set (has been assigned a value) and false otherwise */
+    public boolean isSetAction() {
+      return this.action != null;
+    }
+
+    public void setActionIsSet(boolean value) {
+      if (!value) {
+        this.action = null;
+      }
+    }
+
+    public byte[] getConfig() {
+      setConfig(org.apache.thrift.TBaseHelper.rightSize(config));
+      return config == null ? null : config.array();
+    }
+
+    public java.nio.ByteBuffer bufferForConfig() {
+      return org.apache.thrift.TBaseHelper.copyBinary(config);
+    }
+
+    public updateActionConfig_args setConfig(byte[] config) {
+      this.config = config == null ? (java.nio.ByteBuffer)null : java.nio.ByteBuffer.wrap(config.clone());
+      return this;
+    }
+
+    public updateActionConfig_args setConfig(java.nio.ByteBuffer config) {
+      this.config = org.apache.thrift.TBaseHelper.copyBinary(config);
+      return this;
+    }
+
+    public void unsetConfig() {
+      this.config = null;
+    }
+
+    /** Returns true if field config is set (has been assigned a value) and false otherwise */
+    public boolean isSetConfig() {
+      return this.config != null;
+    }
+
+    public void setConfigIsSet(boolean value) {
+      if (!value) {
+        this.config = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, java.lang.Object value) {
+      switch (field) {
+      case UNIQUENAME:
+        if (value == null) {
+          unsetUniquename();
+        } else {
+          setUniquename((java.lang.String)value);
+        }
+        break;
+
+      case ACTION:
+        if (value == null) {
+          unsetAction();
+        } else {
+          setAction((nl.earpi.generated.genericstruct.ActionEnum)value);
+        }
+        break;
+
+      case CONFIG:
+        if (value == null) {
+          unsetConfig();
+        } else {
+          if (value instanceof byte[]) {
+            setConfig((byte[])value);
+          } else {
+            setConfig((java.nio.ByteBuffer)value);
+          }
+        }
+        break;
+
+      }
+    }
+
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case UNIQUENAME:
+        return getUniquename();
+
+      case ACTION:
+        return getAction();
+
+      case CONFIG:
+        return getConfig();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case UNIQUENAME:
+        return isSetUniquename();
+      case ACTION:
+        return isSetAction();
+      case CONFIG:
+        return isSetConfig();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof updateActionConfig_args)
+        return this.equals((updateActionConfig_args)that);
+      return false;
+    }
+
+    public boolean equals(updateActionConfig_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_uniquename = true && this.isSetUniquename();
+      boolean that_present_uniquename = true && that.isSetUniquename();
+      if (this_present_uniquename || that_present_uniquename) {
+        if (!(this_present_uniquename && that_present_uniquename))
+          return false;
+        if (!this.uniquename.equals(that.uniquename))
+          return false;
+      }
+
+      boolean this_present_action = true && this.isSetAction();
+      boolean that_present_action = true && that.isSetAction();
+      if (this_present_action || that_present_action) {
+        if (!(this_present_action && that_present_action))
+          return false;
+        if (!this.action.equals(that.action))
+          return false;
+      }
+
+      boolean this_present_config = true && this.isSetConfig();
+      boolean that_present_config = true && that.isSetConfig();
+      if (this_present_config || that_present_config) {
+        if (!(this_present_config && that_present_config))
+          return false;
+        if (!this.config.equals(that.config))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetUniquename()) ? 131071 : 524287);
+      if (isSetUniquename())
+        hashCode = hashCode * 8191 + uniquename.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetAction()) ? 131071 : 524287);
+      if (isSetAction())
+        hashCode = hashCode * 8191 + action.getValue();
+
+      hashCode = hashCode * 8191 + ((isSetConfig()) ? 131071 : 524287);
+      if (isSetConfig())
+        hashCode = hashCode * 8191 + config.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(updateActionConfig_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.valueOf(isSetUniquename()).compareTo(other.isSetUniquename());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUniquename()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.uniquename, other.uniquename);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.valueOf(isSetAction()).compareTo(other.isSetAction());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAction()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.action, other.action);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.valueOf(isSetConfig()).compareTo(other.isSetConfig());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetConfig()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.config, other.config);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("updateActionConfig_args(");
+      boolean first = true;
+
+      sb.append("uniquename:");
+      if (this.uniquename == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.uniquename);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("action:");
+      if (this.action == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.action);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("config:");
+      if (this.config == null) {
+        sb.append("null");
+      } else {
+        org.apache.thrift.TBaseHelper.toString(this.config, sb);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class updateActionConfig_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public updateActionConfig_argsStandardScheme getScheme() {
+        return new updateActionConfig_argsStandardScheme();
+      }
+    }
+
+    private static class updateActionConfig_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<updateActionConfig_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, updateActionConfig_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // UNIQUENAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.uniquename = iprot.readString();
+                struct.setUniquenameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // ACTION
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.action = nl.earpi.generated.genericstruct.ActionEnum.findByValue(iprot.readI32());
+                struct.setActionIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // CONFIG
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.config = iprot.readBinary();
+                struct.setConfigIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, updateActionConfig_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.uniquename != null) {
+          oprot.writeFieldBegin(UNIQUENAME_FIELD_DESC);
+          oprot.writeString(struct.uniquename);
+          oprot.writeFieldEnd();
+        }
+        if (struct.action != null) {
+          oprot.writeFieldBegin(ACTION_FIELD_DESC);
+          oprot.writeI32(struct.action.getValue());
+          oprot.writeFieldEnd();
+        }
+        if (struct.config != null) {
+          oprot.writeFieldBegin(CONFIG_FIELD_DESC);
+          oprot.writeBinary(struct.config);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class updateActionConfig_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public updateActionConfig_argsTupleScheme getScheme() {
+        return new updateActionConfig_argsTupleScheme();
+      }
+    }
+
+    private static class updateActionConfig_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<updateActionConfig_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, updateActionConfig_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetUniquename()) {
+          optionals.set(0);
+        }
+        if (struct.isSetAction()) {
+          optionals.set(1);
+        }
+        if (struct.isSetConfig()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetUniquename()) {
+          oprot.writeString(struct.uniquename);
+        }
+        if (struct.isSetAction()) {
+          oprot.writeI32(struct.action.getValue());
+        }
+        if (struct.isSetConfig()) {
+          oprot.writeBinary(struct.config);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, updateActionConfig_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.uniquename = iprot.readString();
+          struct.setUniquenameIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.action = nl.earpi.generated.genericstruct.ActionEnum.findByValue(iprot.readI32());
+          struct.setActionIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.config = iprot.readBinary();
+          struct.setConfigIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class updateActionConfig_result implements org.apache.thrift.TBase<updateActionConfig_result, updateActionConfig_result._Fields>, java.io.Serializable, Cloneable, Comparable<updateActionConfig_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("updateActionConfig_result");
+
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new updateActionConfig_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new updateActionConfig_resultTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(updateActionConfig_result.class, metaDataMap);
+    }
+
+    public updateActionConfig_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public updateActionConfig_result(updateActionConfig_result other) {
+    }
+
+    public updateActionConfig_result deepCopy() {
+      return new updateActionConfig_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    public void setFieldValue(_Fields field, java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof updateActionConfig_result)
+        return this.equals((updateActionConfig_result)that);
+      return false;
+    }
+
+    public boolean equals(updateActionConfig_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(updateActionConfig_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("updateActionConfig_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class updateActionConfig_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public updateActionConfig_resultStandardScheme getScheme() {
+        return new updateActionConfig_resultStandardScheme();
+      }
+    }
+
+    private static class updateActionConfig_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<updateActionConfig_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, updateActionConfig_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, updateActionConfig_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class updateActionConfig_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public updateActionConfig_resultTupleScheme getScheme() {
+        return new updateActionConfig_resultTupleScheme();
+      }
+    }
+
+    private static class updateActionConfig_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<updateActionConfig_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, updateActionConfig_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, updateActionConfig_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
 
