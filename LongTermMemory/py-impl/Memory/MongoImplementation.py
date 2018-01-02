@@ -68,7 +68,9 @@ class MongoImplementation():
     def updateActionConfig(self, uniquename, action, value):
         print('LongTermMemory: mongo config update')
         person = self.get(uniquename)
-        autorisations = person['autorisations']
+        autorisations = {}
+        if 'autorisations' in person:
+            autorisations = person['autorisations']
         autorisations[action] = value
         person['autorisations'] = autorisations
         self.__person_db.person_collection.update({'_id': person._id}, {'$set': person}, upsert=False)

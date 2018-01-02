@@ -120,6 +120,7 @@ class ConnectEarPi:
         finally:
             transport.close()
 
+
     def configureModuleSettings(self, uniquename, action, config, tokenInput):
         ip, port = self.__resolve_eye_config()
         transport = TSocket.TSocket(ip, port)

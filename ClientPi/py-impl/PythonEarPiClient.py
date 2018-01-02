@@ -40,6 +40,7 @@ class testFlow:
     __secondUniquename = 'Test'
     __secondUsername = 'Test'
     __secondPassword = 'Test'
+    __secondPerson = None
 
     def enterFirstPerson(self):
         try:
@@ -120,6 +121,8 @@ class testFlow:
             print(output)
             if not output.person.uniquename:
                 print('test failed')
+            else:
+                self.__secondPerson = output.person
             self.__token = output.token
         except Thrift.TException as tx:
             print("%s" % (tx.message))
@@ -158,11 +161,26 @@ class testFlow:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    def changeAllModuleSettings(self):
+        try:
+            if self.__secondPerson is not None:
+                tokenInput = self.createEarPiAuthObject()
+                print(self.__secondPerson)
+                autorisations = self.__secondPerson.autorisations
+                for auto in autorisations:
+                    auto.enabled = True
+                token = ConnectEarPi().configureUserModule(self.__secondUniquename, autorisations, tokenInput)
+                self.__token = token
+            else:
+                print("failed, test not executed")
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
     def changeModuleSettings(self):
         try:
             tokenInput = self.createEarPiAuthObject()
             newBinary = pickle.dumps(obj='hallo nieuwe config', protocol=None, fix_imports=False)
-            token = ConnectEarPi().configureModuleSettings(self.__uniquename, ActionEnum.LOGIN, newBinary, tokenInput)
+            token = ConnectEarPi().configureModuleSettings(self.__secondUniquename, ActionEnum.LOGIN, newBinary, tokenInput)
             self.__token = token
         except Thrift.TException as tx:
             print("%s" % (tx.message))
@@ -252,6 +270,16 @@ if __name__ == '__main__':
 
     print("----> changeModuleSettings")
     classUnderTest.changeModuleSettings()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
+    print("----> getUser to get the newly set autorisations")
+    classUnderTest.getUser()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
+    print("----> changeAllModuleSettings")
+    classUnderTest.changeAllModuleSettings()
     print((datetime.datetime.utcnow() - currenttime).total_seconds())
     currenttime = datetime.datetime.utcnow()
 
