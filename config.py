@@ -20,7 +20,7 @@ consul_port             = 8500
 consul_resolver_port    = 8600
 
 statsd_ip               = 'localhost'
-statsd_port             = 32776
+statsd_port             = 8125
 
 redis_service_ip        = 'localhost'
 redis_service_port      = 32769

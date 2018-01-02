@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
-./consul_docker.sh start
-./registrator_docker.sh start
-# ./statsd_docker.sh start
-cd ./Redis/
-    ./redis_docker.sh start
-cd ..
-
-cd ./ElasticSearch/
-    ./elastic_docker.sh start
-cd ..
-
-cd ./Mongo/
-    ./mongo_docker.sh start
-cd ..
+sh consul_docker.sh start
+sh registrator_docker.sh start
+sh Redis/redis_docker.sh start
+sh ElasticSearch/elastic_docker.sh start
+sh Mongo/mongo_docker.sh start
+sh statsd_docker.sh start
