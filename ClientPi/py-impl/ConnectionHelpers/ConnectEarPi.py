@@ -15,7 +15,7 @@ import config
 
 class ConnectEarPi:
 
-    def getUser(self, uniquename):
+    def getUser(self, uniquename, tokenInput):
         ip, port = self.__resolve_eye_config()
         transport = TSocket.TSocket(ip, port)
         try:
@@ -23,7 +23,7 @@ class ConnectEarPi:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)
             client = EarPiThriftService.Client(protocol)
             transport.open()
-            output = client.getUser(uniquename=uniquename)
+            output = client.getUser(uniquename=uniquename, tokenInput=tokenInput)
             transport.close()
             return output
         except Thrift.TException as tx:

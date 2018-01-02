@@ -87,8 +87,10 @@ class testFlow:
 
     def getUser(self):
         try:
-            person = ConnectEarPi().getUser(uniquename=self.__uniquename)
-            print(person)
+            tokenInput = self.createEarPiAuthObject()
+            output = ConnectEarPi().getUser(uniquename=self.__uniquename, tokenInput=tokenInput)
+            print(output.person)
+            self.__token = output.token
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 

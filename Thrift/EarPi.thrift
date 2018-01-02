@@ -46,7 +46,7 @@ struct UserListOutput {
 }
 
 struct UserOutput {
-    1 : optional AutorisationStruct.Person personList
+    1 : optional AutorisationStruct.Person person
     2 : optional string token
 }
 
