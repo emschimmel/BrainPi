@@ -115,7 +115,7 @@ class ConnectionManager():
                 autorisation.write_enabled = True if value['write_enabled'] else False
                 autorisation.enabled = True if value['enabled'] else False
                 if value['module_config']:
-                    autorisation.module_config = value['module_config']
+                    autorisation.module_config = str.encode(value['module_config'])
                 person.autorisations[int(key)] = autorisation
         return person
 

@@ -72,6 +72,7 @@ class LongTermPersonMemoryClient:
             transport.open()
             personList = client.getAll()
             transport.close()
+            print(personList)
             return personList
         except Thrift.TException as tx:
             print('%s' % (tx.message))
