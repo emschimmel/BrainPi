@@ -36,6 +36,10 @@ class testFlow:
     __token = None
     __autorisations = dict
 
+    __secondUniquename = 'Test'
+    __secondUsername = 'Test'
+    __secondPassword = 'Test'
+
     def enterFirstPerson(self):
         try:
             input = Person()
@@ -59,7 +63,6 @@ class testFlow:
             for field in unique.fields:
                 print('unique field %s already in database with value' % field)
         except Thrift.TException as tx:
-
             print("%s" % (tx.message))
 
     def loginWithUser(self):
@@ -85,11 +88,37 @@ class testFlow:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    def enterNewPerson(self):
+        try:
+            input = Person()
+            input.uniquename = self.__secondUniquename
+            details = user_detail()
+            details.firstname = 'Celyne'
+            details.lastname = 'Van der Pol'
+            details.gender = 'Cat'
+            details.dob = '03-09-1966'
+            input.details = details
+            input.username = self.__secondUsername
+            input.password = self.__password
+            input.code = '123456789'
+            input.enabled = True
+            tokenInput = self.createEarPiAuthObject()
+            self.__token = ConnectEarPi().storeNewPerson(person=input, tokenInput=tokenInput)
+
+        except UniqueFailedException as unique:
+            print('catching unique failed Exception')
+            for field in unique.fields:
+                print('unique field %s already in database with value' % field)
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
     def getUser(self):
         try:
             tokenInput = self.createEarPiAuthObject()
-            output = ConnectEarPi().getUser(uniquename=self.__uniquename, tokenInput=tokenInput)
-            print(output.person)
+            output = ConnectEarPi().getUser(uniquename=self.__secondUniquename, tokenInput=tokenInput)
+            print(output)
+            if not output.person.uniquename:
+                print('test failed')
             self.__token = output.token
         except Thrift.TException as tx:
             print("%s" % (tx.message))
@@ -181,6 +210,11 @@ if __name__ == '__main__':
 
     print("----> loginWithUser succes, device registered")
     classUnderTest.loginWithUser()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
+    print("----> enterNewPerson")
+    classUnderTest.enterNewPerson()
     print((datetime.datetime.utcnow() - currenttime).total_seconds())
     currenttime = datetime.datetime.utcnow()
 

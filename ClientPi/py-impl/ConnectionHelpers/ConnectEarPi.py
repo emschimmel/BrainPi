@@ -3,6 +3,11 @@ import random
 import sys
 sys.path.append('../gen-py')
 from EarPi import EarPiThriftService
+from ThriftException.ttypes import BadHashException
+from ThriftException.ttypes import LoginFailedException
+from ThriftException.ttypes import ExternalEndpointUnavailable
+from ThriftException.ttypes import ThriftServiceException
+from ThriftException.ttypes import UniqueFailedException
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -14,6 +19,26 @@ sys.path.append('../../')
 import config
 
 class ConnectEarPi:
+
+    def storeNewPerson(self, person, tokenInput):
+        ip, port = self.__resolve_eye_config()
+        transport = TSocket.TSocket(ip, port)
+        try:
+            transport = TTransport.TBufferedTransport(transport)
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)
+            client = EarPiThriftService.Client(protocol)
+            transport.open()
+            output = client.createNewPerson(person=person, tokenInput=tokenInput)
+            transport.close()
+            return output
+        except LoginFailedException as fail:
+            raise fail
+        except UniqueFailedException as unique:
+            raise unique
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+        finally:
+            transport.close()
 
     def getUser(self, uniquename, tokenInput):
         ip, port = self.__resolve_eye_config()
