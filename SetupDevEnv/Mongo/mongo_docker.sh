@@ -20,6 +20,10 @@ function mongo_kill() {
 	docker rm mongo
 }
 
+function mongo_clean() {
+    python3 mongo_clean.py
+}
+
 case "$1" in
 	start)
 		mongo_start
@@ -30,8 +34,11 @@ case "$1" in
 	kill)
 		mongo_kill
 		;;
+	clean)
+		mongo_clean
+		;;
 	*)
-	 	echo "USAGE: mongo_docker.sh start|stop|kill"
+	 	echo "USAGE: mongo_docker.sh start|stop|kill|clean"
 		;;
 
 esac

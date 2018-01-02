@@ -16,13 +16,17 @@ class MongoImplementation():
     def check_if_uniquename_exists(self, uniquename):
         print('LongTermMemory: mongo check if available')
         result = self.__person_db.person_collection.find({'uniquename': uniquename}).limit(1)
-        return True if result is not None else False
+        for document in result:
+            return True
+        return False
 
     @classmethod
     def check_if_username_exists(self, username):
         print('LongTermMemory: mongo check if available')
         result = self.__person_db.person_collection.find({'username': username}).limit(1)
-        return True if result is not None else False
+        for document in result:
+            return True
+        return False
 
     @classmethod
     def get(self, uniquename):

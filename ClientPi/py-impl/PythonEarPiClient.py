@@ -85,6 +85,13 @@ class testFlow:
         except Thrift.TException as tx:
             print("%s" % (tx.message))
 
+    def getUser(self):
+        try:
+            person = ConnectEarPi().getUser(uniquename=self.__uniquename)
+            print(person)
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
+
     def getUserList(self):
         try:
             tokenInput = self.createEarPiAuthObject()
@@ -172,6 +179,11 @@ if __name__ == '__main__':
 
     print("----> loginWithUser succes, device registered")
     classUnderTest.loginWithUser()
+    print((datetime.datetime.utcnow() - currenttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+
+    print("----> getUser")
+    classUnderTest.getUser()
     print((datetime.datetime.utcnow() - currenttime).total_seconds())
     currenttime = datetime.datetime.utcnow()
 

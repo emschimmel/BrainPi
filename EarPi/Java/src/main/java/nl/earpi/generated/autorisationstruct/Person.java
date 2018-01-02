@@ -22,7 +22,7 @@ public class Person implements org.apache.thrift.TBase<Person, Person._Fields>, 
   private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new PersonStandardSchemeFactory();
   private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new PersonTupleSchemeFactory();
 
-  public java.lang.String uniquename; // required
+  public java.lang.String uniquename; // optional
   public user_detail details; // optional
   public java.lang.String username; // optional
   public java.lang.String password; // optional
@@ -109,11 +109,11 @@ public class Person implements org.apache.thrift.TBase<Person, Person._Fields>, 
   // isset id assignments
   private static final int __ENABLED_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
-  private static final _Fields optionals[] = {_Fields.DETAILS,_Fields.USERNAME,_Fields.PASSWORD,_Fields.CODE,_Fields.AUTORISATIONS};
+  private static final _Fields optionals[] = {_Fields.UNIQUENAME,_Fields.DETAILS,_Fields.USERNAME,_Fields.PASSWORD,_Fields.CODE,_Fields.AUTORISATIONS};
   public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.UNIQUENAME, new org.apache.thrift.meta_data.FieldMetaData("uniquename", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+    tmpMap.put(_Fields.UNIQUENAME, new org.apache.thrift.meta_data.FieldMetaData("uniquename", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.DETAILS, new org.apache.thrift.meta_data.FieldMetaData("details", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, user_detail.class)));
@@ -139,11 +139,9 @@ public class Person implements org.apache.thrift.TBase<Person, Person._Fields>, 
   }
 
   public Person(
-    java.lang.String uniquename,
     boolean enabled)
   {
     this();
-    this.uniquename = uniquename;
     this.enabled = enabled;
     setEnabledIsSet(true);
   }
@@ -705,13 +703,15 @@ public class Person implements org.apache.thrift.TBase<Person, Person._Fields>, 
     java.lang.StringBuilder sb = new java.lang.StringBuilder("Person(");
     boolean first = true;
 
-    sb.append("uniquename:");
-    if (this.uniquename == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.uniquename);
+    if (isSetUniquename()) {
+      sb.append("uniquename:");
+      if (this.uniquename == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.uniquename);
+      }
+      first = false;
     }
-    first = false;
     if (isSetDetails()) {
       if (!first) sb.append(", ");
       sb.append("details:");
@@ -772,9 +772,6 @@ public class Person implements org.apache.thrift.TBase<Person, Person._Fields>, 
 
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
-    if (uniquename == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'uniquename' was not present! Struct: " + toString());
-    }
     // alas, we cannot check 'enabled' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
     if (details != null) {
@@ -907,9 +904,11 @@ public class Person implements org.apache.thrift.TBase<Person, Person._Fields>, 
 
       oprot.writeStructBegin(STRUCT_DESC);
       if (struct.uniquename != null) {
-        oprot.writeFieldBegin(UNIQUENAME_FIELD_DESC);
-        oprot.writeString(struct.uniquename);
-        oprot.writeFieldEnd();
+        if (struct.isSetUniquename()) {
+          oprot.writeFieldBegin(UNIQUENAME_FIELD_DESC);
+          oprot.writeString(struct.uniquename);
+          oprot.writeFieldEnd();
+        }
       }
       if (struct.details != null) {
         if (struct.isSetDetails()) {
@@ -974,25 +973,30 @@ public class Person implements org.apache.thrift.TBase<Person, Person._Fields>, 
     @Override
     public void write(org.apache.thrift.protocol.TProtocol prot, Person struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      oprot.writeString(struct.uniquename);
       oprot.writeBool(struct.enabled);
       java.util.BitSet optionals = new java.util.BitSet();
-      if (struct.isSetDetails()) {
+      if (struct.isSetUniquename()) {
         optionals.set(0);
       }
-      if (struct.isSetUsername()) {
+      if (struct.isSetDetails()) {
         optionals.set(1);
       }
-      if (struct.isSetPassword()) {
+      if (struct.isSetUsername()) {
         optionals.set(2);
       }
-      if (struct.isSetCode()) {
+      if (struct.isSetPassword()) {
         optionals.set(3);
       }
-      if (struct.isSetAutorisations()) {
+      if (struct.isSetCode()) {
         optionals.set(4);
       }
-      oprot.writeBitSet(optionals, 5);
+      if (struct.isSetAutorisations()) {
+        optionals.set(5);
+      }
+      oprot.writeBitSet(optionals, 6);
+      if (struct.isSetUniquename()) {
+        oprot.writeString(struct.uniquename);
+      }
       if (struct.isSetDetails()) {
         struct.details.write(oprot);
       }
@@ -1020,29 +1024,31 @@ public class Person implements org.apache.thrift.TBase<Person, Person._Fields>, 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Person struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      struct.uniquename = iprot.readString();
-      struct.setUniquenameIsSet(true);
       struct.enabled = iprot.readBool();
       struct.setEnabledIsSet(true);
-      java.util.BitSet incoming = iprot.readBitSet(5);
+      java.util.BitSet incoming = iprot.readBitSet(6);
       if (incoming.get(0)) {
+        struct.uniquename = iprot.readString();
+        struct.setUniquenameIsSet(true);
+      }
+      if (incoming.get(1)) {
         struct.details = new user_detail();
         struct.details.read(iprot);
         struct.setDetailsIsSet(true);
       }
-      if (incoming.get(1)) {
+      if (incoming.get(2)) {
         struct.username = iprot.readString();
         struct.setUsernameIsSet(true);
       }
-      if (incoming.get(2)) {
+      if (incoming.get(3)) {
         struct.password = iprot.readString();
         struct.setPasswordIsSet(true);
       }
-      if (incoming.get(3)) {
+      if (incoming.get(4)) {
         struct.code = iprot.readString();
         struct.setCodeIsSet(true);
       }
-      if (incoming.get(4)) {
+      if (incoming.get(5)) {
         {
           org.apache.thrift.protocol.TMap _map6 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
           struct.autorisations = new java.util.HashMap<nl.earpi.generated.genericstruct.ActionEnum,Autorisation>(2*_map6.size);
