@@ -2,8 +2,11 @@ import sys
 sys.path.append('../../')
 import config
 from pymongo import MongoClient
-
-
+sys.path.append('../gen-py')
+from AutorisationStruct.ttypes import Autorisation
+import json
+from thrift import TSerialization
+from thrift.protocol import TJSONProtocol
 
 class MongoImplementation():
     __mongoClient = MongoClient(host=config.mongo_service_ip, port=config.mongo_service_port)
@@ -60,20 +63,41 @@ class MongoImplementation():
     def update(self, uniquename, value, field):
         print('LongTermMemory: mongo update')
         person = self.get(uniquename)
-        person[field] = value
-        self.__person_db.person_collection.update({'_id':person._id}, {'$set': person}, upsert=False)
+        print(person)
+        self.__person_db.person_collection.update_one({
+            '_id': person['_id']
+        }, {
+            '$set': {
+                field: value
+            }
+        }, upsert=False)
+        person = self.get(uniquename)
+        print(person)
 
 
     @classmethod
     def updateActionConfig(self, uniquename, action, value):
         print('LongTermMemory: mongo config update')
         person = self.get(uniquename)
-        autorisations = {}
-        if 'autorisations' in person:
+        autorisations  = dict()
+        if 'autorisations' in person and person['autorisations'] is not None:
             autorisations = person['autorisations']
-        autorisations[action] = value
+            autorisations[str(action)]['module_config'] = value
+        else:
+            autorisation = Autorisation()
+            autorisation.module_config = value
+            thrift_json_string = TSerialization.serialize(
+                autorisation, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
+            result = json.loads(thrift_json_string)
+            autorisations[str(action)] = result
         person['autorisations'] = autorisations
-        self.__person_db.person_collection.update({'_id': person._id}, {'$set': person}, upsert=False)
+        self.__person_db.person_collection.update_one({
+            '_id': person['_id']
+        }, {
+            '$set': {
+                'autorisations': autorisations
+            }
+        }, upsert=False)
 
     @classmethod
     def delete(self, uniquename):

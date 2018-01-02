@@ -78,7 +78,11 @@ class ConnectionManager():
 
     @classmethod
     def update(self, uniquename, value, field):
-        self.storage.update(uniquename=uniquename, value=value, field=field)
+        print('field')
+        print(field)
+        thrift_json_string =  TSerialization.serialize(value, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
+        json_value = json.loads(thrift_json_string)
+        self.storage.update(uniquename=uniquename, value=json_value, field=field)
 
     @classmethod
     def updateActionConfig(self, uniquename, action, value):
@@ -112,14 +116,17 @@ class ConnectionManager():
             person.enabled = True if jsondata['enabled'] else False
         if 'autorisations' in jsondata:
             autorisation_json = jsondata['autorisations']
-            person.autorisations = {}
+            print("can't translate autorisation_json")
+            print(autorisation_json)
+            autorisations  = dict()
             for key in autorisation_json:
                 value = autorisation_json[key]
                 autorisation = Autorisation()
                 autorisation.write_enabled = True if value['write_enabled'] else False
                 autorisation.enabled = True if value['enabled'] else False
-                if value['module_config']:
-                    autorisation.module_config = str.encode(value['module_config'])
-                person.autorisations[int(key)] = autorisation
+                # if value['module_config']:
+                #     autorisation.module_config = str.encode(value['module_config'])
+                autorisations[int(key)] = autorisation
+            person.autorisations = autorisations
         return person
 

@@ -156,7 +156,7 @@ class testFlow:
             person.details = details
             tokenInput = self.createEarPiAuthObject()
             print(person)
-            token = ConnectEarPi().changeUser("code", person, tokenInput)
+            token = ConnectEarPi().changeUser("details", person, tokenInput)
             self.__token = token
         except Thrift.TException as tx:
             print("%s" % (tx.message))
@@ -167,8 +167,17 @@ class testFlow:
                 tokenInput = self.createEarPiAuthObject()
                 print(self.__secondPerson)
                 autorisations = self.__secondPerson.autorisations
-                for auto in autorisations:
-                    auto.enabled = True
+                if autorisations is None:
+                    print('test failed, autorisations where none')
+                    autorisations = dict()
+                    autorisation = Autorisation()
+                    autorisation.write_enabled = True
+                    autorisation.enabled = True
+                    autorisation.module_config = pickle.dumps(obj='hallo nieuwe config', protocol=None, fix_imports=False)
+                    autorisations[ActionEnum.LOGIN] = autorisation
+                else:
+                    for auto in autorisations:
+                        autorisations[auto].enabled = True
                 token = ConnectEarPi().configureUserModule(self.__secondUniquename, autorisations, tokenInput)
                 self.__token = token
             else:
