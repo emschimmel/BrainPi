@@ -24,5 +24,5 @@ exception LoginFailedException {
 exception UniqueFailedException {
     1 : required string serviceName = "LongMemoryPi";
     2 : required string message = "Field has to be unique";
-    3 : required list<string> field
+    3 : required list<string> fields
 }

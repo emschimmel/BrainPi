@@ -53,11 +53,13 @@ class testFlow:
             input.enabled = True
             self.__person = input
             ConnectLongMemory().storeNewPerson(input)
+
         except UniqueFailedException as unique:
             print('catching unique failed Exception')
-            for field in unique.field:
-                print('unique field %s already in database' % field)
+            for field in unique.fields:
+                print('unique field %s already in database with value' % field)
         except Thrift.TException as tx:
+
             print("%s" % (tx.message))
 
     def loginWithUser(self):

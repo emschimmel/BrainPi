@@ -3,6 +3,7 @@ import random
 import sys
 sys.path.append('../gen-py')
 from LongMemory import LongMemoryService
+from ThriftException.ttypes import UniqueFailedException
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -61,6 +62,8 @@ class ConnectLongMemory:
             transport.open()
             client.storeNewPerson(input)
             transport.close()
+        except UniqueFailedException as unique:
+            raise unique
         except Thrift.TException as tx:
             print("%s" % (tx.message))
         finally:

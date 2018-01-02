@@ -48,7 +48,7 @@ class ConnectionManager():
 
     @classmethod
     def check_if_username_exists(self, username):
-        return self.storage.check_if_uniquename_exists(username=username)
+        return self.storage.check_if_username_exists(username=username)
 
 
     @classmethod

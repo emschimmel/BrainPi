@@ -13,19 +13,16 @@ class PersonMemory():
 
     @classmethod
     def storeNewPerson(self, person):
-        # todo
-        exception = UniqueFailedException()
-        exception.field = []
-        fail = False
-        if self.__con.check_if_username_exists(username=person.username):
-            exception.field.append("username")
-        elif person.uniquename is None:
+        fields = []
+        if person.username is not None and self.__con.check_if_username_exists(username=person.username):
+            fields.append("username")
+        if person.uniquename is None:
         ## generate uniquename?
             pass
-        elif self.__con.check_if_uniquename_exists(uniquename=person.username):
-            exception.field.append("uniquename")
-        if len(exception.field) > 0:
-            raise exception
+        elif person.uniquename is not None and self.__con.check_if_uniquename_exists(uniquename=person.uniquename):
+            fields.append("uniquename")
+        if len(fields) > 0:
+            raise UniqueFailedException(fields=fields)
         else:
             self.__con.store_new(value=person)
 

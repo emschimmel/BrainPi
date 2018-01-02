@@ -23,7 +23,7 @@ struct user_detail {
 }
 
 struct Person {
-    1 : required string uniquename
+    1 : optional string uniquename
     2 : optional user_detail details
     3 : optional string username
     4 : optional string password
