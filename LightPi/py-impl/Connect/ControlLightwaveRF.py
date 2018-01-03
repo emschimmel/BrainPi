@@ -1,4 +1,4 @@
-from pylightwaverf import LightWaveRF as pylightwaverf
+from . import pylightwaverf as pylightwaverf
 import sys
 sys.path.append('../gen-py')
 from LightPi.ttypes import DeviceState

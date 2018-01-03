@@ -28,6 +28,10 @@ python3 PythonFacePiServer.py &
 cd ${home}/WeatherPi/py-impl
 python3 PythonWeatherPiServer.py &
 
+### LightPi Server
+cd ${home}/LightPi/py-impl
+python3 PythonLightPiServer.py &
+
 ### EyePi Start client
 ### Execute dummy client
 #sleep 30

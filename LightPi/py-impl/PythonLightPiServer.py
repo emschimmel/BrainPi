@@ -8,13 +8,12 @@ from multiprocessing.managers import SyncManager
 import pickle
 
 sys.path.append('../gen-py')
-sys.path.append('../')
 
 from GenericServerPi import GenericPiThriftService
 from GenericStruct.ttypes import ActionEnum
 from ThriftException.ttypes import ThriftServiceException
-from LightPi import Action
-from LightPi import GenericOkOutput
+from LightPi.ttypes import Action
+from LightPi.ttypes import GenericOkOutput
 
 from Domain.FloorLayout import FloorLayout
 from Connect.ControlLightwaveRF import ControlLightwaveRF

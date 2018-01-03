@@ -1,9 +1,9 @@
 import sys
 sys.path.append('../gen-py')
-from LightPi import GetFloorOutput
-from LightPi import Floor
-from LightPi import Room
-from LightPi import Device
+from LightPi.ttypes import GetFloorOutput
+from LightPi.ttypes import Floor
+from LightPi.ttypes import Room
+from LightPi.ttypes import Device
 import json
 
 
