@@ -36,7 +36,7 @@ log.setLevel(logging.DEBUG)
 
 class AgendaPiThriftHandler:
 
-    @stat.timer("handleRequest")
+    @stat.timer("AgendaPi.handleRequest")
     def handleRequest(self, input):
         print("agenda pi!")
         try:
@@ -56,12 +56,12 @@ class AgendaPiThriftHandler:
             print('invalid request %s' % ex)
             raise ThriftServiceException('AgendaPi', 'invalid request %s' % ex)
 
-    @stat.timer("getDefaultModuleConfig")
+    @stat.timer("AgendaPi.getDefaultModuleConfig")
     def getDefaultModuleConfig(self):
         default_config = "email string"
         return pickle.dumps(obj=default_config, protocol=None, fix_imports=False)
 
-    @stat.timer("ping")
+    @stat.timer("AgendaPi.ping")
     def ping(self, input):
         print(input)
 

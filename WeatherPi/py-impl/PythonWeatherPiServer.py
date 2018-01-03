@@ -37,7 +37,7 @@ log.setLevel(logging.DEBUG)
 
 class WeatherPiThriftHandler:
 
-    @stat.timer("handleRequest")
+    @stat.timer("WeatherPi.handleRequest")
     def handleRequest(self, input):
         print("weather pi!")
         try:
@@ -58,12 +58,12 @@ class WeatherPiThriftHandler:
             print('invalid request %s' % ex)
             raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
 
-    @stat.timer("getDefaultModuleConfig")
+    @stat.timer("WeatherPi.getDefaultModuleConfig")
     def getDefaultModuleConfig(self):
         default_config = "string location"
         return pickle.dumps(obj=default_config, protocol=None, fix_imports=False)
 
-    @stat.timer("ping")
+    @stat.timer("WeatherPi.ping")
     def ping(self, input):
         print(input)
 

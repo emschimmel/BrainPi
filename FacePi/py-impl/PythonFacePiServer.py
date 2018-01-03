@@ -42,7 +42,7 @@ class FacePiThriftHandler:
     def __init__(self):
         self.log = {}
 
-    @stat.timer("handleRequest")
+    @stat.timer("FacePi.handleRequest")
     def handleRequest(self, input):
         try:
             inputImage = pickle.loads(input.image, fix_imports=False, encoding="ASCII", errors="strict")
@@ -69,7 +69,7 @@ class FacePiThriftHandler:
             print('invalid request %s' % ex)
             raise ThriftServiceException('FacePi', 'invalid request %s' % ex)
 
-    @stat.timer("confirmFace")
+    @stat.timer("FacePi.confirmFace")
     def confirmFace(self, input):
         print(input)
         # train the network with the found face with name

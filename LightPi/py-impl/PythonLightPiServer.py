@@ -38,7 +38,7 @@ log.setLevel(logging.DEBUG)
 
 class LightPiThriftHandler:
 
-    @stat.timer("handleRequest")
+    @stat.timer("LightPi.handleRequest")
     def handleRequest(self, input):
         print("light pi!")
         try:
@@ -58,12 +58,12 @@ class LightPiThriftHandler:
             print('invalid request %s' % ex)
             raise ThriftServiceException('LightPi', 'invalid request %s' % ex)
 
-    @stat.timer("getDefaultModuleConfig")
+    @stat.timer("LightPi.getDefaultModuleConfig")
     def getDefaultModuleConfig(self):
         default_config = FloorLayout.getLayout()
         return pickle.dumps(obj=default_config, protocol=None, fix_imports=False)
 
-    @stat.timer("ping")
+    @stat.timer("LightPi.ping")
     def ping(self, input):
         print(input)
 

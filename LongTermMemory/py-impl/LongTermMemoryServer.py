@@ -37,7 +37,7 @@ class LongTermMemoryThriftServer:
     def __init__(self):
         self.log = {}
 
-    @stat.timer("loginCall")
+    @stat.timer("LongTermMemory.loginCall")
     def loginCall(self, loginobject):
         try:
             person = AutorisationActions().login(loginobject)
@@ -47,14 +47,14 @@ class LongTermMemoryThriftServer:
         except LoginFailedException as fail:
             raise LoginFailedException
 
-    @stat.timer("getPersonConfig")
+    @stat.timer("LongTermMemory.getPersonConfig")
     def getPersonConfig(self, uniquename):
         try:
             return PersonMemory().getPerson(uniquename)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("storeNewPerson")
+    @stat.timer("LongTermMemory.storeNewPerson")
     def storeNewPerson(self, person):
         try:
             PersonMemory().storeNewPerson(person=person)
@@ -63,28 +63,28 @@ class LongTermMemoryThriftServer:
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("updatePerson")
+    @stat.timer("LongTermMemory.updatePerson")
     def updatePerson(self, field, person):
         try:
             PersonMemory().updatePerson(uniquename=person.uniquename, field=field, person=person)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("updateActionConfig")
+    @stat.timer("LongTermMemory.updateActionConfig")
     def updateActionConfig(self, uniquename, action, config):
         try:
             PersonMemory().updateActionConfig(uniquename=uniquename, action=action, config=config)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("changePassword")
+    @stat.timer("LongTermMemory.changePassword")
     def changePassword(self, username, password):
         try:
             AutorisationActions().changePassword(username, password)
         except BadHashException as bad:
             raise bad
 
-    @stat.timer("getAll")
+    @stat.timer("LongTermMemory.getAll")
     def getAll(self):
         try:
             return PersonMemory().getAll()

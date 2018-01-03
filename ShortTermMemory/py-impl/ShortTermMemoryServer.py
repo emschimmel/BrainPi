@@ -31,14 +31,14 @@ class ShortTermMemoryThriftServer:
     def __init__(self):
         self.log = {}
 
-    @stat.timer("generateToken")
+    @stat.timer("ShortTermMemory.generateToken")
     def generateToken(self, tokenObject):
         try:
             return TokenMemory().generateToken(tokenObject)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("validateToken")
+    @stat.timer("ShortTermMemory.validateToken")
     def validateToken(self, stringToken, deviceToken):
         try:
             if (DeviceMemory.validateDeviceToken(deviceToken)):
@@ -47,42 +47,42 @@ class ShortTermMemoryThriftServer:
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("writeLog")
+    @stat.timer("ShortTermMemory.writeLog")
     def writeLog(self, log):
         try:
             LogMemory().storeLog(log)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("readLog")
+    @stat.timer("ShortTermMemory.readLog")
     def readLog(self, starttime, endtime, amount):
         try:
             return LogMemory().getLog(starttime, endtime, amount)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("generateDeviceToken")
+    @stat.timer("ShortTermMemory.generateDeviceToken")
     def generateDeviceToken(self, input):
         try:
             return DeviceMemory().generateDeviceToken(input)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("validateDeviceToken")
+    @stat.timer("ShortTermMemory.validateDeviceToken")
     def validateDeviceToken(self, input):
         try:
             return DeviceMemory().validateDeviceToken(input)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("confirmDevice")
+    @stat.timer("ShortTermMemory.confirmDevice")
     def confirmDevice(self, devicetoken, enabled):
         try:
             DeviceMemory().confirmDevice(devicetoken=devicetoken, enabled=enabled)
         except Exception as ex:
             print('invalid request %s' % ex)
 
-    @stat.timer("getDeviceList")
+    @stat.timer("ShortTermMemory.getDeviceList")
     def getDeviceList(self):
         try:
             return DeviceMemory().getDeviceList()

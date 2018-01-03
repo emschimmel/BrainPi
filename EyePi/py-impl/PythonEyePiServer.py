@@ -49,7 +49,7 @@ class EyePiThriftHandler:
     def __init__(self):
         self.log = {}
 
-    @stat.timer("login")
+    @stat.timer("EyePi.login")
     def login(self, loginObject):
         try:
             output = LoginOutputObject()
@@ -90,7 +90,7 @@ class EyePiThriftHandler:
         eyeInput.deviceToken = deviceToken
         return ShortTermTokenMemoryClient().getToken(eyeInput)
 
-    @stat.timer("handleRequest")
+    @stat.timer("EyePi.handleRequest")
     def handleRequest(self, input):
         try:
             ShortTermLogMemoryClient().log_event(input, message='start eyepi')
@@ -162,16 +162,16 @@ class EyePiThriftHandler:
               # output = {**output, **i}
         return output
 
-    @stat.timer("confimFace")
+    @stat.timer("EyePi.confimFace")
     def confimFace(self, input):
         FacePiThriftClient.confim_face(self, input)
 
 
-    @stat.timer("writeLog")
+    @stat.timer("EyePi.writeLog")
     def writeLog(self, input):
         ShortTermLogMemoryClient().log_event(input, message='start eyepi')
 
-    @stat.timer("ping")
+    @stat.timer("EyePi.ping")
     def ping(self, input):
         print(input)
 

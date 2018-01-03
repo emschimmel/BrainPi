@@ -45,7 +45,7 @@ class EarPiThriftHandler:
     def __init__(self):
         self.log = {}
 
-    @stat.timer("createNewPerson")
+    @stat.timer("EarPi.createNewPerson")
     def createNewPerson(self, person, tokenInput):
         try:
             if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
@@ -57,7 +57,7 @@ class EarPiThriftHandler:
         except UniqueFailedException as unique:
             raise unique
 
-    @stat.timer("getUser")
+    @stat.timer("EarPi.getUser")
     def getUser(self, uniquename, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
@@ -66,7 +66,7 @@ class EarPiThriftHandler:
         output.token = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
-    @stat.timer("getUserList")
+    @stat.timer("EarPi.getUserList")
     def getUserList(self, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
@@ -75,7 +75,7 @@ class EarPiThriftHandler:
         output.token = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
-    @stat.timer("changeUser")
+    @stat.timer("EarPi.changeUser")
     def changeUser(self, field, person, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
@@ -83,7 +83,7 @@ class EarPiThriftHandler:
         output = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
-    @stat.timer("configureUser")
+    @stat.timer("EarPi.configureUser")
     def configureUser(self, userlist, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
@@ -91,7 +91,7 @@ class EarPiThriftHandler:
         output = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
-    @stat.timer("configureUserModule")
+    @stat.timer("EarPi.configureUserModule")
     def configureUserModule(self, uniquename, autorisations, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
@@ -99,7 +99,7 @@ class EarPiThriftHandler:
         output = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
-    @stat.timer("configureModuleSettings")
+    @stat.timer("EarPi.configureModuleSettings")
     def configureModuleSettings(self, uniquename, action, config, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
@@ -107,7 +107,7 @@ class EarPiThriftHandler:
         output = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
-    @stat.timer("getDeviceList")
+    @stat.timer("EarPi.getDeviceList")
     def getDeviceList(self, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
@@ -116,7 +116,7 @@ class EarPiThriftHandler:
         output.token = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
-    @stat.timer("confirmDevice")
+    @stat.timer("EarPi.confirmDevice")
     def confirmDevice(self, deviceToken, active, tokenInput):
         if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
             raise LoginFailedException
@@ -124,7 +124,7 @@ class EarPiThriftHandler:
         output = ShortTermTokenMemoryClient().getToken(earPiAuthObject=tokenInput)
         return output
 
-    @stat.timer("changePassword")
+    @stat.timer("EarPi.changePassword")
     def changePassword(self, username, password, tokenInput):
         try:
             if not ShortTermTokenMemoryClient().validateToken(earPiAuthObject=tokenInput):
@@ -139,7 +139,7 @@ class EarPiThriftHandler:
             # ShortTermLogMemoryClient().log_thrift_exception(loginObject, fail)
             raise fail
 
-    @stat.timer("ping")
+    @stat.timer("EarPi.ping")
     def ping(self, input):
         print(input)
 
