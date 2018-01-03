@@ -9,6 +9,10 @@ WeatherPiServerPID=$(ps -ef | awk -F" " '/PythonWeatherPiServer.py/ && !/awk/{pr
 [[ !  -z  $WeatherPiServerPID  ]] && kill -9 $WeatherPiServerPID
 
 # Kill PythonWeatherPiServer if running
+PhotoPiServerPID=$(ps -ef | awk -F" " '/PythonPhotoPiServer.py/ && !/awk/{print $2}')
+[[ !  -z  PhotoPiServerPID  ]] && kill -9 $PhotoPiServerPID
+
+# Kill PythonWeatherPiServer if running
 LightPiServerPID=$(ps -ef | awk -F" " '/PythonLightPiServer.py/ && !/awk/{print $2}')
 [[ !  -z  LightPiServerPID  ]] && kill -9 $LightPiServerPID
 

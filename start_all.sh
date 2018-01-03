@@ -36,6 +36,10 @@ python3 PythonLightPiServer.py &
 cd ${home}/AgendaPi/py-impl
 python3 PythonAgendaPiServer.py &
 
+### PhotoPi Server
+cd ${home}/PhotoPi/py-impl
+python3 PythonPhotoPiServer.py &
+
 ### EyePi Start client
 ### Execute dummy client
 #sleep 30
