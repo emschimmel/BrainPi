@@ -11,7 +11,7 @@ class LocalMockImplementation(object):
         print('LongTermMemory: mongo check if available')
         result = None
         for item in self.__mockList:
-            if item.uniquename == uniquename:
+            if item['uniquename'] == uniquename:
                 result = item
         return True if result is not None else False
 
@@ -19,14 +19,14 @@ class LocalMockImplementation(object):
         print('LongTermMemory: mongo check if available')
         result = None
         for item in self.__mockList:
-            if item.username == username:
+            if item['username'] == username:
                 result = item
         return True if result is not None else False
 
     def get(self, uniquename):
         print('LongTermMemory: local get %s' % self.__data)
         for item in self.__mockList:
-            if item.uniquename == uniquename:
+            if item['uniquename'] == uniquename:
                 return item
 
     def get_all(self):
@@ -61,7 +61,7 @@ class LocalMockImplementation(object):
     def delete(self, uniquename):
         print('LongTermMemory: local delete')
         for item in self.__mockList:
-            if item.uniquename == uniquename:
+            if item['uniquename'] == uniquename:
                 self.__mockList.remove(item)
 
     def __load_mock(self):

@@ -25,7 +25,7 @@ class State_d:
 class ConnectionManager():
     try:
         from pymongo import MongoClient
-    #    MongoClient = None
+        MongoClient = None
     except ImportError:
         MongoClient = None
     if MongoClient:
@@ -117,7 +117,6 @@ class ConnectionManager():
             person.enabled = True if jsondata['enabled'] else False
         if 'autorisations' in jsondata:
             autorisation_json = jsondata['autorisations']
-            print("can't translate autorisation_json")
             print(autorisation_json)
             autorisations  = dict()
             for key in autorisation_json:
@@ -125,8 +124,8 @@ class ConnectionManager():
                 autorisation = Autorisation()
                 autorisation.write_enabled = True if value['write_enabled'] else False
                 autorisation.enabled = True if value['enabled'] else False
-                # if value['module_config']:
-                #     autorisation.module_config = str.encode(value['module_config'])
+                if value['module_config']:
+                    autorisation.module_config = str.encode(value['module_config'])
                 autorisations[int(key)] = autorisation
             person.autorisations = autorisations
         return person
