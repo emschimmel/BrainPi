@@ -29,3 +29,5 @@ es_service_port         = 32770
 mongo_service_ip        = 'localhost'
 mongo_service_port      = 27017
 
+lightwaveRfIp           = '192.168.0.102'
+

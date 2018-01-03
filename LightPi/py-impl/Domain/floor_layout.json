@@ -1,0 +1,70 @@
+{
+  "floorCollection" : [
+    {
+      "number" : 0,
+      "name" : "begane grond",
+      "enabled" : true,
+      "roomCollection" : [
+        {
+          "number" : 1,
+          "name" : "Livingroom",
+          "enabled" : true,
+          "deviceCollection" : [
+            {
+              "number" : 1,
+              "name" : "Lamp",
+              "enabled" : true,
+              "type" : 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number" : 1,
+      "name" : "eerste",
+      "enabled" : true,
+      "roomCollection" : [
+        {
+          "number" : 2,
+          "name" : "Bedroom",
+          "enabled" : true,
+          "deviceCollection" : [
+            {
+              "number" : 1,
+              "name" : "Lamp",
+              "enabled" : true,
+              "type" : 1
+            }
+          ]
+        },
+        {
+          "number" : 3,
+          "name" : "Library",
+          "enabled" : true,
+          "deviceCollection" : [
+            {
+              "number" : 1,
+              "name" : "Lamp",
+              "enabled" : true,
+              "type" : 1
+            }
+          ]
+        },
+        {
+          "number" : 4,
+          "name" : "Childroom",
+          "enabled" : true,
+          "deviceCollection" : [
+            {
+              "number" : 1,
+              "name" : "MooiLamp",
+              "enabled" : true,
+              "type" : 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

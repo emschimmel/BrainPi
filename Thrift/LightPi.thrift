@@ -1,6 +1,9 @@
+# these actions are supported in the handle.
+# For the input, it is the first field. Make the rest optional to work
 enum Action {
 	GET_FLOOR_LAYOUT = 0
-	PERFORM_ACTION = 1
+	UPDATE_FLOOR_LAYOUT = 1
+	PERFORM_ACTION = 2
 }
 
 enum DeviceType {
@@ -19,35 +22,49 @@ enum DeviceState {
 }
 
 struct Device {
-    1 : required string name
-    2 : required DeviceType type
+    1 : required i16 number
+    2 : required string name
+    3 : required bool enabled = true
+    4 : required DeviceType type
 }
 
 struct Room {
     1 : required i16 number
     2 : required string name
-    3 : optional list<Device> deviceCollection
+    3 : required bool enabled = true
+    4 : optional list<Device> deviceCollection
 }
 
 struct Floor {
-    1 : required string name
-    2 : optional list<Room> roomCollection
+    1 : required i16 number
+    2 : required string name
+    3 : required bool enabled = true
+    4 : optional list<Room> roomCollection
 }
 
 struct LightActionInput {
     1 : required Action action = Action.PERFORM_ACTION
-    2 : optional Device device
-    3 : optional DeviceState state
-}
-
-struct LightActionOutput {
-    1 : required bool ok
+    2 : optional i16 roomNumber
+    3 : optional i16 deviceNumber
+    4 : optional DeviceState state
+    5 : optional i16 optionalValue
+//    6 : optional string msg1
+//    7 : optional string msg2
 }
 
 struct GetFloorInput {
     1 : required Action action = Action.GET_FLOOR_LAYOUT
 }
 
+struct UpdateFLoorLayoutInput {
+    1 : required Action action = Action.UPDATE_FLOOR_LAYOUT
+    2 : optional binary floorjson
+}
+
 struct GetFloorOutput {
-    1 : required list<Floor> floor
+    1 : required list<Floor> floorCollection
+}
+
+struct GenericOkOutput {
+    1 : required bool ok = true
 }

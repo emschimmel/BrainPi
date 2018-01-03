@@ -23,6 +23,7 @@ rm -rf ../ClientPi/gen-py/*
 rm -rf ../EyePi/gen-py/*
 rm -rf ../FacePi/gen-py/*
 rm -rf ../WeatherPi/gen-py/*
+rm -rf ../LightPi/gen-py/*
 rm -rf ../ShortTermMemory/gen-py/*
 rm -rf ../LongTermMemory/gen-py/*
 rm -rf ../EarPi/src/main/java/nl/earpi/generated/*

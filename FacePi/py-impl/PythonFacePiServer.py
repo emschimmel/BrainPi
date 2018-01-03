@@ -24,7 +24,6 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
-# import cv2
 sys.path.append('../../')
 import config
 import logging
