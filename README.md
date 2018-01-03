@@ -18,8 +18,9 @@ Required services
 Optional services (if a service is unavailable the ActionEnum action can't reach the required service).
 - WeatherPi (available. get the actual weather based on a city)
 - MusicPi (unavailable, name not fixed. will have playlists and connect to bluetooth speakers)
-- AgendaPi (unavailable, name not fixed. will connect to a user apple agenda)
-- KakuPi (unavailable, name not fixed. will connect 'Klik aan klik uit'/'LightweaveRF' to control lamps)
+- AgendaPi (available, connects to a user apple agenda. Needs to have device registered)
+- LightPi (available, connects to 'Klik aan klik uit'/'LightweaveRF' to control lamps)
+- PhotoPi (available, connects to a user apple photos. Needs to have device registered)
 
 External requiries
 - Consul (can eighter run in a docker container together with Registrator and the databases, or as local consul)
