@@ -79,17 +79,12 @@ class MongoImplementation():
     def updateActionConfig(self, uniquename, action, value):
         print('LongTermMemory: mongo config update')
         person = self.get(uniquename)
-        autorisations  = dict()
+        autorisations = dict()
         if 'autorisations' in person and person['autorisations'] is not None:
             autorisations = person['autorisations']
-            autorisations[str(action)]['module_config'] = value
+            autorisations[str(action)]['module_config'] = value['module_config']
         else:
-            autorisation = Autorisation()
-            autorisation.module_config = value
-            thrift_json_string = TSerialization.serialize(
-                autorisation, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
-            result = json.loads(thrift_json_string)
-            autorisations[str(action)] = result
+            autorisations[str(action)] = value
         person['autorisations'] = autorisations
         self.__person_db.person_collection.update_one({
             '_id': person['_id']

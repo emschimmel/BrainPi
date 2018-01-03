@@ -53,47 +53,48 @@ class ConnectionManager():
 
     @classmethod
     def get(self, key):
-        return self.__translateToJson(jsondata=self.storage.get(uniquename=key))
+        return self.__JsonToThrift(jsondata=self.storage.get(uniquename=key))
 
     @classmethod
     def get_all(self):
         result = []
         for item in self.storage.get_all():
-            result.append(self.__translateToJson(jsondata=item))
+            result.append(self.__JsonToThrift(jsondata=item))
         return result
 
     @classmethod
     def get_by_query(self, query):
         result = []
         for item in self.storage.get_by_query(criteria=query):
-            result.append(self.__translateToJson(jsondata=item))
+            result.append(self.__JsonToThrift(jsondata=item))
         return result
 
     @classmethod
     def store_new(self, value):
-        thrift_json_string = TSerialization.serialize(
-            value, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
-        result = json.loads(thrift_json_string)
-        self.storage.store_new(result)
+        self.storage.store_new(self.__ThriftToJson(value))
 
     @classmethod
     def update(self, uniquename, value, field):
-        print('field')
-        print(field)
-        thrift_json_string =  TSerialization.serialize(value, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
-        json_value = json.loads(thrift_json_string)
-        self.storage.update(uniquename=uniquename, value=json_value, field=field)
+        self.storage.update(uniquename=uniquename, value=self.__ThriftToJson(value), field=field)
 
     @classmethod
     def updateActionConfig(self, uniquename, action, value):
-        self.storage.updateActionConfig(uniquename=uniquename, action=action, value=value)
+        autorisation = Autorisation()
+        autorisation.module_config = value
+        self.storage.updateActionConfig(uniquename=uniquename, action=action, value=self.__ThriftToJson(autorisation))
 
     @classmethod
     def delete(self, uniquename):
         self.storage.delete(uniquename=uniquename)
 
     @staticmethod
-    def __translateToJson(jsondata):
+    def __ThriftToJson(thriftdata):
+        thrift_json_string = TSerialization.serialize(thriftdata, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
+        json_value = json.loads(thrift_json_string)
+        return json_value
+
+    @staticmethod
+    def __JsonToThrift(jsondata):
         # thrift_string = TSerialization.deserialize(
         #     jsondata, None, TBinaryProtocol.TBinaryProtocolFactory())
         # person = thrift_string
