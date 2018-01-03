@@ -2,7 +2,7 @@ namespace java nl.earpi.generated.genericstruct
 
 enum ActionEnum {
 	LOGIN = 0
-	KAKU = 1
+	LIGHT = 1
 	AGENDA = 2
 	MUSIC = 3
 	WEATHER = 4
@@ -26,8 +26,8 @@ const Action loginAction = {
     "name": "Login"
 }
 
-const Action kaku = {
-    "actionEnum" :ActionEnum.KAKU
+const Action light = {
+    "actionEnum" :ActionEnum.LIGHT
     "uiType" :UiType.user
     "name":"Klik aan klik uit"
 }
@@ -56,7 +56,7 @@ const Action config = {
     "name":"Config"
 }
 
-const list<Action> available_actions = {0: login, 1: kaku, 2:agenda, 3: music, 4: weather, 5: config}
+const list<Action> available_actions = {0: login, 1: light, 2:agenda, 3: music, 4: weather, 5: config}
 
 struct PingObject {
     1 : optional ActionEnum action
