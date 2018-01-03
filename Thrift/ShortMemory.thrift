@@ -17,6 +17,7 @@ struct TokenObject {
 	4 : optional binary image
 	5 : optional string date
     6 : optional double time
+    7 : optional string newToken
 }
 
 struct LogObject {

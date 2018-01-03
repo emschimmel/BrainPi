@@ -28,3 +28,10 @@ class RedisImplementation():
     def delete(self, key):
         print('ShortTermMemory: redis delete')
         self.__redisService.delete(key)
+
+    @classmethod
+    def update(self, key, value):
+        oldToken = self.get(key=key)
+        if oldToken:
+            oldToken.newToken = value
+            self.put(key, oldToken)

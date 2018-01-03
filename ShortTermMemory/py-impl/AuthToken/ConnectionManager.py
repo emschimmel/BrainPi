@@ -36,6 +36,9 @@ class ConnectionManager():
     def put(self, key, value):
         self.storage.put(key=key, value=value)
 
+    def update(self, key, value):
+        self.storage.update(key=key, value=value)
+
     def delete(self, key):
         self.storage.delete(key=key)
 

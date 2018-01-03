@@ -13,15 +13,15 @@ class TokenMemory:
 
     @classmethod
     def generateToken(self, tokenObject):
-        if tokenObject.token:
-            oldKey = self.__generateKey(tokenObject.token, tokenObject.deviceToken)
-            if self.__con.get(oldKey):
-                self.__con.delete(oldKey)
+
         newToken, key = self.__generateNewToken(tokenObject.deviceToken)
         tokenObject.time = datetime.datetime.utcnow()
         ts = time.time()
         tokenObject.date = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
         self.__con.put(key, tokenObject)
+        if tokenObject.token:
+            oldKey = self.__generateKey(tokenObject.token, tokenObject.deviceToken)
+            self.__con.update(oldKey, newToken)
         print(newToken)
         return newToken
 

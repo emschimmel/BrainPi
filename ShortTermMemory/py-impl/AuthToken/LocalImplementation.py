@@ -18,3 +18,9 @@ class LocalImplementation():
     def delete(self, key):
         print('ShortTermMemory: local delete')
         del self.tokenMemory[key]
+
+    @classmethod
+    def update(self, key, value):
+        oldToken = self.get(key=key)
+        oldToken.newToken = value
+        self.put(key, oldToken)
