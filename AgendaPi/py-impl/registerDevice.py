@@ -2,7 +2,7 @@
 from pyicloud import PyiCloudService
 import click
 
-api = PyiCloudService('we.rule@icloud.com')
+api = PyiCloudService('') ### email adres
 
 print("Two-step authentication required. Your trusted devices are:")
 devices = api.trusted_devices
