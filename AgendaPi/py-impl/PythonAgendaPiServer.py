@@ -6,14 +6,15 @@ import consul
 from multiprocessing.managers import SyncManager
 
 import pickle
-
 sys.path.append('../gen-py')
-sys.path.append('../')
 
 from GenericServerPi import GenericPiThriftService
 from GenericStruct.ttypes import ActionEnum
 from ThriftException.ttypes import ThriftServiceException
-from WeatherPi.ttypes import WeatherOutput
+from ThriftException.ttypes import ExternalEndpointUnavailable
+from AgendaPi.ttypes import Action
+
+from CalendarConnect import CalendarConnect
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -22,8 +23,6 @@ from thrift.server import TServer
 
 sys.path.append('../../')
 import config
-
-from OpenWeather import OpenWeather
 
 import logging
 import random
@@ -35,32 +34,31 @@ port = random.randint(50000, 59000)
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
-class WeatherPiThriftHandler:
+class AgendaPiThriftHandler:
 
     @stat.timer("handleRequest")
     def handleRequest(self, input):
-        print("weather pi!")
+        print("agenda pi!")
         try:
             input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
-            wind, humidity, temperature = OpenWeather().getWeather(input=input_object.location)
+            output = ""
+            if input_object.action is Action.GET_ITEMS:
+                output = CalendarConnect().getEvents(input)
+            elif input_object.action is Action.MAKE_ITEM:
+                print("NOT IMPLEMENTED YET")
+                output = "NOT IMPLEMENTED YET"
 
-            output = WeatherOutput()
-            output.humidity = "%s" % humidity
-            output.wind_speed = "%s" % wind['speed']
-            output.wind_deg =  "%s" % wind['deg']
-            output.temperature_temp = "%s" % temperature['temp']
-            output.temperature_temp_max = "%s" % temperature['temp_max']
-            output.temperature_temp_min = "%s" % temperature['temp_min']
             pickle_output = pickle.dumps(obj=output, protocol=None, fix_imports=False)
             return pickle_output
-
+        except ExternalEndpointUnavailable as endPoint:
+            raise endPoint
         except Exception as ex:
             print('invalid request %s' % ex)
-            raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
+            raise ThriftServiceException('AgendaPi', 'invalid request %s' % ex)
 
     @stat.timer("getDefaultModuleConfig")
     def getDefaultModuleConfig(self):
-        default_config = "string location"
+        default_config = "email string"
         return pickle.dumps(obj=default_config, protocol=None, fix_imports=False)
 
     @stat.timer("ping")
@@ -80,7 +78,7 @@ def get_ip():
     return IP
 
 def create_server():
-    handler = WeatherPiThriftHandler()
+    handler = AgendaPiThriftHandler()
     return TServer.TSimpleServer(
         GenericPiThriftService.Processor(handler),
         TSocket.TServerSocket(port=port),
@@ -91,18 +89,18 @@ def create_server():
 def register():
     log.info("register started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    key = '%d' % ActionEnum.WEATHER
-    c.kv.put(key, 'weather')
+    key = '%d' % ActionEnum.LIGHT
+    c.kv.put(key, 'agenda')
     check = consul.Check.tcp(host=get_ip(), port=port, interval=config.consul_interval,
                              timeout=config.consul_timeout, deregister=unregister())
-    c.agent.service.register(name="weather-pi", service_id="weather-pi-%d" % port, port=port, check=check)
+    c.agent.service.register(name="agenda-pi", service_id="agenda-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
     log.info("unregister started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    c.agent.service.deregister("weather-pi-%d" % port)
-    c.agent.service.deregister("weather-pi")
+    c.agent.service.deregister("agenda-pi-%d" % port)
+    c.agent.service.deregister("agenda-pi")
     log.info("services: " + str(c.agent.services()))
 
 def interupt_manager():
@@ -118,5 +116,6 @@ if __name__ == '__main__':
 
     finally:
         unregister()
-        print('finally WeatherPi shutting down')
+        print('finally AgendaPi shutting down')
         manager.shutdown()
+

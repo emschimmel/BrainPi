@@ -11,6 +11,7 @@ thrift -gen py ShortMemory.thrift
 thrift -gen py LongMemory.thrift
 thrift -gen py WeatherPi.thrift
 thrift -gen py LightPi.thrift
+thrift -gen py AgendaPi.thrift
 
 thrift -gen java ShortMemory.thrift
 thrift -gen java LongMemory.thrift
@@ -19,6 +20,7 @@ thrift -gen java AutorisationStruct.thrift
 thrift -gen java EarPi.thrift
 thrift -gen java ThriftException.thrift
 
+rm -rf ../AgendaPi/gen-py/*
 rm -rf ../ClientPi/gen-py/*
 rm -rf ../EyePi/gen-py/*
 rm -rf ../FacePi/gen-py/*
@@ -52,17 +54,23 @@ cp -Rf ./gen-py/ThriftException     ../EyePi/gen-py/
 cp -Rf ./gen-py/FacePi              ../FacePi/gen-py/
 cp -Rf ./gen-py/ThriftException     ../FacePi/gen-py/
 
-# GenericServerPi for WeatherPi
-cp -Rf ./gen-py/GenericStruct       ../WeatherPi/gen-py/
-cp -Rf ./gen-py/GenericServerPi     ../WeatherPi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../WeatherPi/gen-py/
-cp -Rf ./gen-py/WeatherPi           ../WeatherPi/gen-py/
+# GenericServerPi for AgendaPi
+cp -Rf ./gen-py/GenericStruct       ../AgendaPi/gen-py/
+cp -Rf ./gen-py/GenericServerPi     ../AgendaPi/gen-py/
+cp -Rf ./gen-py/ThriftException     ../AgendaPi/gen-py/
+cp -Rf ./gen-py/AgendaPi            ../AgendaPi/gen-py/
 
 # GenericServerPi for LightPi
 cp -Rf ./gen-py/GenericStruct       ../LightPi/gen-py/
 cp -Rf ./gen-py/GenericServerPi     ../LightPi/gen-py/
 cp -Rf ./gen-py/ThriftException     ../LightPi/gen-py/
 cp -Rf ./gen-py/LightPi             ../LightPi/gen-py/
+
+# GenericServerPi for WeatherPi
+cp -Rf ./gen-py/GenericStruct       ../WeatherPi/gen-py/
+cp -Rf ./gen-py/GenericServerPi     ../WeatherPi/gen-py/
+cp -Rf ./gen-py/ThriftException     ../WeatherPi/gen-py/
+cp -Rf ./gen-py/WeatherPi           ../WeatherPi/gen-py/
 
 # ShortMemory
 cp -Rf ./gen-py/GenericStruct       ../ShortTermMemory/gen-py/

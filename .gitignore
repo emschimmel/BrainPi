@@ -13,6 +13,7 @@ AdminConsolePi/gen-py/*
 FacePi/gen-py/*
 WeatherPi/gen-py/*
 LightPi/gen-py/*
+AgendaPi/gen-py/*
 ShortTermMemory/gen-py/*
 LongTermMemory/gen-py/*
 WeatherPi/api-key/api-key.txt

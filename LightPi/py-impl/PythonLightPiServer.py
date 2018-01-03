@@ -37,12 +37,10 @@ log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
 class LightPiThriftHandler:
-    def __init__(self):
-        self.log = {}
 
     @stat.timer("handleRequest")
     def handleRequest(self, input):
-        print("weather pi!")
+        print("light pi!")
         try:
             input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
             output = GenericOkOutput()
@@ -58,7 +56,7 @@ class LightPiThriftHandler:
 
         except Exception as ex:
             print('invalid request %s' % ex)
-            raise ThriftServiceException('WeatherPi', 'invalid request %s' % ex)
+            raise ThriftServiceException('LightPi', 'invalid request %s' % ex)
 
     @stat.timer("getDefaultModuleConfig")
     def getDefaultModuleConfig(self):
