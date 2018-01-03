@@ -12,9 +12,9 @@ from GenericServerPi import GenericPiThriftService
 from GenericStruct.ttypes import ActionEnum
 from ThriftException.ttypes import ThriftServiceException
 from ThriftException.ttypes import ExternalEndpointUnavailable
-from AgendaPi.ttypes import Action
+from PhotoPi.ttypes import Action
 
-from CalendarConnect import CalendarConnect
+from PhotoConnect import PhotoConnect
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -34,19 +34,19 @@ port = random.randint(50000, 59000)
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
-class AgendaPiThriftHandler:
+class PhotoPiThriftHandler:
 
     @stat.timer("handleRequest")
     def handleRequest(self, input):
-        print("agenda pi!")
+        print("photo pi!")
         try:
             input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
             output = ""
-            if input_object.action is Action.GET_ITEMS:
-                output = CalendarConnect().getEvents(input)
-            elif input_object.action is Action.MAKE_ITEM:
+            if input_object.action is Action.GET_PHOTOS:
+                output = PhotoConnect().getMultiple(input)
+            elif input_object.action is Action.GET_RANDOM_PHOTO:
                 print("NOT IMPLEMENTED YET")
-                output = "NOT IMPLEMENTED YET"
+                output = PhotoConnect().getRandom(input)
 
             pickle_output = pickle.dumps(obj=output, protocol=None, fix_imports=False)
             return pickle_output
@@ -54,7 +54,7 @@ class AgendaPiThriftHandler:
             raise endPoint
         except Exception as ex:
             print('invalid request %s' % ex)
-            raise ThriftServiceException('AgendaPi', 'invalid request %s' % ex)
+            raise ThriftServiceException('PhotoPi', 'invalid request %s' % ex)
 
     @stat.timer("getDefaultModuleConfig")
     def getDefaultModuleConfig(self):
@@ -78,7 +78,7 @@ def get_ip():
     return IP
 
 def create_server():
-    handler = AgendaPiThriftHandler()
+    handler = PhotoPiThriftHandler()
     return TServer.TSimpleServer(
         GenericPiThriftService.Processor(handler),
         TSocket.TServerSocket(port=port),
@@ -89,18 +89,18 @@ def create_server():
 def register():
     log.info("register started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    key = '%d' % ActionEnum.AGENDA
-    c.kv.put(key, 'agenda')
+    key = '%d' % ActionEnum.PHOTO
+    c.kv.put(key, 'photo')
     check = consul.Check.tcp(host=get_ip(), port=port, interval=config.consul_interval,
                              timeout=config.consul_timeout, deregister=unregister())
-    c.agent.service.register(name="agenda-pi", service_id="agenda-pi-%d" % port, port=port, check=check)
+    c.agent.service.register(name="photo-pi", service_id="photo-pi-%d" % port, port=port, check=check)
     log.info("services: " + str(c.agent.services()))
 
 def unregister():
     log.info("unregister started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
-    c.agent.service.deregister("agenda-pi-%d" % port)
-    c.agent.service.deregister("agenda-pi")
+    c.agent.service.deregister("photo-pi-%d" % port)
+    c.agent.service.deregister("photo-pi")
     log.info("services: " + str(c.agent.services()))
 
 def interupt_manager():
@@ -116,6 +116,6 @@ if __name__ == '__main__':
 
     finally:
         unregister()
-        print('finally AgendaPi shutting down')
+        print('finally PhotoPi shutting down')
         manager.shutdown()
 

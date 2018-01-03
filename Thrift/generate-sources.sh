@@ -12,6 +12,7 @@ thrift -gen py LongMemory.thrift
 thrift -gen py WeatherPi.thrift
 thrift -gen py LightPi.thrift
 thrift -gen py AgendaPi.thrift
+thrift -gen py PhotoPi.thrift
 
 thrift -gen java ShortMemory.thrift
 thrift -gen java LongMemory.thrift
@@ -25,6 +26,7 @@ rm -rf ../ClientPi/gen-py/*
 rm -rf ../EyePi/gen-py/*
 rm -rf ../FacePi/gen-py/*
 rm -rf ../WeatherPi/gen-py/*
+rm -rf ../PhotoPi/gen-py/*
 rm -rf ../LightPi/gen-py/*
 rm -rf ../ShortTermMemory/gen-py/*
 rm -rf ../LongTermMemory/gen-py/*
@@ -59,6 +61,12 @@ cp -Rf ./gen-py/GenericStruct       ../AgendaPi/gen-py/
 cp -Rf ./gen-py/GenericServerPi     ../AgendaPi/gen-py/
 cp -Rf ./gen-py/ThriftException     ../AgendaPi/gen-py/
 cp -Rf ./gen-py/AgendaPi            ../AgendaPi/gen-py/
+
+# GenericServerPi for PhotoPi
+cp -Rf ./gen-py/GenericStruct       ../PhotoPi/gen-py/
+cp -Rf ./gen-py/GenericServerPi     ../PhotoPi/gen-py/
+cp -Rf ./gen-py/ThriftException     ../PhotoPi/gen-py/
+cp -Rf ./gen-py/PhotoPi             ../PhotoPi/gen-py/
 
 # GenericServerPi for LightPi
 cp -Rf ./gen-py/GenericStruct       ../LightPi/gen-py/

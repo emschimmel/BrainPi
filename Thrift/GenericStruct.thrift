@@ -7,6 +7,7 @@ enum ActionEnum {
 	MUSIC = 3
 	WEATHER = 4
 	CONFIG = 5
+	PHOTO = 6
 }
 
 enum UiType {
@@ -56,7 +57,13 @@ const Action config = {
     "name":"Config"
 }
 
-const list<Action> available_actions = {0: login, 1: light, 2:agenda, 3: music, 4: weather, 5: config}
+const Action photo = {
+    "actionEnum" :ActionEnum.PHOTO
+    "uiType" :UiType.user
+    "name":"Photo"
+}
+
+const list<Action> available_actions = {0: login, 1: light, 2:agenda, 3: music, 4: weather, 5: config, 6: photo}
 
 struct PingObject {
     1 : optional ActionEnum action
