@@ -15,6 +15,8 @@ WeatherPi/gen-py/*
 LightPi/gen-py/*
 AgendaPi/gen-py/*
 PhotoPi/gen-py/*
+AdminConsolePi/gen-py/*
+MusicPi/gen-py/*
 ShortTermMemory/gen-py/*
 LongTermMemory/gen-py/*
 WeatherPi/api-key/api-key.txt
