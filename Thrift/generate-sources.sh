@@ -13,6 +13,7 @@ thrift -gen py WeatherPi.thrift
 thrift -gen py LightPi.thrift
 thrift -gen py AgendaPi.thrift
 thrift -gen py PhotoPi.thrift
+thrift -gen py MusicPi.thrift
 
 thrift -gen java ShortMemory.thrift
 thrift -gen java LongMemory.thrift
@@ -21,74 +22,45 @@ thrift -gen java AutorisationStruct.thrift
 thrift -gen java EarPi.thrift
 thrift -gen java ThriftException.thrift
 
+rm -rf ../AdminConsolePi/gen-py/*
 rm -rf ../AgendaPi/gen-py/*
 rm -rf ../ClientPi/gen-py/*
+rm -rf ../EarPi/Java/src/main/java/nl/earpi/generated/*
+rm -rf ../EarPi/Python/gen-py/*
 rm -rf ../EyePi/gen-py/*
 rm -rf ../FacePi/gen-py/*
-rm -rf ../WeatherPi/gen-py/*
-rm -rf ../PhotoPi/gen-py/*
 rm -rf ../LightPi/gen-py/*
-rm -rf ../ShortTermMemory/gen-py/*
 rm -rf ../LongTermMemory/gen-py/*
-rm -rf ../EarPi/src/main/java/nl/earpi/generated/*
+rm -rf ../MusicPi/gen-py/*
+rm -rf ../PhotoPi/gen-py/*
+rm -rf ../ShortTermMemory/gen-py/*
+rm -rf ../WeatherPi/gen-py/*
 
-# ClientPI
-cp -Rf ./gen-py/GenericStruct       ../ClientPi/gen-py/
-cp -Rf ./gen-py/AutorisationStruct  ../ClientPi/gen-py/
-cp -Rf ./gen-py/EyePi               ../ClientPi/gen-py/
-cp -Rf ./gen-py/EarPi               ../ClientPi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../ClientPi/gen-py/
-cp -Rf ./gen-py/ShortMemory         ../ClientPi/gen-py/ # mock!
-cp -Rf ./gen-py/LongMemory          ../ClientPi/gen-py/ # mock!
-cp -Rf ./gen-py/WeatherPi           ../ClientPi/gen-py/
-
-# EyePI
-cp -Rf ./gen-py/EyePi               ../EyePi/gen-py/
-cp -Rf ./gen-py/FacePi              ../EyePi/gen-py/
-cp -Rf ./gen-py/GenericStruct       ../EyePi/gen-py/
-cp -Rf ./gen-py/AutorisationStruct  ../EyePi/gen-py/
-cp -Rf ./gen-py/GenericServerPi     ../EyePi/gen-py/
-cp -Rf ./gen-py/ShortMemory         ../EyePi/gen-py/
-cp -Rf ./gen-py/LongMemory          ../EyePi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../EyePi/gen-py/
-
-# FacePI
-cp -Rf ./gen-py/FacePi              ../FacePi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../FacePi/gen-py/
+# AdminConsole
+cp -Rf ./gen-py/GenericStruct           ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/EyePi                   ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/AutorisationStruct      ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../AdminConsolePi/gen-py/
 
 # GenericServerPi for AgendaPi
-cp -Rf ./gen-py/GenericStruct       ../AgendaPi/gen-py/
-cp -Rf ./gen-py/GenericServerPi     ../AgendaPi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../AgendaPi/gen-py/
-cp -Rf ./gen-py/AgendaPi            ../AgendaPi/gen-py/
+cp -Rf ./gen-py/GenericStruct           ../AgendaPi/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../AgendaPi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../AgendaPi/gen-py/
+cp -Rf ./gen-py/AgendaPi                ../AgendaPi/gen-py/
 
-# GenericServerPi for PhotoPi
-cp -Rf ./gen-py/GenericStruct       ../PhotoPi/gen-py/
-cp -Rf ./gen-py/GenericServerPi     ../PhotoPi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../PhotoPi/gen-py/
-cp -Rf ./gen-py/PhotoPi             ../PhotoPi/gen-py/
-
-# GenericServerPi for LightPi
-cp -Rf ./gen-py/GenericStruct       ../LightPi/gen-py/
-cp -Rf ./gen-py/GenericServerPi     ../LightPi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../LightPi/gen-py/
-cp -Rf ./gen-py/LightPi             ../LightPi/gen-py/
-
-# GenericServerPi for WeatherPi
-cp -Rf ./gen-py/GenericStruct       ../WeatherPi/gen-py/
-cp -Rf ./gen-py/GenericServerPi     ../WeatherPi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../WeatherPi/gen-py/
-cp -Rf ./gen-py/WeatherPi           ../WeatherPi/gen-py/
-
-# ShortMemory
-cp -Rf ./gen-py/GenericStruct       ../ShortTermMemory/gen-py/
-cp -Rf ./gen-py/ShortMemory         ../ShortTermMemory/gen-py/
-
-# LongMemory
-cp -Rf ./gen-py/GenericStruct       ../LongTermMemory/gen-py/
-cp -Rf ./gen-py/AutorisationStruct  ../LongTermMemory/gen-py/
-cp -Rf ./gen-py/LongMemory          ../LongTermMemory/gen-py/
-cp -Rf ./gen-py/ThriftException     ../LongTermMemory/gen-py/
+# ClientPI
+cp -Rf ./gen-py/GenericStruct           ../ClientPi/gen-py/
+cp -Rf ./gen-py/AutorisationStruct      ../ClientPi/gen-py/
+cp -Rf ./gen-py/EyePi                   ../ClientPi/gen-py/
+cp -Rf ./gen-py/EarPi                   ../ClientPi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../ClientPi/gen-py/
+cp -Rf ./gen-py/ShortMemory             ../ClientPi/gen-py/ # mock!
+cp -Rf ./gen-py/LongMemory              ../ClientPi/gen-py/ # mock!
+cp -Rf ./gen-py/WeatherPi               ../ClientPi/gen-py/
+cp -Rf ./gen-py/PhotoPi                 ../ClientPi/gen-py/
+cp -Rf ./gen-py/LightPi                 ../ClientPi/gen-py/
+cp -Rf ./gen-py/MusicPi                 ../ClientPi/gen-py/
+cp -Rf ./gen-py/AgendaPi                ../ClientPi/gen-py/
 
 #EarPI
 cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/Java/src/main/java/nl/earpi/generated/
@@ -100,8 +72,50 @@ cp -Rf ./gen-py/ShortMemory             ../EarPi/Python/gen-py/
 cp -Rf ./gen-py/LongMemory              ../EarPi/Python/gen-py/
 cp -Rf ./gen-py/ThriftException         ../EarPi/Python/gen-py/
 
-# AdminConsole
-cp -Rf ./gen-py/GenericStruct       ../AdminConsolePi/gen-py/
-cp -Rf ./gen-py/EyePi               ../AdminConsolePi/gen-py/
-cp -Rf ./gen-py/AutorisationStruct  ../AdminConsolePi/gen-py/
-cp -Rf ./gen-py/ThriftException     ../AdminConsolePi/gen-py/
+# EyePI
+cp -Rf ./gen-py/EyePi                   ../EyePi/gen-py/
+cp -Rf ./gen-py/FacePi                  ../EyePi/gen-py/
+cp -Rf ./gen-py/GenericStruct           ../EyePi/gen-py/
+cp -Rf ./gen-py/AutorisationStruct      ../EyePi/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../EyePi/gen-py/
+cp -Rf ./gen-py/ShortMemory             ../EyePi/gen-py/
+cp -Rf ./gen-py/LongMemory              ../EyePi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../EyePi/gen-py/
+
+# FacePI
+cp -Rf ./gen-py/FacePi                  ../FacePi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../FacePi/gen-py/
+
+# GenericServerPi for LightPi
+cp -Rf ./gen-py/GenericStruct           ../LightPi/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../LightPi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../LightPi/gen-py/
+cp -Rf ./gen-py/LightPi                 ../LightPi/gen-py/
+
+# LongMemory
+cp -Rf ./gen-py/GenericStruct           ../LongTermMemory/gen-py/
+cp -Rf ./gen-py/AutorisationStruct      ../LongTermMemory/gen-py/
+cp -Rf ./gen-py/LongMemory              ../LongTermMemory/gen-py/
+cp -Rf ./gen-py/ThriftException         ../LongTermMemory/gen-py/
+
+# GenericServerPi for MusicPi
+cp -Rf ./gen-py/GenericStruct           ../MusicPi/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../MusicPi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../MusicPi/gen-py/
+cp -Rf ./gen-py/MusicPi                 ../MusicPi/gen-py/
+
+# GenericServerPi for PhotoPi
+cp -Rf ./gen-py/GenericStruct           ../PhotoPi/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../PhotoPi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../PhotoPi/gen-py/
+cp -Rf ./gen-py/PhotoPi                 ../PhotoPi/gen-py/
+
+# ShortMemory
+cp -Rf ./gen-py/GenericStruct           ../ShortTermMemory/gen-py/
+cp -Rf ./gen-py/ShortMemory             ../ShortTermMemory/gen-py/
+
+# GenericServerPi for WeatherPi
+cp -Rf ./gen-py/GenericStruct           ../WeatherPi/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../WeatherPi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../WeatherPi/gen-py/
+cp -Rf ./gen-py/WeatherPi               ../WeatherPi/gen-py/
