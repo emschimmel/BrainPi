@@ -65,7 +65,7 @@ class MusicPiThriftHandler:
 
     @stat.timer("MusicPi.getDefaultModuleConfig")
     def getDefaultModuleConfig(self):
-        default_config = FloorLayout.getLayout()
+        default_config = ""
         return pickle.dumps(obj=default_config, protocol=None, fix_imports=False)
 
     @stat.timer("MusicPi.ping")
