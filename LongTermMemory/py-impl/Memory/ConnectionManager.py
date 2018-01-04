@@ -25,7 +25,7 @@ class State_d:
 class ConnectionManager():
     try:
         from pymongo import MongoClient
-        MongoClient = None
+    #    MongoClient = None
     except ImportError:
         MongoClient = None
     if MongoClient:

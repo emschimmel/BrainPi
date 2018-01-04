@@ -27,7 +27,7 @@ import logging
 import random
 import statsd
 
-port = random.randint(50000, 59000)
+port = random.randint(58850, 58860)
 stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 
 log = logging.getLogger()

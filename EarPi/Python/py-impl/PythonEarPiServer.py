@@ -36,7 +36,7 @@ import random
 import statsd
 stat = statsd.StatsClient(config.statsd_ip, config.statsd_port)
 
-port = random.randint(50000, 59000)
+port = random.randint(58810, 58820)
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
