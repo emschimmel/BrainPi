@@ -22,6 +22,7 @@ LongTermMemory/gen-py/*
 WeatherPi/api-key/api-key.txt
 WeatherPi/config/weather.ini
 MusicPi/config/deezer.ini
+MusicPi/config/config.ini
 FacePi/py-impl/FaceRecognition/Data/*
 EarPi/Java/src/main/java/nl/earpi/generated/*/*
 EarPi/Java/target
