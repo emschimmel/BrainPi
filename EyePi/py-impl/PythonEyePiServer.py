@@ -10,11 +10,11 @@ from multiprocessing.managers import SyncManager
 
 sys.path.append('../gen-py')
 
-from PythonFacePiClient import FacePiThriftClient
-from GenericThriftClient import GenericThriftClient
-from LongTermPersonMemoryClient import LongTermPersonMemoryClient
-from ShortTermLogMemoryClient import ShortTermLogMemoryClient
-from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
+from connect.PythonFacePiClient import FacePiThriftClient
+from connect.GenericThriftClient import GenericThriftClient
+from connect.LongTermPersonMemoryClient import LongTermPersonMemoryClient
+from connect.ShortTermLogMemoryClient import ShortTermLogMemoryClient
+from connect.ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 
 from EyePi import EyePiThriftService
 from EyePi.ttypes import LoginOutputObject
