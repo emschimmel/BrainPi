@@ -1,13 +1,13 @@
 .DS_Store
 *.pyc
-ClientPi/img/*
+IntegrationTests/img/*
 FacePi/img/*
 EyePi/img/*
 *.iml
 *idea
 Thrift/gen-java/*
 Thrift/gen-py/*
-ClientPi/gen-py/*
+IntegrationTests/gen-py/*
 EyePi/gen-py/*
 AdminConsolePi/gen-py/*
 FacePi/gen-py/*
