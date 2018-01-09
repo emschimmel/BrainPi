@@ -24,7 +24,7 @@ thrift -gen java ThriftException.thrift
 
 rm -rf ../AdminConsolePi/gen-py/*
 rm -rf ../AgendaPi/gen-py/*
-rm -rf ../ClientPi/gen-py/*
+rm -rf ../1IntegrationTests/gen-py/*
 rm -rf ../EarPi/Java/src/main/java/nl/earpi/generated/*
 rm -rf ../EarPi/Python/gen-py/*
 rm -rf ../EyePi/gen-py/*
@@ -48,19 +48,19 @@ cp -Rf ./gen-py/GenericServerPi         ../AgendaPi/gen-py/
 cp -Rf ./gen-py/ThriftException         ../AgendaPi/gen-py/
 cp -Rf ./gen-py/AgendaPi                ../AgendaPi/gen-py/
 
-# ClientPI
-cp -Rf ./gen-py/GenericStruct           ../ClientPi/gen-py/
-cp -Rf ./gen-py/AutorisationStruct      ../ClientPi/gen-py/
-cp -Rf ./gen-py/EyePi                   ../ClientPi/gen-py/
-cp -Rf ./gen-py/EarPi                   ../ClientPi/gen-py/
-cp -Rf ./gen-py/ThriftException         ../ClientPi/gen-py/
-cp -Rf ./gen-py/ShortMemory             ../ClientPi/gen-py/ # mock!
-cp -Rf ./gen-py/LongMemory              ../ClientPi/gen-py/ # mock!
-cp -Rf ./gen-py/WeatherPi               ../ClientPi/gen-py/
-cp -Rf ./gen-py/PhotoPi                 ../ClientPi/gen-py/
-cp -Rf ./gen-py/LightPi                 ../ClientPi/gen-py/
-cp -Rf ./gen-py/MusicPi                 ../ClientPi/gen-py/
-cp -Rf ./gen-py/AgendaPi                ../ClientPi/gen-py/
+# 1IntegrationTests
+cp -Rf ./gen-py/GenericStruct           ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/AutorisationStruct      ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/EyePi                   ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/EarPi                   ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/ThriftException         ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/ShortMemory             ../1IntegrationTests/gen-py/ # mock!
+cp -Rf ./gen-py/LongMemory              ../1IntegrationTests/gen-py/ # mock!
+cp -Rf ./gen-py/WeatherPi               ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/PhotoPi                 ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/LightPi                 ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/MusicPi                 ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/AgendaPi                ../1IntegrationTests/gen-py/
 
 #EarPI
 cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/Java/src/main/java/nl/earpi/generated/
