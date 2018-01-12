@@ -1,0 +1,6 @@
+
+class UserStorageLocal:
+
+    users = dict()
+
+
