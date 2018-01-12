@@ -40,5 +40,5 @@ class PersonMemory():
         self.__con.update(uniquename=uniquename, field=field, value=getattr(person, field))
 
     @classmethod
-    def updateActionConfig(self, uniquename, action, config):
-        self.__con.updateActionConfig(uniquename=uniquename, action=action, value=config)
+    def updateActionConfig(self, uniquename, action, user_config):
+        self.__con.updateActionConfig(uniquename=uniquename, action=action, value=user_config)

@@ -21,7 +21,6 @@ from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
 from ThriftException.ttypes import UniqueFailedException
 
-sys.path.append('../../')
 import config
 import logging
 import random
@@ -71,9 +70,9 @@ class LongTermMemoryThriftServer:
             print('invalid request %s' % ex)
 
     @stat.timer("LongTermMemory.updateActionConfig")
-    def updateActionConfig(self, uniquename, action, config):
+    def updateActionConfig(self, uniquename, action, user_config):
         try:
-            PersonMemory().updateActionConfig(uniquename=uniquename, action=action, config=config)
+            PersonMemory().updateActionConfig(uniquename=uniquename, action=action, user_config=user_config)
         except Exception as ex:
             print('invalid request %s' % ex)
 
