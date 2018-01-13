@@ -23,14 +23,34 @@ class AutorisationActions():
                 checks_passed = False
                 if loginobject.password is not None:
                     passed_password = self.__decrypt(fernet_key=person_login_object.password, token=loginobject.password)
-                    if passed_password is not loginobject.password:
+
+                    string_passed_password = passed_password.decode()
+                    print(string_passed_password)
+                    string_object_password = person_login_object.password
+                    string_object_code = string_object_password.decode()
+                    print(string_object_code)
+
+                    if string_passed_password != string_object_code:
+                        print('password fail')
+                        print(passed_password)
+                        print(person_login_object.password)
                         raise LoginFailedException()
                     else:
                         checks_passed = True
 
                 if loginobject.code is not None:
                     passed_password = self.__decrypt(fernet_key=person_login_object.code, token=loginobject.code)
-                    if passed_password is not loginobject.code:
+
+                    string_passed_password = passed_password.decode()
+                    print(string_passed_password)
+                    string_object_code = person_login_object.code
+                    string_object_code = string_object_code.decode()
+                    print(string_object_code)
+
+                    if string_passed_password != string_object_code:
+                        print('code fail')
+                        print(passed_password)
+                        print(person_login_object.code)
                         raise LoginFailedException()
                     else:
                         checks_passed = True
