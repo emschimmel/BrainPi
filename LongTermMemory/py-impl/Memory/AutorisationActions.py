@@ -66,7 +66,7 @@ class AutorisationActions():
     @staticmethod
     def __decrypt(token, fernet_key):
         try:
-            f = Fernet(token)
+            f = Fernet(fernet_key)
             return f.decrypt(token)
         except Exception as ex:
             print('catching ex')
