@@ -21,6 +21,7 @@ from ConnectionHelpers.ConnectLongMemory import ConnectLongMemory
 from ConnectionHelpers.ConnectEarPi import ConnectEarPi
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
+from ConnectionHelpers.PasswordHelper import PasswordHelper
 import pickle
 
 from thrift import Thrift
@@ -31,8 +32,8 @@ class testFlow:
     __person = None
     __uniquename = 'MockPerson'
     __username = 'admin'
-    __password = 'admin'
-    __code = '123456ABCD'
+    __password = PasswordHelper.hashPassword('admin')
+    __code = PasswordHelper.hashPassword('123456ABCD')
     __devicetoken = None
     __token = None
     __autorisations = dict
@@ -54,8 +55,8 @@ class testFlow:
             details.dob = '03-09-1966'
             input.details = details
             input.username = self.__username
-            input.password = self.__password
-            input.code = self.__code
+            input.password = PasswordHelper.encryptPassword(self.__password)
+            input.code = PasswordHelper.encryptPassword(self.__code)
             input.enabled = True
             self.__person = input
             ConnectLongMemory().storeNewPerson(input)
@@ -71,8 +72,8 @@ class testFlow:
         try:
             input = LoginInputObject()
             input.username = self.__username
-            input.password = self.__password
-            input.code = self.__code
+            input.password = PasswordHelper.encryptPassword(self.__password)
+            input.code = PasswordHelper.encryptPassword(self.__code)
             input.deviceToken = self.__devicetoken
             input.token = self.__token
             inputDevice = DeviceTokenInput()
@@ -101,8 +102,8 @@ class testFlow:
             details.dob = '03-09-1966'
             input.details = details
             input.username = self.__secondUsername
-            input.password = self.__password
-            input.code = '123456789'
+            input.password = PasswordHelper.encryptPassword(self.__password)
+            input.code = PasswordHelper.encryptPassword('123456789')
             input.enabled = True
             tokenInput = self.createEarPiAuthObject()
             self.__token = ConnectEarPi().storeNewPerson(person=input, tokenInput=tokenInput)
