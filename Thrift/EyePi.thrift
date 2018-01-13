@@ -31,8 +31,8 @@ struct EyePiOutput {
 # device registration input
 struct LoginInputObject {
     1 : required string username
-    2 : optional string password
-    3 : optional string code
+    2 : optional binary password
+    3 : optional binary code
     4 : optional AutorisationStruct.DeviceTokenInput deviceInput
     5 : optional string deviceToken
     6 : optional string token

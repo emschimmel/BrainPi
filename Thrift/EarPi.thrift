@@ -92,6 +92,6 @@ service EarPiThriftService {
     string confirmDevice(1: string deviceToken, 2: bool active, 3: EarPiAuthObject tokenInput) throws (1: ThriftException.LoginFailedException fail)
 
     ### change the password for a specific username
-    string changePassword(1: string username, 2: string password, 3: EarPiAuthObject tokenInput) throws (1: ThriftException.BadHashException bad, 2: ThriftException.LoginFailedException fail)
+    string changePassword(1: string username, 2: binary password, 3: EarPiAuthObject tokenInput) throws (1: ThriftException.BadHashException bad, 2: ThriftException.LoginFailedException fail)
 
 }

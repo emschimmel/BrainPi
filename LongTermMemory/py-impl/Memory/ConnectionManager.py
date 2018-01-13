@@ -4,6 +4,7 @@ sys.path.append('../../')
 import config
 
 sys.path.append('../gen-py')
+from LongMemory.ttypes import LongMemoryLoginInputObject
 from AutorisationStruct.ttypes import Person
 from AutorisationStruct.ttypes import Autorisation
 from AutorisationStruct.ttypes import user_detail
@@ -70,6 +71,15 @@ class ConnectionManager():
         return result
 
     @classmethod
+    def get_for_login(self, query):
+        result = []
+        loginData = []
+        for item in self.storage.get_by_query(criteria=query):
+            result.append(self.__JsonToThrift(jsondata=item))
+            loginData.append(self.__fill_password_fields(jsondata=item))
+        return result, loginData
+
+    @classmethod
     def store_new(self, value):
         self.storage.store_new(self.__ThriftToJson(value))
 
@@ -91,6 +101,8 @@ class ConnectionManager():
     def __ThriftToJson(thriftdata):
         thrift_json_string = TSerialization.serialize(thriftdata, TJSONProtocol.TSimpleJSONProtocolFactory()).decode('utf-8')
         json_value = json.loads(thrift_json_string)
+        json_value['password'] = thriftdata.password.decode()
+        json_value['code'] = thriftdata.code.decode()
         return json_value
 
     @staticmethod
@@ -129,4 +141,12 @@ class ConnectionManager():
                 autorisations[int(key)] = autorisation
             person.autorisations = autorisations
         return person
+
+    @staticmethod
+    def __fill_password_fields(jsondata):
+        loginObject = LongMemoryLoginInputObject()
+        loginObject.username = jsondata['username']
+        loginObject.password = str.encode(jsondata['password'])
+        loginObject.code = str.encode(jsondata['code'])
+        return loginObject
 

@@ -37,6 +37,8 @@ class ConnectEarPi:
             raise unique
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        except Exception as ex:
+            print('unexpected exception')
         finally:
             transport.close()
 

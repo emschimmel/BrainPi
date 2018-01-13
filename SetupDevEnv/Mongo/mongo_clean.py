@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../../')
 import config
 from pymongo import MongoClient
 

@@ -435,8 +435,8 @@ class LoginInputObject(object):
     thrift_spec = (
         None,  # 0
         (1, TType.STRING, 'username', 'UTF8', None, ),  # 1
-        (2, TType.STRING, 'password', 'UTF8', None, ),  # 2
-        (3, TType.STRING, 'code', 'UTF8', None, ),  # 3
+        (2, TType.STRING, 'password', 'BINARY', None, ),  # 2
+        (3, TType.STRING, 'code', 'BINARY', None, ),  # 3
         (4, TType.STRUCT, 'deviceInput', (AutorisationStruct.ttypes.DeviceTokenInput, AutorisationStruct.ttypes.DeviceTokenInput.thrift_spec), None, ),  # 4
         (5, TType.STRING, 'deviceToken', 'UTF8', None, ),  # 5
         (6, TType.STRING, 'token', 'UTF8', None, ),  # 6
@@ -466,12 +466,12 @@ class LoginInputObject(object):
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRING:
-                    self.password = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                    self.password = iprot.readBinary()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.STRING:
-                    self.code = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                    self.code = iprot.readBinary()
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
@@ -506,11 +506,11 @@ class LoginInputObject(object):
             oprot.writeFieldEnd()
         if self.password is not None:
             oprot.writeFieldBegin('password', TType.STRING, 2)
-            oprot.writeString(self.password.encode('utf-8') if sys.version_info[0] == 2 else self.password)
+            oprot.writeBinary(self.password)
             oprot.writeFieldEnd()
         if self.code is not None:
             oprot.writeFieldBegin('code', TType.STRING, 3)
-            oprot.writeString(self.code.encode('utf-8') if sys.version_info[0] == 2 else self.code)
+            oprot.writeBinary(self.code)
             oprot.writeFieldEnd()
         if self.deviceInput is not None:
             oprot.writeFieldBegin('deviceInput', TType.STRUCT, 4)

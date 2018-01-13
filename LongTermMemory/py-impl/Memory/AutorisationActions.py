@@ -15,20 +15,21 @@ class AutorisationActions():
             query = dict()
             query['username'] = loginobject.username
             query['enabled'] = 1
-            personList = self.__con.get_by_query(query)
+            person_list, login_object_list = self.__con.get_for_login(query)
 
-            if personList:
-                person = personList[0]
+            if person_list:
+                person = person_list[0]
+                person_login_object = login_object_list[0]
                 checks_passed = False
                 if loginobject.password is not None:
-                    passed_password = self.__decrypt(person.password, loginobject.password)
+                    passed_password = self.__decrypt(fernet_key=person_login_object.password, token=loginobject.password)
                     if passed_password is not loginobject.password:
                         raise LoginFailedException()
                     else:
                         checks_passed = True
 
                 if loginobject.code is not None:
-                    passed_password = self.__decrypt(person.code, loginobject.code)
+                    passed_password = self.__decrypt(fernet_key=person_login_object.code, token=loginobject.code)
                     if passed_password is not loginobject.code:
                         raise LoginFailedException()
                     else:
@@ -44,15 +45,16 @@ class AutorisationActions():
             query = dict()
             query['username'] = username
             query['enabled'] = 1
-            personList = self.__con.get_by_query(query)
-            if personList:
-                person = personList[0]
+            person_list, login_object_list = self.__con.get_for_login(query)
+            if person_list:
+                person = person_list[0]
+                person_login_object = login_object_list[0]
                 if password is not None:
-                    passed_password = self.__decrypt(person.password, password)
+                    passed_password = self.__decrypt(token=password, fernet_key=person_login_object.password)
                     if passed_password is not password:
                         raise BadHashException()
                     else:
-                        self.__con.update(uniquename=person.uniquename, value=passed_password, field='password')
+                        self.__con.update(uniquename=person.uniquename, value=passed_password.decode(), field='password')
 
             pass
         else:
@@ -62,6 +64,11 @@ class AutorisationActions():
         return True
 
     @staticmethod
-    def __decrypt(token, key):
-        f = Fernet(key)
-        return f.decrypt(token)
+    def __decrypt(token, fernet_key):
+        try:
+            f = Fernet(token)
+            return f.decrypt(token)
+        except Exception as ex:
+            print('catching ex')
+            print(ex)
+            raise BadHashException()

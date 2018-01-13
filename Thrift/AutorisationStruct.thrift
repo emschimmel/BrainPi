@@ -26,8 +26,8 @@ struct Person {
     1 : optional string uniquename
     2 : optional user_detail details
     3 : optional string username
-    4 : optional string password
-    5 : optional string code
+    4 : optional binary password
+    5 : optional binary code
     6 : required bool enabled = true
     7 : optional map<GenericStruct.ActionEnum, Autorisation> autorisations
 }

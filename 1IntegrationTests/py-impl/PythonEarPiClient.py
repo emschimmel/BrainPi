@@ -40,7 +40,7 @@ class testFlow:
 
     __secondUniquename = 'Test'
     __secondUsername = 'Test'
-    __secondPassword = 'Test'
+    __secondPassword = PasswordHelper.hashPassword('Test')
     __secondPerson = None
 
     def enterFirstPerson(self):
@@ -55,8 +55,8 @@ class testFlow:
             details.dob = '03-09-1966'
             input.details = details
             input.username = self.__username
-            input.password = PasswordHelper.encryptPassword(self.__password)
-            input.code = PasswordHelper.encryptPassword(self.__code)
+            input.password = self.__password
+            input.code = self.__code
             input.enabled = True
             self.__person = input
             ConnectLongMemory().storeNewPerson(input)
@@ -72,8 +72,11 @@ class testFlow:
         try:
             input = LoginInputObject()
             input.username = self.__username
-            input.password = PasswordHelper.encryptPassword(self.__password)
-            input.code = PasswordHelper.encryptPassword(self.__code)
+            print(self.__password)
+            encrypted_password = PasswordHelper.encryptPassword(self.__password)
+            input.password = encrypted_password
+            encrypted_code = PasswordHelper.encryptPassword(self.__code)
+            input.code = encrypted_code
             input.deviceToken = self.__devicetoken
             input.token = self.__token
             inputDevice = DeviceTokenInput()
@@ -81,7 +84,6 @@ class testFlow:
             inputDevice.devicetype = 'Development'
             input.deviceInput = inputDevice
             output = ConnectEyePi().login(input)
-            print(output)
             if not output.uniquename == self.__uniquename:
                 print("test fail")
             self.__devicetoken = output.deviceToken
@@ -102,8 +104,10 @@ class testFlow:
             details.dob = '03-09-1966'
             input.details = details
             input.username = self.__secondUsername
-            input.password = PasswordHelper.encryptPassword(self.__password)
-            input.code = PasswordHelper.encryptPassword('123456789')
+            encrypted_password = PasswordHelper.encryptPassword(self.__password)
+            input.password = encrypted_password
+            encrypted_code = PasswordHelper.encryptPassword('123456789')
+            input.code = encrypted_code
             input.enabled = True
             tokenInput = self.createEarPiAuthObject()
             self.__token = ConnectEarPi().storeNewPerson(person=input, tokenInput=tokenInput)

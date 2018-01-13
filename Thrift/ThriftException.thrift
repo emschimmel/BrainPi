@@ -13,7 +13,7 @@ exception ThriftServiceException {
 
 exception BadHashException {
     1 : required string serviceName = "LongMemoryPi";
-    2 : required string message = "Unable to change the password";
+    2 : required string message = "Unable to use the password";
 }
 
 exception LoginFailedException {
