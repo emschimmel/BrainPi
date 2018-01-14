@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 # not used in this project.
-
-import time
 import datetime
 import sys
 sys.path.append('../gen-py')
@@ -22,6 +20,7 @@ from ConnectionHelpers.ConnectEarPi import ConnectEarPi
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 from ConnectionHelpers.DeviceRegistrator import DeviceRegistrator
 from ConnectionHelpers.PasswordHelper import PasswordHelper
+from ConnectionHelpers.AutorisationsStructProvider import AutorisationsStructProvider
 import pickle
 
 from thrift import Thrift
@@ -36,13 +35,16 @@ class testFlow:
     __code = PasswordHelper.hashPassword('123456ABCD')
     __devicetoken = None
     __token = None
-    __autorisations = dict
+    __autorisations = dict()
 
     __secondUniquename = 'Test'
     __secondUsername = 'Test'
     __secondPassword = PasswordHelper.hashPassword('Test')
     __secondPerson = None
     __secondCode = PasswordHelper.hashPassword('123456')
+
+    def get_class_state(self):
+        return self.__token, self.__devicetoken, self.__person
 
     def enterFirstPerson(self):
         try:
@@ -59,6 +61,7 @@ class testFlow:
             input.password = self.__password
             input.code = self.__code
             input.enabled = True
+            input.autorisations = AutorisationsStructProvider().generate_full_autorisations()
             self.__person = input
             ConnectLongMemory().storeNewPerson(input)
 

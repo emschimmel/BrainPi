@@ -20,3 +20,7 @@ struct MakeItemActionInput {
     1 : required Action action = Action.MAKE_ITEM
     2 : required string email
 }
+
+struct ConfigItem {
+    1 : required string email
+}

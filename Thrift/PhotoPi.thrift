@@ -16,3 +16,7 @@ struct GetRandomPhotoActionInput {
     2 : required string email
     3 : required i16 limit = 1
 }
+
+struct ConfigItem {
+    1 : required string email
+}

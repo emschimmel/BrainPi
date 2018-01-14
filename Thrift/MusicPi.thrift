@@ -54,3 +54,7 @@ struct GetSongsOutput {
     2 : optional string playlistname
 }
 
+struct ConfigItem {
+    1 : required string name
+}
+
