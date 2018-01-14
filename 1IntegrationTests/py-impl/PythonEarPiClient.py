@@ -42,6 +42,7 @@ class testFlow:
     __secondUsername = 'Test'
     __secondPassword = PasswordHelper.hashPassword('Test')
     __secondPerson = None
+    __secondCode = PasswordHelper.hashPassword('123456')
 
     def enterFirstPerson(self):
         try:
@@ -84,6 +85,7 @@ class testFlow:
             inputDevice.devicetype = 'Development'
             input.deviceInput = inputDevice
             output = ConnectEyePi().login(input)
+            print(output)
             if not output.uniquename == self.__uniquename:
                 print("test fail")
             self.__devicetoken = output.deviceToken
@@ -106,11 +108,12 @@ class testFlow:
             input.username = self.__secondUsername
             encrypted_password = PasswordHelper.encryptPassword(self.__password)
             input.password = encrypted_password
-            encrypted_code = PasswordHelper.encryptPassword('123456789')
+            encrypted_code = PasswordHelper.encryptPassword(self.__secondCode)
             input.code = encrypted_code
             input.enabled = True
             tokenInput = self.createEarPiAuthObject()
             self.__token = ConnectEarPi().storeNewPerson(person=input, tokenInput=tokenInput)
+            print(self.__token)
 
         except UniqueFailedException as unique:
             print('catching unique failed Exception')
@@ -118,6 +121,8 @@ class testFlow:
                 print('unique field %s already in database with value' % field)
         except Thrift.TException as tx:
             print("%s" % (tx.message))
+        except Exception as ex:
+            print(ex)
 
     def getUser(self):
         try:
@@ -152,7 +157,7 @@ class testFlow:
             # create person
             person = Person()
             person.uniquename = self.__uniquename
-            person.code='123456789'
+            person.code=PasswordHelper.hashPassword('123456789')
             details = user_detail()
             details.firstname = 'Changed'
             details.lastname = 'Person'
