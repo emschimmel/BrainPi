@@ -22,10 +22,10 @@ struct ConfirmInput {
 }
 
 struct EyePiOutput {
-	1 : required bool ok
+	1 : required bool ok = false
 	2 : optional list<PersonEntry> personCollection
 	3 : optional string token
-	4 : required map<GenericStruct.ActionEnum, binary> data
+	4 : optional map<GenericStruct.ActionEnum, binary> data
 }
 
 # device registration input

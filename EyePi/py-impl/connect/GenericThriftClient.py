@@ -2,8 +2,6 @@
 import random
 import sys
 
-sys.path.append('../../')
-import config
 import consul
 
 sys.path.append('../gen-py')
@@ -35,7 +33,6 @@ class GenericThriftClient:
             protocol = TBinaryProtocol.TBinaryProtocol(transport)  # Wrap in a protocol
             client = GenericPiThriftService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
-
             output[action] = client.handleRequest(input=input)
             transport.close()
 
@@ -56,7 +53,8 @@ class GenericThriftClient:
 
     @staticmethod
     def __resolve_config(action):
-        c = consul.Consul(host=config.consul_ip, port=config.consul_resolver_port)
+        print('resolve config')
+        c = consul.Consul(host=config.consul_ip, port=config.consul_port)
         key = '%d' % action
         index, data = c.kv.get(key)
         value = data.get('Value').decode('utf-8')

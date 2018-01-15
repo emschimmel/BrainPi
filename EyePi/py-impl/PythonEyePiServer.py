@@ -95,10 +95,11 @@ class EyePiThriftHandler:
         try:
             ShortTermLogMemoryClient().log_event(input, message='start eyepi')
             eyeOutput = EyePiOutput()
-            tokenValide = False
+            tokenValide = True
             if input.token:
                 tokenValide = ShortTermTokenMemoryClient().validateToken(input.token, input.deviceToken)
-            if input.image:
+                eyeOutput.ok = tokenValide
+            if input.image and tokenValide:
                 eyeOutput.ok = False
                 eyeOutput.personCollection = []
                 facePiOutput = FacePiThriftClient().handle_request(input.image)
@@ -113,11 +114,8 @@ class EyePiThriftHandler:
 
                 if eyeOutput.personCollection:
                     eyeOutput.ok = True
-                    eyeOutput.token = ShortTermTokenMemoryClient().getToken(input)
-
-            if tokenValide and not input.image:
-                eyeOutput.ok = False
             if eyeOutput.ok:
+                eyeOutput.token = ShortTermTokenMemoryClient().getToken(input)
                 eyeOutput.data = self.__make_generic_call(input.action)
             return eyeOutput
         except ThriftServiceException as tex:

@@ -313,13 +313,13 @@ class EyePiOutput(object):
 
     thrift_spec = (
         None,  # 0
-        (1, TType.BOOL, 'ok', None, None, ),  # 1
+        (1, TType.BOOL, 'ok', None, False, ),  # 1
         (2, TType.LIST, 'personCollection', (TType.STRUCT, (PersonEntry, PersonEntry.thrift_spec), False), None, ),  # 2
         (3, TType.STRING, 'token', 'UTF8', None, ),  # 3
         (4, TType.MAP, 'data', (TType.I32, None, TType.STRING, 'BINARY', False), None, ),  # 4
     )
 
-    def __init__(self, ok=None, personCollection=None, token=None, data=None,):
+    def __init__(self, ok=thrift_spec[1][4], personCollection=None, token=None, data=None,):
         self.ok = ok
         self.personCollection = personCollection
         self.token = token
@@ -405,8 +405,6 @@ class EyePiOutput(object):
     def validate(self):
         if self.ok is None:
             raise TProtocolException(message='Required field ok is unset!')
-        if self.data is None:
-            raise TProtocolException(message='Required field data is unset!')
         return
 
     def __repr__(self):
