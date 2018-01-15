@@ -44,7 +44,7 @@ class ShortTermTokenMemoryClient:
             client = ShortMemoryService.Client(protocol)  # Create a client to use the protocol encoder
             transport.open()  # Connect!
 
-            output = client.validateToken(inputToken=inputToken, deviceToken=deviceToken)
+            output = client.validateToken(token=inputToken, deviceToken=deviceToken)
             transport.close()
             return output
         except Thrift.TException as tx:
