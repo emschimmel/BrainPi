@@ -7,6 +7,11 @@ sys.path.append('../gen-py')
 from AgendaPi.ttypes import GetItemsActionInput
 from ThriftException.ttypes import ExternalEndpointUnavailable
 
+sys.path.append('../')
+import config
+import logging
+logging.basicConfig(filename=config.log_dir+'AgendaPi.log', level=config.log_level)
+
 class CalendarConnect:
 
     @classmethod
@@ -19,7 +24,7 @@ class CalendarConnect:
             output = api.calendar.events(from_dt, to_dt)
             return output
         except Exception as ex:
-            print(ex)
+            logging.debug(ex)
             raise ExternalEndpointUnavailable("AgendaPi", "Device needs to be registered", "icloud")
 
     @staticmethod

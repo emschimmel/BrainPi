@@ -1,0 +1,6 @@
+[console_scripts]
+AgendaPi = AgendaPi.src.__main__:main
+
+[setuptools.installation]
+eggsecutable = src.__main__:main
+
