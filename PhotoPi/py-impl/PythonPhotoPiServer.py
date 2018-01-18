@@ -43,10 +43,10 @@ class PhotoPiThriftHandler:
             input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
             output = ""
             if input_object.action is Action.GET_PHOTOS:
-                output = PhotoConnect().getMultiple(input)
+                output = PhotoConnect().getMultiple(input_object)
             elif input_object.action is Action.GET_RANDOM_PHOTO:
                 print("NOT IMPLEMENTED YET")
-                output = PhotoConnect().getRandom(input)
+                output = PhotoConnect().getRandom(input_object)
 
             pickle_output = pickle.dumps(obj=output, protocol=None, fix_imports=False)
             return pickle_output

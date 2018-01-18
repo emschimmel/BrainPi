@@ -43,7 +43,7 @@ class AgendaPiThriftHandler:
             input_object = pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
             output = ""
             if input_object.action is Action.GET_ITEMS:
-                output = CalendarConnect().getEvents(input)
+                output = CalendarConnect().getEvents(input_object)
             elif input_object.action is Action.MAKE_ITEM:
                 print("NOT IMPLEMENTED YET")
                 output = "NOT IMPLEMENTED YET"

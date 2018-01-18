@@ -17,6 +17,7 @@ class PhotoConnect:
                 photos.append(photo)
             return photos
         except Exception as ex:
+            print(ex)
             raise ExternalEndpointUnavailable("PhotoPi", "Device needs to be registered", "icloud")
 
     @staticmethod
@@ -27,4 +28,5 @@ class PhotoConnect:
             download = photo.download()
             return download.raw.read()
         except Exception as ex:
+            print(ex)
             raise ExternalEndpointUnavailable("PhotoPi", "Device needs to be registered", "icloud")

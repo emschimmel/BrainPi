@@ -2,6 +2,7 @@
 import datetime
 import sys
 sys.path.append('../gen-py')
+from thrift import Thrift
 from EyePi.ttypes import EyePiInput
 from GenericStruct.ttypes import ActionEnum
 from WeatherPi.ttypes import WeatherInput
@@ -10,7 +11,7 @@ from PhotoPi.ttypes import GetRandomPhotoActionInput
 
 import pickle
 
-from thrift import Thrift
+
 from PythonEarPiClient import testFlow
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 
