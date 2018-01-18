@@ -33,8 +33,8 @@ cd ${home}/LightPi/py-impl
 python3 PythonLightPiServer.py &
 
 ### AgendaPi Server
-cd ${home}/AgendaPi/py-impl
-python3 PythonAgendaPiServer.py &
+cd ${home}/AgendaPi/
+python3 src/ &
 
 ### PhotoPi Server
 cd ${home}/PhotoPi/py-impl

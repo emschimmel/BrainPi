@@ -21,7 +21,7 @@ import config
 class ConnectEarPi:
 
     def storeNewPerson(self, person, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -43,7 +43,7 @@ class ConnectEarPi:
             transport.close()
 
     def getUser(self, uniquename, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -59,7 +59,7 @@ class ConnectEarPi:
             transport.close()
 
     def getUserList(self, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -75,7 +75,7 @@ class ConnectEarPi:
             transport.close()
 
     def changeUser(self, field, person, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -91,7 +91,7 @@ class ConnectEarPi:
             transport.close()
 
     def configureUser(self, userlist, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -107,7 +107,7 @@ class ConnectEarPi:
             transport.close()
 
     def configureUserModule(self, uniquename, autorisations, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -124,7 +124,7 @@ class ConnectEarPi:
 
 
     def configureModuleSettings(self, uniquename, action, config, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -140,7 +140,7 @@ class ConnectEarPi:
             transport.close()
 
     def getDeviceList(self, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -156,7 +156,7 @@ class ConnectEarPi:
             transport.close()
 
     def confirmDevice(self, deviceToken, active, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -172,7 +172,7 @@ class ConnectEarPi:
             transport.close()
 
     def changePassword(self, username, password, tokenInput):
-        ip, port = self.__resolve_eye_config()
+        ip, port = self.__resolve_ear_config()
         transport = TSocket.TSocket(ip, port)
         try:
             transport = TTransport.TBufferedTransport(transport)
@@ -187,7 +187,7 @@ class ConnectEarPi:
         finally:
             transport.close()
 
-    def __resolve_eye_config(self):
+    def __resolve_ear_config(self):
         consul_resolver = resolver.Resolver()
         consul_resolver.port = config.consul_resolver_port
         consul_resolver.nameservers = [config.consul_ip]

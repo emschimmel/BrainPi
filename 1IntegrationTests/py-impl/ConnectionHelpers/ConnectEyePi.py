@@ -41,7 +41,6 @@ class ConnectEyePi:
             client = EyePiThriftService.Client(protocol)
             transport.open()
             output = client.handleRequest(input)
-            print(output)
             if output.ok:
                 print("YAY!")
             transport.close()

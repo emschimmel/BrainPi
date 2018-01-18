@@ -31,3 +31,7 @@ mongo_service_port      = 27017
 
 lightwaveRfIp           = '192.168.0.102'
 
+log_dir                 = '../Logs/'
+import logging
+log_level               = logging.DEBUG
+

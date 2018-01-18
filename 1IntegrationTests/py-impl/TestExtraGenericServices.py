@@ -9,6 +9,7 @@ from WeatherPi.ttypes import WeatherInput
 from AgendaPi.ttypes import GetItemsActionInput
 from PhotoPi.ttypes import GetRandomPhotoActionInput
 from PhonePi.ttypes import GetStatus
+from PhonePi.ttypes import PlaySound
 
 import pickle
 
@@ -46,6 +47,7 @@ class TestExtraGenericServices:
 
         output = ConnectEyePi().handleRequest(input)
         print(output)
+        print(self.__unpickle_action(output.data, ActionEnum.AGENDA))
         if output.ok:
             print("output = ok")
             self.__token = output.token
@@ -60,6 +62,7 @@ class TestExtraGenericServices:
 
         output = ConnectEyePi().handleRequest(input)
         print(output)
+        print(self.__unpickle_action(output.data, ActionEnum.WEATHER))
         if output.ok:
             self.__token = output.token
 
@@ -77,6 +80,7 @@ class TestExtraGenericServices:
 
         output = ConnectEyePi().handleRequest(input)
         print(output)
+        print(self.__unpickle_action(output.data, ActionEnum.PHOTO))
         if output.ok:
             self.__token = output.token
 
@@ -94,12 +98,20 @@ class TestExtraGenericServices:
 
         output = ConnectEyePi().handleRequest(input)
         print(output)
+        print(self.__unpickle_action(output.data, ActionEnum.PHONE))
         if output.ok:
             self.__token = output.token
 
     @staticmethod
     def __unpickle(input):
         return pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
+
+    @staticmethod
+    def __unpickle_action(input, action):
+        if len(input):
+            return pickle.loads(input[action], fix_imports=False, encoding="ASCII", errors="strict")
+        else:
+            return None
 
     @staticmethod
     def __pickle(input):

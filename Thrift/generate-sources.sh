@@ -24,7 +24,7 @@ thrift -gen java EarPi.thrift
 thrift -gen java ThriftException.thrift
 
 rm -rf ../AdminConsolePi/gen-py/*
-rm -rf ../AgendaPi/gen-py/*
+rm -rf ../AgendaPi/src/gen-py/*
 rm -rf ../1IntegrationTests/gen-py/*
 rm -rf ../EarPi/Java/src/main/java/nl/earpi/generated/*
 rm -rf ../EarPi/Python/gen-py/*
@@ -45,10 +45,10 @@ cp -Rf ./gen-py/AutorisationStruct      ../AdminConsolePi/gen-py/
 cp -Rf ./gen-py/ThriftException         ../AdminConsolePi/gen-py/
 
 # GenericServerPi for AgendaPi
-cp -Rf ./gen-py/GenericStruct           ../AgendaPi/gen-py/
-cp -Rf ./gen-py/GenericServerPi         ../AgendaPi/gen-py/
-cp -Rf ./gen-py/ThriftException         ../AgendaPi/gen-py/
-cp -Rf ./gen-py/AgendaPi                ../AgendaPi/gen-py/
+cp -Rf ./gen-py/GenericStruct           ../AgendaPi/src/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../AgendaPi/src/gen-py/
+cp -Rf ./gen-py/ThriftException         ../AgendaPi/src/gen-py/
+cp -Rf ./gen-py/AgendaPi                ../AgendaPi/src/gen-py/
 
 # 1IntegrationTests
 cp -Rf ./gen-py/GenericStruct           ../1IntegrationTests/gen-py/

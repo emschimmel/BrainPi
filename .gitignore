@@ -7,23 +7,11 @@ EyePi/img/*
 *idea
 */build/*
 */dist/*
+*/*/gen-py/*
 */gen-py/*
+*/gen-java/*
+AgendaPi/AgendaPi.egg-info
 Logs/*
-Thrift/gen-java/*
-Thrift/gen-py/*
-1IntegrationTests/gen-py/*
-EyePi/gen-py/*
-AdminConsolePi/gen-py/*
-FacePi/gen-py/*
-WeatherPi/gen-py/*
-LightPi/gen-py/*
-AgendaPi/gen-py/*
-PhonePi/gen-py/*
-PhotoPi/gen-py/*
-AdminConsolePi/gen-py/*
-MusicPi/gen-py/*
-ShortTermMemory/gen-py/*
-LongTermMemory/gen-py/*
 WeatherPi/api-key/api-key.txt
 WeatherPi/config/weather.ini
 MusicPi/config/deezer.ini
@@ -31,5 +19,4 @@ MusicPi/config/config.ini
 FacePi/py-impl/FaceRecognition/Data/*
 EarPi/Java/src/main/java/nl/earpi/generated/*/*
 EarPi/Java/target
-EarPi/Python/gen-py/*
 
