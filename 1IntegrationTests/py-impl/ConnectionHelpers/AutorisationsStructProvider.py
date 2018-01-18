@@ -3,6 +3,7 @@ from AutorisationStruct.ttypes import Autorisation
 from WeatherPi.ttypes import WeatherInput
 from AgendaPi.ttypes import ConfigItem as AgendaConfigStruct
 from PhotoPi.ttypes import ConfigItem as PhotoConfigStruct
+from PhonePi.ttypes import ConfigItem as PhoneConfigStruct
 from MusicPi.ttypes import ConfigItem as MusicConfigStruct
 
 import pickle
@@ -19,6 +20,7 @@ class AutorisationsStructProvider:
         autorisations[ActionEnum.WEATHER] = self.__weather_autorisations()
         autorisations[ActionEnum.CONFIG] = self.__config_autorisations()
         autorisations[ActionEnum.PHOTO] = self.__photo_autorisations()
+        autorisations[ActionEnum.PHONE] = self.__phone_autorisations()
         return autorisations
 
     @staticmethod
@@ -75,3 +77,12 @@ class AutorisationsStructProvider:
         photo_config.email = "we.rule@icloud.com"
         photoautorisation.module_config = pickle.dumps(obj=photo_config, protocol=None, fix_imports=False)
         return photoautorisation
+
+    @staticmethod
+    def __phone_autorisations():
+        phoneautorisation = Autorisation()
+        phoneautorisation.enabled = True
+        phone_config = PhoneConfigStruct()
+        phone_config.email = "we.rule@icloud.com"
+        phoneautorisation.module_config = pickle.dumps(obj=phone_config, protocol=None, fix_imports=False)
+        return phoneautorisation

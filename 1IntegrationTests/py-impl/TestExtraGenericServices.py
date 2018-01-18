@@ -8,6 +8,7 @@ from GenericStruct.ttypes import ActionEnum
 from WeatherPi.ttypes import WeatherInput
 from AgendaPi.ttypes import GetItemsActionInput
 from PhotoPi.ttypes import GetRandomPhotoActionInput
+from PhonePi.ttypes import GetStatus
 
 import pickle
 
@@ -79,6 +80,23 @@ class TestExtraGenericServices:
         if output.ok:
             self.__token = output.token
 
+    def make_phone_call(self):
+        config = self.__unpickle(self.__person.autorisations[ActionEnum.PHONE].module_config)
+        phone_input = GetStatus()
+        phone_input.email = config.email
+
+        input = EyePiInput()
+        input.deviceToken = self.__devicetoken
+        input.token = self.__token
+        actions = dict()
+        actions[ActionEnum.PHONE] = self.__pickle(phone_input)
+        input.action = actions
+
+        output = ConnectEyePi().handleRequest(input)
+        print(output)
+        if output.ok:
+            self.__token = output.token
+
     @staticmethod
     def __unpickle(input):
         return pickle.loads(input, fix_imports=False, encoding="ASCII", errors="strict")
@@ -106,3 +124,9 @@ if __name__ == '__main__':
     classUnderTest.make_photo_call()
     print((datetime.datetime.utcnow() - starttime).total_seconds())
     currenttime = datetime.datetime.utcnow()
+
+    print("----> make phone call")
+    classUnderTest.make_phone_call()
+    print((datetime.datetime.utcnow() - starttime).total_seconds())
+    currenttime = datetime.datetime.utcnow()
+

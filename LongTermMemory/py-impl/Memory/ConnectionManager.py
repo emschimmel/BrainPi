@@ -133,10 +133,12 @@ class ConnectionManager():
             autorisations  = dict()
             for key in autorisation_json:
                 value = autorisation_json[key]
+                print('----->')
+                print(value)
                 autorisation = Autorisation()
                 autorisation.write_enabled = True if value['write_enabled'] else False
                 autorisation.enabled = True if value['enabled'] else False
-                if value['module_config']:
+                if 'module_config' in value:
                     autorisation.module_config = str.encode(value['module_config'])
                 autorisations[int(key)] = autorisation
             person.autorisations = autorisations

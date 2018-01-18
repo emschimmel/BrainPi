@@ -4,36 +4,56 @@ from datetime import datetime
 from pyicloud import PyiCloudService
 import sys
 sys.path.append('../gen-py')
-from AgendaPi.ttypes import GetItemsActionInput
+from PhonePi.ttypes import LostMode
 from ThriftException.ttypes import ExternalEndpointUnavailable
 
-class CalendarConnect:
+class IPhoneConnect:
 
-    @classmethod
-    def getEvents(self, input):
-        input = self.__fixDefaultNones(input=input)
+    @staticmethod
+    def getLocation(input):
         try:
             api = PyiCloudService(input.email)
-            from_dt = datetime(year=input.startYear, month=input.startMonth, day=input.startDay)
-            to_dt = datetime(year=input.endYear, month=input.endMonth, day=input.endDay)
-            output = api.calendar.events(from_dt, to_dt)
+            output = api.iphone.location()
             return output
         except Exception as ex:
             print(ex)
-            raise ExternalEndpointUnavailable("AgendaPi", "Device needs to be registered", "icloud")
+            raise ExternalEndpointUnavailable("PhonePi", "Device needs to be registered", "icloud")
 
     @staticmethod
-    def __fixDefaultNones(input):
-        current = datetime.utcnow()
-        new_object = GetItemsActionInput()
-        new_object.action = input.action
-        new_object.email = input.email
-        new_object.startDay = input.startDay if input.startDay is not None else current.day
-        new_object.startMonth = input.startMonth if input.startMonth is not None else current.month
-        new_object.startYear = input.startYear if input.startYear is not None else current.year
-        new_object.endDay = input.endDay if input.endDay is not None else current.day
-        new_object.endMonth = input.endMonth if input.endMonth is not None else current.month
-        new_object.endYear = input.endYear if input.endYear is not None else current.year
-        return new_object
+    def getStatus(input):
+        try:
+            api = PyiCloudService(input.email)
+            output = api.iphone.status()
+            return output
+        except Exception as ex:
+            print(ex)
+            raise ExternalEndpointUnavailable("PhonePi", "Device needs to be registered", "icloud")
 
+    @staticmethod
+    def playSound(input):
+        try:
+            api = PyiCloudService(input.email)
+            output = api.iphone.play_sound()
+            return output
+        except Exception as ex:
+            print(ex)
+            raise ExternalEndpointUnavailable("PhonePi", "Device needs to be registered", "icloud")
 
+    @classmethod
+    def lostMode(self, input):
+        input_object = self.__fillLostModeOptional(input)
+        try:
+            api = PyiCloudService(input_object.email)
+            output = api.iphone.lost_device(input_object.phonenumber, input_object.message)
+            return output
+        except Exception as ex:
+            print(ex)
+            raise ExternalEndpointUnavailable("PhonePi", "Device needs to be registered", "icloud")
+
+    @staticmethod
+    def __fillLostModeOptional(input):
+        input_object = LostMode()
+        input_object.action = input.action
+        input_object.email = input.email
+        input_object.phonenumber = input.phonenumber if input.phonenumber is not None else '11111'
+        input_object.message = input.message if input.message is not None else 'Thief! Return my phone immediately.'

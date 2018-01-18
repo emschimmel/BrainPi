@@ -12,6 +12,7 @@ thrift -gen py LongMemory.thrift
 thrift -gen py WeatherPi.thrift
 thrift -gen py LightPi.thrift
 thrift -gen py AgendaPi.thrift
+thrift -gen py PhonePi.thrift
 thrift -gen py PhotoPi.thrift
 thrift -gen py MusicPi.thrift
 
@@ -32,6 +33,7 @@ rm -rf ../FacePi/gen-py/*
 rm -rf ../LightPi/gen-py/*
 rm -rf ../LongTermMemory/gen-py/*
 rm -rf ../MusicPi/gen-py/*
+rm -rf ../PhonePi/gen-py/*
 rm -rf ../PhotoPi/gen-py/*
 rm -rf ../ShortTermMemory/gen-py/*
 rm -rf ../WeatherPi/gen-py/*
@@ -57,6 +59,7 @@ cp -Rf ./gen-py/ThriftException         ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/ShortMemory             ../1IntegrationTests/gen-py/ # mock!
 cp -Rf ./gen-py/LongMemory              ../1IntegrationTests/gen-py/ # mock!
 cp -Rf ./gen-py/WeatherPi               ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/PhonePi                 ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/PhotoPi                 ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/LightPi                 ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/MusicPi                 ../1IntegrationTests/gen-py/
@@ -103,6 +106,12 @@ cp -Rf ./gen-py/GenericStruct           ../MusicPi/gen-py/
 cp -Rf ./gen-py/GenericServerPi         ../MusicPi/gen-py/
 cp -Rf ./gen-py/ThriftException         ../MusicPi/gen-py/
 cp -Rf ./gen-py/MusicPi                 ../MusicPi/gen-py/
+
+# GenericServerPi for PhonePi
+cp -Rf ./gen-py/GenericStruct           ../PhonePi/gen-py/
+cp -Rf ./gen-py/GenericServerPi         ../PhonePi/gen-py/
+cp -Rf ./gen-py/ThriftException         ../PhonePi/gen-py/
+cp -Rf ./gen-py/PhonePi                 ../PhonePi/gen-py/
 
 # GenericServerPi for PhotoPi
 cp -Rf ./gen-py/GenericStruct           ../PhotoPi/gen-py/

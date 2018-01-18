@@ -14,6 +14,7 @@ FacePi/gen-py/*
 WeatherPi/gen-py/*
 LightPi/gen-py/*
 AgendaPi/gen-py/*
+PhonePi/gen-py/*
 PhotoPi/gen-py/*
 AdminConsolePi/gen-py/*
 MusicPi/gen-py/*

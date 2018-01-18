@@ -40,6 +40,10 @@ python3 PythonAgendaPiServer.py &
 cd ${home}/PhotoPi/py-impl
 python3 PythonPhotoPiServer.py &
 
+### PhonePi Server
+cd ${home}/PhonePi/py-impl
+python3 PythonPhonePiServer.py &
+
 ### PhotoPi Server
 cd ${home}/MusicPi/py-impl
 python3 PythonMusicPiServer.py &
