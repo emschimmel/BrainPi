@@ -5,6 +5,10 @@ FacePi/img/*
 EyePi/img/*
 *.iml
 *idea
+*/build/*
+*/dist/*
+*/gen-py/*
+Logs/*
 Thrift/gen-java/*
 Thrift/gen-py/*
 1IntegrationTests/gen-py/*
