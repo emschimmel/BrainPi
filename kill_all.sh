@@ -14,19 +14,19 @@ MusicPiServerPID=$(ps -ef | awk -F" " '/PythonMusicPiServer.py/ && !/awk/{print 
 
 # Kill PythonPhonePiServer if running
 PhonePiServerPID=$(ps -ef | awk -F" " '/PythonPhonePiServer.py/ && !/awk/{print $2}')
-[[ !  -z  PhonePiServerPID  ]] && kill -9 PhonePiServerPID
+[[ !  -z  $PhonePiServerPID  ]] && kill -9 $PhonePiServerPID
 
 # Kill PythonPhotoPiServer if running
 PhotoPiServerPID=$(ps -ef | awk -F" " '/PythonPhotoPiServer.py/ && !/awk/{print $2}')
-[[ !  -z  PhotoPiServerPID  ]] && kill -9 $PhotoPiServerPID
+[[ !  -z  $PhotoPiServerPID  ]] && kill -9 $PhotoPiServerPID
 
 # Kill PythonLightPiServer if running
 LightPiServerPID=$(ps -ef | awk -F" " '/PythonLightPiServer.py/ && !/awk/{print $2}')
-[[ !  -z  LightPiServerPID  ]] && kill -9 $LightPiServerPID
+[[ !  -z  $LightPiServerPID  ]] && kill -9 $LightPiServerPID
 
 # Kill PythonAgendaPiServer if running
 AgendaPiServerPID=$(ps -ef | awk -F" " '/PythonAgendaPiServer.py/ && !/awk/{print $2}')
-[[ !  -z  AgendaPiServerPID  ]] && kill -9 $AgendaPiServerPID
+[[ !  -z  $AgendaPiServerPID  ]] && kill -9 $AgendaPiServerPID
 
 # Kill PythonEyePiServer if running
 EyePiServerPID=$(ps -ef | awk -F" " '/PythonEyePiServer.py/ && !/awk/{print $2}')
