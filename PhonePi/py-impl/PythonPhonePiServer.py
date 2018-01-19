@@ -120,7 +120,7 @@ def unregister():
 def interupt_manager():
     signal.signal(signal.SIGINT, signal.SIG_IGN)
 
-if __name__ == '__main__':
+def main(args=None):
     manager = SyncManager()
     manager.start(interupt_manager)
     try:
@@ -133,3 +133,5 @@ if __name__ == '__main__':
         print('finally PhonePi shutting down')
         manager.shutdown()
 
+if __name__ == '__main__':
+    main()

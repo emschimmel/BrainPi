@@ -89,21 +89,21 @@ def create_server():
     )
 
 def register():
-    log.info("register started")
+    logging.info("register started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     key = '%d' % ActionEnum.AGENDA
     c.kv.put(key, 'agenda')
     check = consul.Check.tcp(host=get_ip(), port=port, interval=config.consul_interval,
                              timeout=config.consul_timeout, deregister=unregister())
     c.agent.service.register(name="agenda-pi", service_id="agenda-pi-%d" % port, port=port, check=check)
-    log.info("services: " + str(c.agent.services()))
+    logging.info("services: " + str(c.agent.services()))
 
 def unregister():
-    log.info("unregister started")
+    logging.info("unregister started")
     c = consul.Consul(host=config.consul_ip, port=config.consul_port)
     c.agent.service.deregister("agenda-pi-%d" % port)
     c.agent.service.deregister("agenda-pi")
-    log.info("services: " + str(c.agent.services()))
+    logging.info("services: " + str(c.agent.services()))
 
 def interupt_manager():
     signal.signal(signal.SIGINT, signal.SIG_IGN)
@@ -122,15 +122,5 @@ def main(args=None):
         manager.shutdown()
 
 if __name__ == '__main__':
-    manager = SyncManager()
-    manager.start(interupt_manager)
-    try:
-        server = create_server()
-        register()
-        server.serve()
-
-    finally:
-        unregister()
-        logging.debug('finally AgendaPi shutting down')
-        manager.shutdown()
+    main()
 
