@@ -10,7 +10,7 @@ EyePi/img/*
 */*/gen-py/*
 */gen-py/*
 */gen-java/*
-AgendaPi/AgendaPi.egg-info
+*/*.egg-info
 Logs/*
 WeatherPi/api-key/api-key.txt
 WeatherPi/config/weather.ini

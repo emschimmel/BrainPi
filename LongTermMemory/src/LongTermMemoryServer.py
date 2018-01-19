@@ -21,6 +21,7 @@ from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
 from ThriftException.ttypes import UniqueFailedException
 
+sys.path.append('../../')
 import config
 import logging
 import random
