@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import random
 import sys
-sys.path.append('../gen-py')
+sys.path.append('../src/gen-py')
  
 from FacePi import FacePiThriftService
 from FacePi.ttypes import FacePiInput

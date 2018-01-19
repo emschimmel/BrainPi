@@ -3,7 +3,7 @@ import sys
 sys.path.append('../../')
 import config
 
-sys.path.append('../gen-py')
+sys.path.append('../src/gen-py')
 from LongMemory.ttypes import LongMemoryLoginInputObject
 from AutorisationStruct.ttypes import Person
 from AutorisationStruct.ttypes import Autorisation

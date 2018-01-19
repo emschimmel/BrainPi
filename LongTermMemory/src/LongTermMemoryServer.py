@@ -4,7 +4,7 @@ import sys
 import consul
 from multiprocessing.managers import SyncManager
 
-sys.path.append('../gen-py')
+sys.path.append('./gen-py')
 from LongMemory import LongMemoryService
 from LongMemory.ttypes import *
 from ThriftException.ttypes import *

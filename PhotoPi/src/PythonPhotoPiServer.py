@@ -6,7 +6,7 @@ import consul
 from multiprocessing.managers import SyncManager
 
 import pickle
-sys.path.append('../gen-py')
+sys.path.append('./gen-py')
 
 from GenericServerPi import GenericPiThriftService
 from GenericStruct.ttypes import ActionEnum

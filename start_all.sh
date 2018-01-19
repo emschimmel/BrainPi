@@ -13,7 +13,7 @@ cd ${home}/LongTermMemory/src
 python3 LongTermMemoryServer.py &
 
 ### EarPi Server
-cd ${home}/EarPi/Python/src
+cd ${home}/EarPi/src
 python3 PythonEarPiServer.py &
 
 ### EyePi Server
@@ -34,7 +34,7 @@ python3 PythonLightPiServer.py &
 
 ### AgendaPi Server
 cd ${home}/AgendaPi/
-python3 src/ &
+python3 src/PythonAgendaPiServer.py &
 
 ### PhotoPi Server
 cd ${home}/PhotoPi/src

@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../gen-py')
+sys.path.append('../src/gen-py')
 from LightPi.ttypes import GetFloorOutput
 from LightPi.ttypes import Floor
 from LightPi.ttypes import Room

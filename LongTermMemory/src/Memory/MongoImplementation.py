@@ -2,7 +2,7 @@ import sys
 sys.path.append('../../')
 import config
 from pymongo import MongoClient
-sys.path.append('../gen-py')
+sys.path.append('../src/gen-py')
 from AutorisationStruct.ttypes import Autorisation
 import json
 from thrift import TSerialization

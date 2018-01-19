@@ -4,7 +4,7 @@ import sys
 
 import consul
 
-sys.path.append('../gen-py')
+sys.path.append('../src/gen-py')
 
 from GenericServerPi import GenericPiThriftService
 from ThriftException.ttypes import ThriftServiceException

@@ -6,7 +6,7 @@ import sys
 sys.path.append('../../')
 import config
 
-sys.path.append('../gen-py')
+sys.path.append('./gen-py')
 from ShortMemory.ttypes import DeviceTokenInput
 from thrift import TSerialization
 from thrift.protocol import TBinaryProtocol

@@ -8,7 +8,7 @@ import signal
 
 from multiprocessing.managers import SyncManager
 
-sys.path.append('../gen-py')
+sys.path.append('src/gen-py')
 
 from connect.PythonFacePiClient import FacePiThriftClient
 from connect.GenericThriftClient import GenericThriftClient

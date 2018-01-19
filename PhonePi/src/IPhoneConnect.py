@@ -3,7 +3,7 @@
 from datetime import datetime
 from pyicloud import PyiCloudService
 import sys
-sys.path.append('../gen-py')
+sys.path.append('./gen-py')
 from PhonePi.ttypes import LostMode
 from ThriftException.ttypes import ExternalEndpointUnavailable
 

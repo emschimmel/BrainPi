@@ -1,17 +1,13 @@
 #!/usr/bin/env python
-
 import sys
-
 import consul
-
 import signal
-
 from multiprocessing.managers import SyncManager
 
-sys.path.append('../gen-py')
+sys.path.append('src/gen-py')
 
-from LongTermPersonMemoryClient import LongTermPersonMemoryClient
-from ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
+from connect.LongTermPersonMemoryClient import LongTermPersonMemoryClient
+from connect.ShortTermTokenMemoryClient import ShortTermTokenMemoryClient
 
 from EarPi import EarPiThriftService
 from EarPi.ttypes import UserOutput
@@ -29,7 +25,7 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
-sys.path.append('../../../')
+sys.path.append('../../')
 import config
 import logging
 import random

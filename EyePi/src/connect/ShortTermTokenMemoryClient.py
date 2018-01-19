@@ -1,6 +1,6 @@
 import random
 import sys
-sys.path.append('../gen-py')
+sys.path.append('../src/gen-py')
 from ShortMemory import ShortMemoryService
 from ShortMemory.ttypes import TokenObject
 

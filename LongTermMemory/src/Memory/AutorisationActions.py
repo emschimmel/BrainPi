@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../gen-py')
+sys.path.append('../src/gen-py')
 from ThriftException.ttypes import BadHashException
 from ThriftException.ttypes import LoginFailedException
 from cryptography.fernet import Fernet

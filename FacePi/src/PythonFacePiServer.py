@@ -1,14 +1,10 @@
 #!/usr/bin/env python
-import signal
 import sys
-
 import consul
+import signal
 from multiprocessing.managers import SyncManager
 
-sys.path.append('../gen-py')
-sys.path.append('./FaceDetection')
-sys.path.append('./FaceRecognition')
-
+sys.path.append('./gen-py')
 
 from FacePi import FacePiThriftService
 from FacePi.ttypes import FacePiOutput

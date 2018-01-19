@@ -1,6 +1,6 @@
 import random
 import sys
-sys.path.append('../gen-py')
+sys.path.append('../src/gen-py')
 from LongMemory import LongMemoryService
 from AutorisationStruct.ttypes import Person
 from ThriftException.ttypes import BadHashException
@@ -13,7 +13,7 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
 from dns import resolver
-sys.path.append('../../../')
+sys.path.append('../../')
 import config
 
 class LongTermPersonMemoryClient:

@@ -4,7 +4,7 @@ import sys
 import consul
 from multiprocessing.managers import SyncManager
 
-sys.path.append('../gen-py')
+sys.path.append('./gen-py')
 from ShortMemory import ShortMemoryService
 from AuthToken.TokenMemory import TokenMemory
 from Logging.LogMemory import LogMemory
