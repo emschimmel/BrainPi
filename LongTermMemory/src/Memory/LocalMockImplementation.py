@@ -35,7 +35,16 @@ class LocalMockImplementation(object):
 
     def get_by_query(self, criteria):
         print('LongTermMemory: local get')
-        return self.__mockList
+        list = []
+        for item in self.__mockList:
+            valide = True
+            for key in criteria:
+                value = criteria[key]
+                if item[key] != value:
+                    valide = False
+            if valide:
+                list.append(item)
+        return list
 
     def store_new(self, value):
         print('LongTermMemory: local put')

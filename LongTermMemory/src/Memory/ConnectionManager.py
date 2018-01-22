@@ -26,7 +26,7 @@ class State_d:
 class ConnectionManager():
     try:
         from pymongo import MongoClient
-    #    MongoClient = None
+        # MongoClient = None
     except ImportError:
         MongoClient = None
     if MongoClient:
@@ -136,7 +136,7 @@ class ConnectionManager():
                 autorisation = Autorisation()
                 autorisation.write_enabled = True if value['write_enabled'] else False
                 autorisation.enabled = True if value['enabled'] else False
-                if 'module_config' in value:
+                if 'module_config' in value and value['module_config'] is not None:
                     autorisation.module_config = str.encode(value['module_config'])
                 autorisations[int(key)] = autorisation
             person.autorisations = autorisations
