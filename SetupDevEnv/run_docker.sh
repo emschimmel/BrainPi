@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-sh consul_docker.sh start
+sh Consul/consul_docker.sh start
 sh registrator_docker.sh start
 sh Redis/redis_docker.sh start
 sh ElasticSearch/elastic_docker.sh start
