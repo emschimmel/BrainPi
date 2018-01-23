@@ -122,7 +122,6 @@ cp -Rf ./gen-py/PhotoPi                 ../PhotoPi/src/gen-py/
 # ShortMemory
 cp -Rf ./gen-py/GenericStruct           ../ShortTermMemory/src/gen-py/
 cp -Rf ./gen-py/ShortMemory             ../ShortTermMemory/src/gen-py/
-cp -Rf ./gen-py/GenericServerPi         ../ShortTermMemory/src/gen-py/
 
 # GenericServerPi for WeatherPi
 cp -Rf ./gen-py/GenericStruct           ../WeatherPi/src/gen-py/
