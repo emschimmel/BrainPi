@@ -81,7 +81,8 @@ class LoginView(Popup):
 
             input = LoginInputObject()
             input.username = loginText
-            input.password = PasswordHelper.encryptPassword(PasswordHelper.hashPassword(passwordText))
+            __password = PasswordHelper.hashPassword(passwordText)
+            input.password = PasswordHelper.encryptPassword(__password)
             input.code = PasswordHelper.encryptPassword(PasswordHelper.hashPassword('123456ABCD'))
             input.token = None
 
