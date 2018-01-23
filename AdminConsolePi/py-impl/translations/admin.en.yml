@@ -1,0 +1,6 @@
+en:
+  account_not_enabled: Sorry, no access granted. User account not enabled !!
+  invalid_login: Access is denied due to invalid credentials
+  test: Test
+  login: Login
+  exit: Exit

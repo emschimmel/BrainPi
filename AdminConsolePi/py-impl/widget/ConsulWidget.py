@@ -35,8 +35,7 @@ class ConsulWidget(BoxLayout):
         UrlRequest('http://localhost:8500/v1/catalog/services', self.got_json)
 
     def start(self):
-        print('start')
-        Clock.schedule_interval(self.got_data, 2)
+        Clock.schedule_interval(self.got_data, 2000)
 
 class Consul(App):
 

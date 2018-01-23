@@ -16,6 +16,12 @@ PIP install packages in virtual environment:
 pip install -Iv numpy scipy matplotlib ipython jupyter pandas sympy nose opencv-python
 pip install opencv-contrib-python
 
+pip install python-i18n[YAML]
+
+pip install cryptography
+pip install pyicloud
+
+
 # generate thrift
 thrift -gen py EyePi.thrift
 thrift -gen py FacePi.thrift
