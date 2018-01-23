@@ -2,7 +2,7 @@
 
 function redis_start() {
     if [ ! "$(docker ps -q -f name=consul)" ]; then
-        source ../consul_docker.sh start
+        source ../Consul/consul_docker.sh start
         # source ../registrator_docker.sh start
     fi
     if [ ! "$(docker ps -q -f name=redis)" ]; then

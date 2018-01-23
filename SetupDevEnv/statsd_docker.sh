@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+!/usr/bin/env bash
+#!/usr/bin/env bash
 
 # statsd.sh
 
@@ -6,7 +8,7 @@
 
 function statsd_start() {
     if [ ! "$(docker ps -q -f name=consul)" ]; then
-        source consul_docker.sh start
+        source Consul/consul_docker.sh start
     fi
     docker run -d\
          --name statsd\

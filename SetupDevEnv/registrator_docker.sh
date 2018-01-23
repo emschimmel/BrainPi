@@ -2,7 +2,7 @@
 
 function registrator_start() {
     if [ ! "$(docker ps -q -f name=consul)" ]; then
-        source consul_docker.sh start
+        source Consul/consul_docker.sh start
     fi
     if [ ! "$(docker ps -q -f name=registrator)" ]; then
         docker run -d --rm --name=registrator --net=host -h registrator \

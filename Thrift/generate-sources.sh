@@ -37,6 +37,7 @@ rm -rf ../PhonePi/src/gen-py/*
 rm -rf ../PhotoPi/src/gen-py/*
 rm -rf ../ShortTermMemory/src/gen-py/*
 rm -rf ../WeatherPi/src/gen-py/*
+rm -rf ../SetupDevEnv/Consul/gen-py/*
 
 # AdminConsole
 cp -Rf ./gen-py/GenericStruct           ../AdminConsolePi/gen-py/
@@ -128,3 +129,7 @@ cp -Rf ./gen-py/GenericStruct           ../WeatherPi/src/gen-py/
 cp -Rf ./gen-py/GenericServerPi         ../WeatherPi/src/gen-py/
 cp -Rf ./gen-py/ThriftException         ../WeatherPi/src/gen-py/
 cp -Rf ./gen-py/WeatherPi               ../WeatherPi/src/gen-py/
+
+# SetupEnv
+cp -Rf ./gen-py/GenericStruct             ../SetupDevEnv/Consul/gen-py/
+cp -Rf ./gen-py/ShortMemory             ../SetupDevEnv/Consul/gen-py/
