@@ -15,6 +15,7 @@ from ConnectionHelpers.ConnectEyePi import ConnectEyePi
 from ConnectionHelpers.PasswordHelper import PasswordHelper
 
 from ThriftException.ttypes import *
+from thrift import Thrift
 
 root = Builder.load_string('''
 #:import Factory kivy.factory.Factory
