@@ -10,11 +10,48 @@
   "password"    : "uNLCAarRE67izyxfBP7tQPqKDgpUErtgZNUS4Rs5qpo=",
   "code"        : "-xEBOoD7ClvZ1qSxy0rkQLfeNhHSCnJH_GAdTk73tTw=",
   "enabled"     : 1,
-  "autorisations" :
-    {"0" : {
-      "write_enabled" : 1,
-      "enabled" : 1,
-      "module_config" : null
-    }}
 
+  "autorisations" : {
+    "0": {
+      "write_enabled": 1,
+      "enabled": 1,
+      "module_config": null
+    },
+    "1": {
+      "write_enabled": 1,
+      "enabled": 1,
+      "module_config": null
+    },
+    "2": {
+      "write_enabled": 1,
+      "enabled": 1,
+      "module_config": "gANjQWdlbmRhUGkudHR5cGVzCkNvbmZpZ0l0ZW0KcQApgXEBfXECWAUAAABlbWFpbHEDWBIAAAB3ZS5ydWxlQGljbG91ZC5jb21xBHNiLg=="
+    },
+    "3": {
+      "write_enabled": 1,
+      "enabled": 1,
+      "module_config": "gANjTXVzaWNQaS50dHlwZXMKQ29uZmlnSXRlbQpxACmBcQF9cQIoWAQAAABuYW1lcQNOWAUAAABlbWFpbHEEWBIAAAB3ZS5ydWxlQGljbG91ZC5jb21xBXViLg=="
+    },
+    "4": {
+      "write_enabled": 1,
+      "enabled": 1,
+      "module_config": "gANjV2VhdGhlclBpLnR0eXBlcwpXZWF0aGVySW5wdXQKcQApgXEBfXECWAgAAABsb2NhdGlvbnEDWAwAAABBbXN0ZXJkYW0sbmxxBHNiLg=="
+    },
+    "5": {
+      "write_enabled": 1,
+      "enabled": 1,
+      "module_config": null
+    },
+    "6": {
+      "write_enabled": 1,
+      "enabled": 1,
+      "module_config": "gANjUGhvdG9QaS50dHlwZXMKQ29uZmlnSXRlbQpxACmBcQF9cQJYBQAAAGVtYWlscQNYEgAAAHdlLnJ1bGVAaWNsb3VkLmNvbXEEc2Iu"
+    },
+    "7": {
+      "write_enabled": 1,
+      "enabled": 1,
+      "module_config": "gANjUGhvbmVQaS50dHlwZXMKQ29uZmlnSXRlbQpxACmBcQF9cQJYBQAAAGVtYWlscQNYEgAAAHdlLnJ1bGVAaWNsb3VkLmNvbXEEc2Iu"
+    }
+  }
+  
 }
