@@ -10,7 +10,7 @@ from kivy.lang import Builder
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.label import Label
-from kivy.properties import BooleanProperty
+from kivy.properties import BooleanProperty, ListProperty
 from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
@@ -31,9 +31,9 @@ root = Builder.load_string('''
         Rectangle:
             size: self.size
             pos: self.pos
-    value: ''
+    name: ''
     Label:
-        text: root.value
+        text: root.name
         
 <ConsulWidget>:    
     canvas:
@@ -79,7 +79,7 @@ root = Builder.load_string('''
 
 class ConsulWidget(BoxLayout):
     state = 'all'
-    data = []
+    data = ListProperty([])
 
     def __init__(self, **kwargs):
         self.random_number = 'Loading data, please wait......'
@@ -87,7 +87,7 @@ class ConsulWidget(BoxLayout):
 
     def make_data_request(self):
         print('make data request')
-        req = urllib.request.Request('http://localhost:8500/v1/catalog/services')
+        req = urllib.request.Request('http://localhost:8500/v1/internal/ui/services?dc=dc1&token=')
         try:
             response = urllib.request.urlopen(req)
             self.data = json.loads(response.read().decode('utf-8'))
@@ -103,7 +103,7 @@ class ConsulWidget(BoxLayout):
             self.make_data_request()
         else:
             self.state = state
-            self.rv.data = [{'value': item} for item in self.data]
+            self.rv.data = [{'name': item['Name'], 'ChecksPassing' : item['ChecksPassing'], 'ChecksWarning' : item['ChecksWarning'], 'ChecksCritical': item['ChecksCritical']} for item in self.data]
 
     def start(self):
         pass
