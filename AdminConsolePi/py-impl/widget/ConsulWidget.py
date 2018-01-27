@@ -10,6 +10,7 @@ from kivy.lang import Builder
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.properties import BooleanProperty, ListProperty
 from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.behaviors import FocusBehavior
@@ -23,67 +24,46 @@ import urllib.error
 import urllib.parse
 import json
 
-root = Builder.load_string('''
-<Row@BoxLayout>:
-    canvas.before:
-        Color:
-            rgba: 0.5, 0.5, 0.5, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
-    name: ''
-    Label:
-        text: root.name
-        
-<ConsulWidget>:    
-    canvas:
-        Color:
-            rgba: 0.3, 0.3, 0.3, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
-    rv: rv
-    orientation: 'vertical'
-    GridLayout:
-        cols: 3
-        rows: 1
-        size_hint_y: None
-        height: dp(108)
-        padding: dp(8)
-        spacing: dp(16)
-        Button:
-            text: 'All services'
-            on_press: root.test_subset('all')
-        Button:
-            text: 'Failing services'
-            on_press: root.test_subset('failing')
-        Button:
-            text: 'Success services'
-            on_press: root.test_subset('succes')
+Builder.load_file("widget/template/ConsulWidget.kv")
 
-    RecycleView:
-        id: rv
-        scroll_type: ['bars', 'content']
-        scroll_wheel_distance: dp(114)
-        bar_width: dp(10)
-        viewclass: 'Row'
-        RecycleBoxLayout:
-            default_size: None, dp(56)
-            default_size_hint: 1, None
-            size_hint_y: None
-            height: self.minimum_height
-            orientation: 'vertical'
-            spacing: dp(2)
-            
-''')
+class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
+                                  RecycleBoxLayout):
+    ''' Adds selection and focus behaviour to the view. '''
+    print('hey')
+    pass
+
+class SelectableButton(RecycleDataViewBehavior, Button):
+    ''' Add selection support to the Button '''
+    index = None
+    selected = BooleanProperty(False)
+    selectable = BooleanProperty(True)
+
+    def refresh_view_attrs(self, rv, index, data):
+        ''' Catch and handle the view changes '''
+        self.index = index
+        return super(SelectableButton, self).refresh_view_attrs(rv, index, data)
+
+    def on_touch_down(self, touch):
+        print('hey touch')
+        ''' Add selection on touch down '''
+        if super(SelectableButton, self).on_touch_down(touch):
+            return True
+        if self.collide_point(*touch.pos) and self.selectable:
+            return self.parent.select_with_touch(self.index, touch)
+
+    def apply_selection(self, rv, index, is_selected):
+        ''' Respond to the selection of items in the view. '''
+        self.selected = is_selected
 
 class ConsulWidget(BoxLayout):
     state = 'all'
     data = ListProperty([])
+    rv_data = ListProperty([])
 
     def __init__(self, **kwargs):
         self.random_number = 'Loading data, please wait......'
         super(ConsulWidget, self).__init__(**kwargs)
+        self.make_data_request()
 
     def make_data_request(self):
         print('make data request')
@@ -95,15 +75,31 @@ class ConsulWidget(BoxLayout):
         except urllib.error.URLError as e:
             print(e.reason)
 
-    def test_data(self):
-        self.rv.data = [{'value': ''.join(sample(ascii_lowercase, 6))} for x in range(50)]
-
     def test_subset(self, state=state):
         if not len(self.data):
             self.make_data_request()
         else:
             self.state = state
-            self.rv.data = [{'name': item['Name'], 'ChecksPassing' : item['ChecksPassing'], 'ChecksWarning' : item['ChecksWarning'], 'ChecksCritical': item['ChecksCritical']} for item in self.data]
+
+            self.rv_data = [{'name': item['Name'], 'ChecksPassing' : item['ChecksPassing'], 'ChecksWarning' : item['ChecksWarning'], 'ChecksCritical': item['ChecksCritical'], 'color' : self.__setColor(item)} for item in self.data if self.__match_state(state, item)]
+
+    @staticmethod
+    def __match_state(state, item):
+        if state is 'all':
+            return True
+        elif state is 'failing' and item['ChecksCritical'] or item['ChecksWarning']:
+            return True
+        elif state is 'succes' and not item['ChecksCritical'] and not item['ChecksWarning']:
+            return True
+
+
+    @staticmethod
+    def __setColor(item):
+        if item['ChecksCritical']:
+            return '1, 0, 0, 1'
+        elif item['ChecksWarning']:
+            return '1, 0.6, 0, 1'
+        return '0, 1, 0.3, 1'
 
     def start(self):
         pass
@@ -117,5 +113,4 @@ class Consul(App):
 
 widget = ConsulWidget()
 widget.start()
-widget.make_data_request()
 
