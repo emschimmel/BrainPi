@@ -7,80 +7,11 @@ from NavigationPanelApp import NavigationPanel
 
 from widget.ConsulWidget import Consul
 from widget.UserWidget import User
+from widget.UserListWidget import UserList
 from widget.WeatherWidget import Weather
 from widget.CameraWidget import Camera
 
-root = Builder.load_string('''
-<ContainerBox>:
-    canvas:
-        Rectangle:
-            size: self.size
-            source: '../assets/background.png'
-                    
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'top'
-        ScreenManager:
-            size_hint: 1, .9
-            id: _screen_manager
-            Screen:
-                name: 'Consul'
-                ConsulWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True
-            Screen:
-                name: 'User'
-                UserWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True
-            Screen:
-                name: 'Weather'
-                WeatherWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True
-            Screen:
-                name: 'Camera'
-                CameraWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True                    
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'bottom'
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint: .7, .1
-            Button:
-                text: 'Consul'
-                on_press:
-                    _screen_manager.transition.direction = 'up'
-                    _screen_manager.current = 'Consul'
-            Button:
-                text: 'User'
-                on_press:
-                    _screen_manager.transition.direction = 'up'
-                    _screen_manager.current = 'User'     
-            Button:
-                text: 'Weather'
-                on_press:
-                    _screen_manager.transition.direction = 'up'
-                    _screen_manager.current = 'Weather'        
-            Button:
-                text: 'Camera'
-                on_press: 
-                    _screen_manager.transition.direction = 'up'
-                    _screen_manager.current = 'Camera'      
-            Button:
-                text: 'Exit'
-                on_press: app.stop()        
-''')
+Builder.load_file("template/MainView.kv")
 
 class ConsulWidget(BoxLayout):
     def __init__(self, **kwargs):
@@ -89,6 +20,10 @@ class ConsulWidget(BoxLayout):
 class UserWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(UserWidget.build(self), self).__init__(**kwargs)
+
+class UserListWidget(BoxLayout):
+    def __init__(self, **kwargs):
+        super(UserListWidget.build(self), self).__init__(**kwargs)
 
 class WeatherWidget(BoxLayout):
     def __init__(self, **kwargs):

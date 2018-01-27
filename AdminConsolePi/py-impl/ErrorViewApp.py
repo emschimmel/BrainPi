@@ -2,24 +2,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.popup import Popup
 
-root = Builder.load_string('''
-#:import Factory kivy.factory.Factory
-<ErrorView@Popup>:
-    title: 'Unable to locate available service connection'
-    auto_dismiss: False
-    size_hint: None, None
-    size: 400, 150
-
-    BoxLayout
-        orientation: 'vertical'
-        padding: [10,30,10,30]
-        spacing: 20           
-                                
-        BoxLayout:
-            Button:
-                text: 'Exit application'
-                on_press: root.exit_application()
-''')
+Builder.load_file("template/ErrorView.kv")
 
 class ErrorView(Popup):
     def __init__(self, **kwargs):

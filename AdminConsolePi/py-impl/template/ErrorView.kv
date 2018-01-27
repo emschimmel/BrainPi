@@ -1,0 +1,16 @@
+#:import Factory kivy.factory.Factory
+<ErrorView@Popup>:
+    title: 'Unable to locate available service connection'
+    auto_dismiss: False
+    size_hint: None, None
+    size: 400, 150
+
+    BoxLayout
+        orientation: 'vertical'
+        padding: [10,30,10,30]
+        spacing: 20
+
+        BoxLayout:
+            Button:
+                text: 'Exit application'
+                on_press: root.exit_application()

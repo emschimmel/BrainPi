@@ -17,59 +17,7 @@ from ConnectionHelpers.PasswordHelper import PasswordHelper
 from ThriftException.ttypes import *
 from thrift import Thrift
 
-root = Builder.load_string('''
-#:import Factory kivy.factory.Factory
-<LoginView@Popup>:
-    title: 'Login to the admin console'
-    auto_dismiss: False
-    size_hint: None, None
-    size: 500, 300
-
-    BoxLayout
-        orientation: 'vertical'
-        padding: [10,30,10,30]
-        spacing: 20           
-                                
-        BoxLayout:
-            Label:
-                width: 20
-                text: 'Username'
-                font_size: 16
-                halign: 'left'
-                align: 'left'
-            TextInput:
-                id: login
-                multiline:False
-                font_size: 16
-
-        BoxLayout:
-            Label:
-                text: 'Password'
-                halign: 'left'
-                font_size: 16
-            TextInput:
-                id: password
-                multiline:False
-                password:True
-                font_size: 16
-
-        BoxLayout:
-            Label:
-                id: message
-                color: 0.988, 0.388, 0.365
-
-        BoxLayout:
-            Button:
-                text: root.translate('admin.exit')
-                on_press: root.exit_application()
-            Button:
-                text: root.translate('admin.test')
-                on_press: root.dismiss()
-            Button:
-                text: root.translate('admin.login')
-                font_size: 16
-                on_press: root.do_login(login.text, password.text)
-''')
+Builder.load_file("template/LoginView.kv")
 
 class LoginView(Popup):
     def __init__(self, **kwargs):
@@ -99,6 +47,8 @@ class LoginView(Popup):
 
             output = ConnectEyePi().login(input)
 
+
+            print(output)
             if (output is None):
                 self.ids.message.text = app.i18n.t('admin.invalid_login')
                 return
@@ -109,6 +59,8 @@ class LoginView(Popup):
             if (output.token is None):
                 self.ids.message.text = app.i18n.t('admin.account_not_enabled')
                 return
+
+            self.dismiss()
 
         except Thrift.TException as tx:
             print("%s" % (tx.message))
