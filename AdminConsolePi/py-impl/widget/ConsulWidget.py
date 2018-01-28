@@ -10,11 +10,11 @@ from kivy.lang import Builder
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.label import Label
-from kivy.uix.button import Button
 from kivy.properties import BooleanProperty, ListProperty
 from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
+from kivy.uix.button import Button
 
 from random import sample
 from string import ascii_lowercase
@@ -25,6 +25,7 @@ import urllib.parse
 import json
 
 Builder.load_file("widget/template/ConsulWidget.kv")
+
 
 class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
                                   RecycleBoxLayout):
@@ -52,6 +53,7 @@ class SelectableButton(RecycleDataViewBehavior, Button):
             return self.parent.select_with_touch(self.index, touch)
 
     def apply_selection(self, rv, index, is_selected):
+        print('apply selection')
         ''' Respond to the selection of items in the view. '''
         self.selected = is_selected
 
@@ -103,7 +105,7 @@ class ConsulWidget(BoxLayout):
 
     def start(self):
         pass
-        #Clock.schedule_interval(self.make_data_request, 2000)
+        # Clock.schedule_interval(self.make_data_request, 2000)
 
 
 class Consul(App):
@@ -111,6 +113,8 @@ class Consul(App):
     def build(self):
         return ConsulWidget()
 
+
 widget = ConsulWidget()
 widget.start()
+
 

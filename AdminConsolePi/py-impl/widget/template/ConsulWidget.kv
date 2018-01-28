@@ -7,38 +7,49 @@
             pos: self.pos
             size: self.size
 
-<MyRV@RecycleView>:
-    viewclass: 'SelectableButton'
-    SelectableRecycleBoxLayout:
-        cols: 1
-        default_size: None, dp(26)
-        default_size_hint: 1, None
-        size_hint_y: None
-        height: self.minimum_height
-        orientation: 'vertical'
-
-        multiselect: True
-        touch_multiselect: True
-
-
-<ConsulWidget>:
+<Row@BoxLayout>:
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 0.8
-        Line:
-            rectangle: self.x+0.015*self.width, self.y+0.02*self.height, 0.97*self.width, 0.96*self.height
-        Color:
-            rgba: 1, 1, 1, 0.3
+            rgba: 0.5, 0.5, 0.5, 1
         Rectangle:
-            size: 0.976*self.width, 0.96*self.height
-            pos: self.x+0.012*self.width, self.y+0.022*self.height
-
+            size: self.size
+            pos: self.pos
+    cols: 4
+    rows: 1
+    size_hint_y: None
+    height: dp(30)
+    padding: dp(1)
+    spacing: dp(16)
+    name: ''
+    passing: ''
+    warning: ''
+    error: ''
+    Label:
+        text: root.name
+        size_hint_x: .4
+    Label:
+        text: root.passing
+        size_hint_x: .1
+    Label:
+        text: root.warning
+        size_hint_x: .1
+    Label:
+        text: root.error
+        size_hint_x: .1
+<ConsulWidget>:
+    canvas:
+        Color:
+            rgba: 0.3, 0.3, 0.3, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    rv: root.test_subset
     orientation: 'vertical'
     GridLayout:
         cols: 3
         rows: 1
         size_hint_y: None
-        height: dp(30)
+        height: dp(108)
         padding: dp(8)
         spacing: dp(16)
         Button:
@@ -70,16 +81,21 @@
             size_hint_x: .1
             text: "critical"
     BoxLayout:
-        MyRV:
-            size_hint_x: .4
-            data: [{'text': str(x['name'])} for x in root.rv_data]
-            rgba: (str(x['color']) for x in root.rv_data)
-        MyRV:
-            size_hint_x: .1
-            data: [{'text': str(x['ChecksPassing'])} for x in root.rv_data]
-        MyRV:
-            size_hint_x: .1
-            data: [{'text': str(x['ChecksWarning'])} for x in root.rv_data]
-        MyRV:
-            size_hint_x: .1
-            data: [{'text': str(x['ChecksCritical'])} for x in root.rv_data]
+
+        RecycleView:
+            viewclass: 'SelectableButton'
+            id: rv
+            data: [{'name': str(x['name']), 'passing' : str(x['ChecksPassing']), 'warning' : str(x['ChecksWarning']), 'error' : str(x['ChecksCritical']) } for x in root.rv_data]
+            scroll_type: ['bars', 'content']
+            scroll_wheel_distance: dp(114)
+            bar_width: dp(10)
+            viewclass: 'Row'
+            RecycleBoxLayout:
+
+                default_size: None, dp(56)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+                spacing: dp(2)
+
