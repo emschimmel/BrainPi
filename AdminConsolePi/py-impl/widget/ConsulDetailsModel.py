@@ -9,8 +9,12 @@ class ConsulDetailsModel(object):
     checks = []
 
     def __init__(self):
+        self.name = ''
+        self.service_id = ''
+        self.service_name = ''
+        self.service_adres = ''
+        self.service_port = 0
         self.checks = []
-        pass
 
 
 class ConsulChecksModel(object):
@@ -23,7 +27,13 @@ class ConsulChecksModel(object):
     statuscolor = [0, 1, 0.3, 0.2]
 
     def __init__(self):
-        pass
+        self.check_id = ''
+        self.name = ''
+        self.status = ''
+        self.output = ''
+        self.service_id = ''
+        self.service_name = ''
+        self.statuscolor = [0, 1, 0.3, 0.2]
 
     def status_color(self, status):
         if status == 'warning':
