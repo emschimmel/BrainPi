@@ -27,13 +27,6 @@ from kivy.graphics import Color
 
 Builder.load_file("widget/template/ConsulWidget.kv")
 
-
-class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
-                                 RecycleBoxLayout):
-    ''' Adds selection and focus behaviour to the view. '''
-    print('hey')
-    pass
-
 class SelectableButton(RecycleDataViewBehavior, Button):
     ''' Add selection support to the Button '''
     index = None
