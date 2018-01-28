@@ -9,6 +9,7 @@ class ConsulDetailsModel(object):
     checks = []
 
     def __init__(self):
+        self.checks = []
         pass
 
 
