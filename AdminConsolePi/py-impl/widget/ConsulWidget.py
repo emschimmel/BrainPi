@@ -24,7 +24,9 @@ import urllib.request
 import urllib.error
 import urllib.parse
 import json
-from kivy.graphics import Color
+from widget.ConsulDetails import ConsulDetailsApp
+from widget.ConsulDetailsModel import ConsulDetailsModel
+from widget.ConsulDetailsModel import ConsulChecksModel
 
 Builder.load_file("widget/template/ConsulWidget.kv")
 
@@ -33,10 +35,38 @@ class DetailButton(ButtonBehavior, Label):
 
     def __init__(self, **kwargs):
         super(DetailButton, self).__init__(**kwargs)
-        print('init')
 
     def display_details(self, name):
         print("Show details for %s" % name)
+        details_model = self.__make_details_object(name)
+        popup = ConsulDetailsApp(details_model).build()
+        popup.open()
+
+    @staticmethod
+    def __make_details_object(name):
+        details_model = ConsulDetailsModel()
+        details_model.name = name
+        req = urllib.request.Request('http://localhost:8500/v1/health/service/%s?dc=dc1&token=' % name)
+        try:
+            response = urllib.request.urlopen(req)
+            data = json.loads(response.read().decode('utf-8'))
+            details_model.service_id = data[0]['Service']['ID']
+            details_model.service_name = data[0]['Service']['Service']
+            details_model.service_adres = data[0]['Service']['Address']
+            details_model.service_port = data[0]['Service']['Port']
+            for check in data[0]['Checks']:
+                checkObject = ConsulChecksModel()
+                checkObject.check_id = check['CheckID']
+                checkObject.name = check['Name']
+                checkObject.status = check['Status']
+                checkObject.output = check['Output']
+                checkObject.service_id = check['ServiceID']
+                checkObject.service_name = check['ServiceName']
+                checkObject.status_color(check['Status'])
+                details_model.checks.append(checkObject)
+        except urllib.error.URLError as e:
+            print(e.reason)
+        return details_model
 
 class ConsulWidget(BoxLayout):
     state = 'all'
@@ -49,7 +79,6 @@ class ConsulWidget(BoxLayout):
         self.make_data_request()
 
     def make_data_request(self):
-        print('make data request')
         req = urllib.request.Request('http://localhost:8500/v1/internal/ui/services?dc=dc1&token=')
         try:
             response = urllib.request.urlopen(req)
