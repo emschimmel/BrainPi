@@ -29,34 +29,8 @@ from kivy.graphics import Color
 Builder.load_file("widget/template/ConsulWidget.kv")
 
 
-class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
-                                 RecycleBoxLayout):
-    ''' Adds selection and focus behaviour to the view. '''
-    pass
-
 class DetailButton(ButtonBehavior, Label):
-    # ''' Add selection support to the Button '''
-    # index = None
-    # selected = BooleanProperty(False)
-    # selectable = BooleanProperty(True)
-    #
-    # def refresh_view_attrs(self, rv, index, data):
-    #     ''' Catch and handle the view changes '''
-    #     self.index = index
-    #     return super(SelectableButton, self).refresh_view_attrs(rv, index, data)
-    #
-    # def on_touch_down(self, touch):
-    #     print('hey touch')
-    #     ''' Add selection on touch down '''
-    #     if super(SelectableButton, self).on_touch_down(touch):
-    #         return True
-    #     if self.collide_point(*touch.pos) and self.selectable:
-    #         return self.parent.select_with_touch(self.index, touch)
-    #
-    # def apply_selection(self, rv, index, is_selected):
-    #     print('apply selection')
-    #     ''' Respond to the selection of items in the view. '''
-    #     self.selected = is_selected
+
     def __init__(self, **kwargs):
         super(DetailButton, self).__init__(**kwargs)
         print('init')
