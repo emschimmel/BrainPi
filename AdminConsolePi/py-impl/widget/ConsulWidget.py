@@ -23,12 +23,13 @@ import urllib.request
 import urllib.error
 import urllib.parse
 import json
+from kivy.graphics import Color
 
 Builder.load_file("widget/template/ConsulWidget.kv")
 
 
 class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
-                                  RecycleBoxLayout):
+                                 RecycleBoxLayout):
     ''' Adds selection and focus behaviour to the view. '''
     print('hey')
     pass
@@ -83,7 +84,7 @@ class ConsulWidget(BoxLayout):
         else:
             self.state = state
 
-            self.rv_data = [{'name': item['Name'], 'ChecksPassing' : item['ChecksPassing'], 'ChecksWarning' : item['ChecksWarning'], 'ChecksCritical': item['ChecksCritical'], 'color' : self.__setColor(item)} for item in self.data if self.__match_state(state, item)]
+            self.rv_data = [{'name': str(item['Name']), 'passing' : str(item['ChecksPassing']), 'warning' : str(item['ChecksWarning']), 'critical': str(item['ChecksCritical']), 'statuscolor' : self.__setColor(item)} for item in self.data if self.__match_state(state, item)]
 
     @staticmethod
     def __match_state(state, item):
@@ -97,11 +98,12 @@ class ConsulWidget(BoxLayout):
 
     @staticmethod
     def __setColor(item):
+        c = [0, 1, 0.3, 0.2]
         if item['ChecksCritical']:
-            return '1, 0, 0, 1'
+            c = [1, 0, 0, 0.2]
         elif item['ChecksWarning']:
-            return '1, 0.6, 0, 1'
-        return '0, 1, 0.3, 1'
+            c = [1, 0.6, 0, 0.2]
+        return c
 
     def start(self):
         pass
