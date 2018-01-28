@@ -10,7 +10,7 @@
         Rectangle:
             size: self.size
             pos: self.pos
-    cols: 4
+    cols: 5
     rows: 1
     size_hint_y: None
     height: dp(20)
@@ -31,6 +31,10 @@
     Label:
         text: root.critical
         size_hint_x: .1
+    DetailButton:
+        text: 'Details'
+        size_hint_x: .1
+        on_press: self.display_details(root.name)
 <ConsulWidget>:
     padding: dp(10), dp(10), dp(10), dp(10)
     canvas:
