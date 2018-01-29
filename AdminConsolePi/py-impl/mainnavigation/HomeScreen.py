@@ -12,8 +12,7 @@ class HomeScreen(Screen):
     pass
 
 class HomeWidget(BoxLayout):
-    def __init__(self, **kwargs):
-        super(HomeWidget.build(self), self).__init__(**kwargs)
+    pass
 
 class Home(App):
     def build(self):

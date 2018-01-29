@@ -13,8 +13,7 @@ class ConsulScreen(Screen):
     pass
 
 class ConsulWidget(BoxLayout):
-    def __init__(self, **kwargs):
-        super(ConsulWidget.build(self), self).__init__(**kwargs)
+    pass
 
 class Consul(App):
     def build(self):

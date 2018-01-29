@@ -17,36 +17,29 @@ from mainnavigation.CameraScreen import CameraScreen
 Builder.load_file("mainnavigation/template/MainView.kv")
 
 class HomeScreen(Screen):
-    def __init__(self, **kwargs):
-        super(HomeScreen.build(self), self).__init__(**kwargs)
+    pass
 
 class ConsulScreen(Screen):
-    def __init__(self, **kwargs):
-        super(ConsulScreen.build(self), self).__init__(**kwargs)
+    pass
+
 
 class UserScreen(Screen):
-    def __init__(self, **kwargs):
-        super(UserScreen.build(self), self).__init__(**kwargs)
+    pass
 
 class UserListScreen(Screen):
-    def __init__(self, **kwargs):
-        super(UserListScreen.build(self), self).__init__(**kwargs)
+    pass
 
 class WeatherScreen(Screen):
-    def __init__(self, **kwargs):
-        super(WeatherScreen.build(self), self).__init__(**kwargs)
+    pass
 
 class CameraScreen(Screen):
-    def __init__(self, **kwargs):
-        super(CameraScreen.build(self), self).__init__(**kwargs)
+    pass
 
 class NavigationPanel(BoxLayout):
-    def __init__(self, **kwargs):
-        super(NavigationPanel.build(self), self).__init__(**kwargs)
+    pass
 
 class ContainerBox(FloatLayout):
-    def __init__(self, **kwargs):
-        super(ContainerBox, self).__init__(**kwargs)
+    pass
 
 class MainView(App):
 

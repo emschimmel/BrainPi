@@ -5,8 +5,7 @@ from kivy.uix.boxlayout import BoxLayout
 Builder.load_file("mainnavigation/template/NavigationPanel.kv")
 
 class NavigationPanel(BoxLayout):
-    def __init__(self, **kwargs):
-        super(NavigationPanel, self).__init__(**kwargs)
+    pass
 
 class NavigationPanelApp(App):
 

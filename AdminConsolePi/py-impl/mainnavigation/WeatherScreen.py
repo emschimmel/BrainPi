@@ -12,8 +12,7 @@ class WeatherScreen(Screen):
     pass
 
 class WeatherWidget(BoxLayout):
-    def __init__(self, **kwargs):
-        super(WeatherWidget.build(self), self).__init__(**kwargs)
+    pass
 
 class Weather(App):
     def build(self):

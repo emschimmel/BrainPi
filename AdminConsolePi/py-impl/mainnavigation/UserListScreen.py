@@ -12,8 +12,8 @@ class UserListScreen(Screen):
     pass
 
 class UserListWidget(BoxLayout):
-    def __init__(self, **kwargs):
-        super(UserListWidget.build(self), self).__init__(**kwargs)
+    pass
+
 
 class UserList(App):
     def build(self):
