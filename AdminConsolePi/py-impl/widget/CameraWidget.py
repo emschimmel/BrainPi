@@ -1,9 +1,6 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.clock import Clock
-
-from kivy.network.urlrequest import UrlRequest
 
 Builder.load_file("widget/template/CameraWidget.kv")
 

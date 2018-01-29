@@ -3,35 +3,37 @@ from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 
+from kivy.uix.screenmanager import Screen
+
 from NavigationPanelApp import NavigationPanel
 
-from widget.ConsulWidget import Consul
-from widget.UserWidget import User
-from widget.UserListWidget import UserList
-from widget.WeatherWidget import Weather
-from widget.CameraWidget import Camera
+from mainscreen.ConsulScreen import ConsulScreen
+from mainscreen.UserScreen import UserScreen
+from mainscreen.UserListScreen import UserListScreen
+from mainscreen.WeatherScreen import WeatherScreen
+from mainscreen.CameraScreen import CameraScreen
 
 Builder.load_file("template/MainView.kv")
 
-class ConsulWidget(BoxLayout):
+class ConsulScreen(Screen):
     def __init__(self, **kwargs):
-        super(ConsulWidget.build(self), self).__init__(**kwargs)
+        super(ConsulScreen.build(self), self).__init__(**kwargs)
 
-class UserWidget(BoxLayout):
+class UserScreen(Screen):
     def __init__(self, **kwargs):
-        super(UserWidget.build(self), self).__init__(**kwargs)
+        super(UserScreen.build(self), self).__init__(**kwargs)
 
-class UserListWidget(BoxLayout):
+class UserListScreen(Screen):
     def __init__(self, **kwargs):
-        super(UserListWidget.build(self), self).__init__(**kwargs)
+        super(UserListScreen.build(self), self).__init__(**kwargs)
 
-class WeatherWidget(BoxLayout):
+class WeatherScreen(Screen):
     def __init__(self, **kwargs):
-        super(WeatherWidget.build(self), self).__init__(**kwargs)
+        super(WeatherScreen.build(self), self).__init__(**kwargs)
 
-class CameraWidget(BoxLayout):
+class CameraScreen(Screen):
     def __init__(self, **kwargs):
-        super(CameraWidget.build(self), self).__init__(**kwargs)
+        super(CameraScreen.build(self), self).__init__(**kwargs)
 
 class NavigationPanel(BoxLayout):
     def __init__(self, **kwargs):
