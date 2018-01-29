@@ -7,6 +7,7 @@ from kivy.uix.screenmanager import Screen
 
 from mainnavigation.NavigationPanelApp import NavigationPanel
 
+from mainnavigation.HomeScreen import HomeScreen
 from mainnavigation.ConsulScreen import ConsulScreen
 from mainnavigation.UserScreen import UserScreen
 from mainnavigation.UserListScreen import UserListScreen
@@ -14,6 +15,10 @@ from mainnavigation.WeatherScreen import WeatherScreen
 from mainnavigation.CameraScreen import CameraScreen
 
 Builder.load_file("mainnavigation/template/MainView.kv")
+
+class HomeScreen(Screen):
+    def __init__(self, **kwargs):
+        super(HomeScreen.build(self), self).__init__(**kwargs)
 
 class ConsulScreen(Screen):
     def __init__(self, **kwargs):

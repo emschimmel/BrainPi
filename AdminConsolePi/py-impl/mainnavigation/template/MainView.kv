@@ -10,6 +10,7 @@
         ScreenManager:
             size_hint: 1, .9
             id: _screen_manager
+            HomeScreen:
             ConsulScreen:
             UserScreen:
             UserListScreen:
@@ -22,6 +23,12 @@
         BoxLayout:
             orientation: 'horizontal'
             size_hint: .7, .1
+            Button:
+                text: 'Home'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'Home'
+
             Button:
                 text: 'Consul'
                 on_press:
