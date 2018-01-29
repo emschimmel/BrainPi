@@ -105,9 +105,11 @@ class ConsulWidget(BoxLayout):
         return c
 
     def start(self):
-        pass
-        # Clock.schedule_interval(self.make_data_request, 2000)
+        Clock.schedule_interval(self.refresh_data, 5)
 
+    def refresh_data(self, dt):
+        print('refresh consul data')
+        self.make_data_request()
 
 class Consul(App):
 
