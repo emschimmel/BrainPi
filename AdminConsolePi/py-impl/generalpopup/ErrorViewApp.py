@@ -2,7 +2,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.popup import Popup
 
-Builder.load_file("template/ErrorView.kv")
+Builder.load_file("generalpopup/template/ErrorView.kv")
 
 class ErrorView(Popup):
     def __init__(self, **kwargs):

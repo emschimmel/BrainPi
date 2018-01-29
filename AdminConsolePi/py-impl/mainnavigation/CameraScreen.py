@@ -6,7 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 
 from widget.CameraWidget import Camera
 
-Builder.load_file("mainscreen/template/CameraScreen.kv")
+Builder.load_file("mainnavigation/template/CameraScreen.kv")
 
 class CameraScreen(Screen):
     pass

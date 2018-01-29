@@ -6,7 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 
 from widget.WeatherWidget import Weather
 
-Builder.load_file("mainscreen/template/WeatherScreen.kv")
+Builder.load_file("mainnavigation/template/WeatherScreen.kv")
 
 class WeatherScreen(Screen):
     pass

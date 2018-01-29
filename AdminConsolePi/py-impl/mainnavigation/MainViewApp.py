@@ -5,15 +5,15 @@ from kivy.uix.floatlayout import FloatLayout
 
 from kivy.uix.screenmanager import Screen
 
-from NavigationPanelApp import NavigationPanel
+from mainnavigation.NavigationPanelApp import NavigationPanel
 
-from mainscreen.ConsulScreen import ConsulScreen
-from mainscreen.UserScreen import UserScreen
-from mainscreen.UserListScreen import UserListScreen
-from mainscreen.WeatherScreen import WeatherScreen
-from mainscreen.CameraScreen import CameraScreen
+from mainnavigation.ConsulScreen import ConsulScreen
+from mainnavigation.UserScreen import UserScreen
+from mainnavigation.UserListScreen import UserListScreen
+from mainnavigation.WeatherScreen import WeatherScreen
+from mainnavigation.CameraScreen import CameraScreen
 
-Builder.load_file("template/MainView.kv")
+Builder.load_file("mainnavigation/template/MainView.kv")
 
 class ConsulScreen(Screen):
     def __init__(self, **kwargs):

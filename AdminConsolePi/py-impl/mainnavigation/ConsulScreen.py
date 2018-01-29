@@ -7,7 +7,7 @@ from kivy.uix.boxlayout import BoxLayout
 from widget.ConsulWidget import Consul
 
 
-Builder.load_file("mainscreen/template/ConsulScreen.kv")
+Builder.load_file("mainnavigation/template/ConsulScreen.kv")
 
 class ConsulScreen(Screen):
     pass

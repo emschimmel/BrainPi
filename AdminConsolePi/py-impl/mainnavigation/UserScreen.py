@@ -6,7 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 
 from widget.UserWidget import User
 
-Builder.load_file("mainscreen/template/UserScreen.kv")
+Builder.load_file("mainnavigation/template/UserScreen.kv")
 
 class UserScreen(Screen):
     pass
