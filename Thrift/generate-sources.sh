@@ -23,9 +23,12 @@ thrift -gen java AutorisationStruct.thrift
 thrift -gen java EarPi.thrift
 thrift -gen java ThriftException.thrift
 
+thrift -gen go EarPi.thrift
+
 rm -rf ../AdminConsolePi/gen-py/*
 rm -rf ../AgendaPi/src/gen-py/*
 rm -rf ../1IntegrationTests/gen-py/*
+rm -rf ../DeviceRegistrationUI/src/gen-go/*
 rm -rf ../EarPi/Java/src/main/java/nl/earpi/generated/*
 rm -rf ../EarPi/src/gen-py/*
 rm -rf ../EyePi/src/gen-py/*
@@ -65,6 +68,9 @@ cp -Rf ./gen-py/PhotoPi                 ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/LightPi                 ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/MusicPi                 ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/AgendaPi                ../1IntegrationTests/gen-py/
+
+# DeviceRegistrationUI
+cp -Rf ./gen-go/EarPi                   ../DeviceRegistrationUI/gen-go/
 
 #EarPI
 cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/Java/src/main/java/nl/earpi/generated/
