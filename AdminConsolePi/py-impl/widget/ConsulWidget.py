@@ -66,7 +66,15 @@ class ConsulWidget(BoxLayout):
     def __init__(self, **kwargs):
         self.random_number = 'Loading data, please wait......'
         super(ConsulWidget, self).__init__(**kwargs)
+
+    def on_enter(self):
+        print('on_enter')
         self.make_data_request()
+        self.start()
+
+    def on_leave(self):
+        print('on_leave')
+        self.stop()
 
     def make_data_request(self):
         req = urllib.request.Request('http://localhost:8500/v1/internal/ui/services?dc=dc1&token=')
@@ -105,19 +113,19 @@ class ConsulWidget(BoxLayout):
         return c
 
     def start(self):
+        print('Start data refresh timer')
         Clock.schedule_interval(self.refresh_data, 5)
+
+    def stop(self):
+        print('Stop data refresh timer')
+        Clock.unschedule(self.refresh_data)
 
     def refresh_data(self, dt):
         print('refresh consul data')
+        self.data = []
         self.make_data_request()
 
 class Consul(App):
 
     def build(self):
         return ConsulWidget()
-
-
-widget = ConsulWidget()
-widget.start()
-
-
