@@ -1,7 +1,7 @@
 from kivy.app import App
 
-from MainViewApp import MainView
-from LoginViewApp import LoginViewApp
+from mainnavigation.MainViewApp import MainView
+from authentication.LoginViewApp import LoginViewApp
 
 import i18n
 

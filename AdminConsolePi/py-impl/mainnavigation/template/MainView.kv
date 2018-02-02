@@ -10,47 +10,25 @@
         ScreenManager:
             size_hint: 1, .9
             id: _screen_manager
-            Screen:
-                name: 'Consul'
-                ConsulWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True
-            Screen:
-                name: 'User'
-                UserWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True
-            Screen:
-                name: 'UserList'
-                UserListWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True
-            Screen:
-                name: 'Weather'
-                WeatherWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True
-            Screen:
-                name: 'Camera'
-                CameraWidget:
-                    size: self.size
-                    pos: self.pos
-                    rows: 1
-                    row_force_default: True
+            HomeScreen:
+            ConsulScreen:
+            UserScreen:
+            UserListScreen:
+            WeatherScreen:
+            CameraScreen:
+
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
         BoxLayout:
             orientation: 'horizontal'
             size_hint: .7, .1
+            Button:
+                text: 'Home'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'Home'
+
             Button:
                 text: 'Consul'
                 on_press:

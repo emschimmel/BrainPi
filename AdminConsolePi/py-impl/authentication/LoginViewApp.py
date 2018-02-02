@@ -17,7 +17,7 @@ from ConnectionHelpers.PasswordHelper import PasswordHelper
 from ThriftException.ttypes import *
 from thrift import Thrift
 
-Builder.load_file("template/LoginView.kv")
+Builder.load_file("authentication/template/LoginView.kv")
 
 class LoginView(Popup):
     def __init__(self, **kwargs):

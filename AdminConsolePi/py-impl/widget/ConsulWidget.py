@@ -3,27 +3,17 @@ from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 
-from kivy.network.urlrequest import UrlRequest
-
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.recycleview import RecycleView
-from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.label import Label
-from kivy.properties import BooleanProperty, ListProperty
-from kivy.uix.recycleboxlayout import RecycleBoxLayout
-from kivy.uix.behaviors import FocusBehavior
+from kivy.properties import ListProperty
 from kivy.uix.behaviors import ButtonBehavior
-from kivy.uix.recycleview.layout import LayoutSelectionBehavior
-from kivy.uix.button import Button
 
-from random import sample
-from string import ascii_lowercase
-import time
 import urllib.request
 import urllib.error
 import urllib.parse
 import json
+
 from widget.ConsulDetails import ConsulDetailsApp
 from widget.ConsulDetailsModel import ConsulDetailsModel
 from widget.ConsulDetailsModel import ConsulChecksModel
@@ -115,9 +105,11 @@ class ConsulWidget(BoxLayout):
         return c
 
     def start(self):
-        pass
-        # Clock.schedule_interval(self.make_data_request, 2000)
+        Clock.schedule_interval(self.refresh_data, 5)
 
+    def refresh_data(self, dt):
+        print('refresh consul data')
+        self.make_data_request()
 
 class Consul(App):
 
