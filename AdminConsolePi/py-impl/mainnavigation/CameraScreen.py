@@ -10,10 +10,16 @@ from widget.CameraWidget import Camera
 Builder.load_file("mainnavigation/template/CameraScreen.kv")
 
 class CameraScreen(Screen):
-    pass
+
+    def on_enter(self, *args):
+        self.ids.widget.on_enter()
+
+    def on_leave(self, *args):
+        self.ids.widget.on_leave()
 
 class CameraWidget(BoxLayout):
-    pass
+    def __init__(self):
+        super(CameraWidget, self).__init__()
 
 class Camera(App):
     def build(self):
