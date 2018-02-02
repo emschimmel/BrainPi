@@ -10,6 +10,8 @@ EyePi/img/*
 */*/gen-py/*
 */gen-py/*
 */gen-java/*
+*/gen-go/*
+*/*/gen-go/*
 */*.egg-info
 Logs/*
 WeatherPi/api-key/api-key.txt
