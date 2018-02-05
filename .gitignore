@@ -9,10 +9,12 @@ EyePi/img/*
 */dist/*
 */*/gen-py/*
 */gen-py/*
+*/gen-py/*/*
 */gen-java/*
 */gen-go/*
 */*/gen-go/*
 */*.egg-info
+*/target/
 Logs/*
 WeatherPi/api-key/api-key.txt
 WeatherPi/config/weather.ini
@@ -20,5 +22,6 @@ MusicPi/config/deezer.ini
 MusicPi/config/config.ini
 FacePi/py-impl/FaceRecognition/Data/*
 EarPi/Java/src/main/java/nl/earpi/generated/*/*
+StatisticPi/src/main/scala/nl/statisticpi/generated/*
 EarPi/Java/target
 

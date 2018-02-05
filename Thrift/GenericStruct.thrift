@@ -1,4 +1,5 @@
 namespace java nl.earpi.generated.genericstruct
+namespace go generated.genericstruct
 
 enum ActionEnum {
 	LOGIN = 0
