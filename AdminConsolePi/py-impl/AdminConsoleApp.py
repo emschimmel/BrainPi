@@ -5,7 +5,6 @@ from authentication.LoginViewApp import LoginViewApp
 
 import i18n
 
-
 class AdminConsoleApp(App):
     def build(self):
         self.load_translations()
@@ -42,5 +41,6 @@ class AdminConsoleApp(App):
         i18n.set('locale', 'en')
         i18n.set('fallback', 'en')
         self.get_running_app().i18n = i18n
+
 
 AdminConsoleApp().run()

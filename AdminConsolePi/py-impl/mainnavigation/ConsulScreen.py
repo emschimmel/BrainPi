@@ -10,10 +10,15 @@ from widget.ConsulWidget import Consul
 Builder.load_file("mainnavigation/template/ConsulScreen.kv")
 
 class ConsulScreen(Screen):
-    pass
+    def on_enter(self, *args):
+        self.ids.widget.on_enter()
+
+    def on_leave(self, *args):
+        self.ids.widget.on_leave()
 
 class ConsulWidget(BoxLayout):
-    pass
+    def __init__(self):
+        super(ConsulWidget, self).__init__()
 
 class Consul(App):
     def build(self):
