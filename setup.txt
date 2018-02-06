@@ -1,9 +1,73 @@
 pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 brew tap homebrew/science
 brew install opencv
+brew install thrift
 
 #xcode dev tools
 sudo xcode-select --install
 
 
 https://realpython.com/blog/python/face-recognition-with-python/
+https://docs.opencv.org/3.0-beta/modules/face/doc/facerec/index.html
+https://docs.opencv.org/3.0-beta/modules/face/doc/facerec/facerec_api.html
+
+
+PIP install packages in virtual environment:
+pip install -Iv numpy scipy matplotlib ipython jupyter pandas sympy nose opencv-python
+pip install opencv-contrib-python
+
+pip install python-i18n[YAML]
+
+pip install cryptography
+pip install pyicloud
+
+
+# generate thrift
+thrift -gen py EyePi.thrift
+thrift -gen py FacePi.thrift
+
+### startup instruction thrift tree
+### FacePi Server
+$ cd BrainPi/FacePi/py-impl
+$ python3 PythonFacePiServer.py
+
+### WeatherPi Server
+$ cd BrainPi/WeatherPi/py-impl
+$ python3 PythonWeatherPiServer.py
+
+### EyePi Server
+$ cd BrainPi/EyePi/py-impl
+$ python3 PythonEyePiServer.py
+
+### EyePi Start client
+$ cd BrainPi/EyePi/py-impl
+$ python3 PythonEyePiClient.py
+
+# install consul
+pip install python-consul
+https://www.consul.io/intro/getting-started/install.html
+https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix
+consul agent -dev -enable-script-checks
+
+# install dns
+pip install dnspython
+dig @127.0.0.1 -p 8600 weather-pi.service.consul. A
+
+# install statsd
+pip install statsd
+https://www.elastic.co/guide/en/logstash/current/plugins-outputs-statsd.html
+
+# install vault
+pip install hvac
+https://www.vaultproject.io/guides/index.html
+https://github.com/ianunruh/hvac
+
+# install pyowm
+pip install pyowm
+
+# https://www.consul.io/docs/guides/consul-containers.html
+http://blog.trifork.com/2016/12/14/service-discovery-using-consul-and-spring-cloud/
+
+brew install go
+go get git.apache.org/thrift.git/lib/go/thrift/...
+# https://thrift.apache.org/lib/go

@@ -1,0 +1,117 @@
+<CheckRow@BoxLayout>
+    check_id: ''
+    name: ''
+    output: ''
+    service_id: ''
+    statuscolor: []
+    canvas:
+        Color:
+            rgba: root.statuscolor
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    cols: 6
+    rows: 1
+    size_hint_y: None
+    height: dp(20)
+    spacing: dp(10)
+
+    Label:
+        text: root.check_id
+    Label:
+        text: root.name
+    Label:
+        text: root.output
+    Label:
+        text: root.service_id
+
+<ConsulDetails@Popup>:
+    title: 'Details for %s' % root.details.name
+    auto_dismiss: False
+    size_hint: None, None
+    size: 700, 450
+    canvas:
+        Color:
+            rgba: [1, 1, 1, 0.2]
+    BoxLayout:
+        orientation: 'vertical'
+        GridLayout:
+            orientation: 'horizontal'
+            cols: 2
+            rows: 4
+            height: dp(30)
+            padding: dp(1)
+            spacing: dp(5)
+            Label:
+                text: 'id'
+            Label:
+                text: root.details.service_id
+            Label:
+                text: 'name'
+            Label:
+                text: root.details.service_name
+            Label:
+                text: 'adres'
+            Label:
+                text: root.details.service_adres
+            Label:
+                text: 'port'
+            Label:
+                text: str(root.details.service_port)
+
+        GridLayout:
+            canvas:
+                Color:
+                    rgba: [0.95, 0.6, 1, 0.2]
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            cols: 6
+            rows: 1
+            size_hint_y: None
+            height: dp(30)
+            padding: dp(1)
+            spacing: dp(16)
+            Label:
+                text: "check_id"
+            Label:
+                text: "name"
+            Label:
+                text: "output"
+            Label:
+                text: "service_id"
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: [0.95, 0.9, 1, 0.2]
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            RecycleView:
+                id: rv
+                data: [{'check_id': x.check_id, 'name' : x.name, 'status' : x.status, 'output' : x.output, 'service_id' : x.service_id, 'service_name' : x.service_name, 'statuscolor' : x.statuscolor } for x in root.checks]
+                scroll_type: ['bars', 'content']
+                scroll_wheel_distance: dp(114)
+                bar_width: dp(10)
+                viewclass: 'CheckRow'
+                SelectableRecycleBoxLayout:
+
+                    default_size: None, dp(56)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    spacing: dp(2)
+
+
+        BoxLayout:
+            cols: 1
+            rows: 1
+            size_hint_y: None
+            height: dp(30)
+            padding: dp(1)
+            spacing: dp(16)
+            Button:
+                text: 'Close'
+                on_press: root.dismiss()

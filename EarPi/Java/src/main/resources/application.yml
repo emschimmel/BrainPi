@@ -1,0 +1,24 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: EarPi
+  cloud:
+    consul:
+      host: "localhost"
+      port: 8500
+      discovery:
+        healthCheckPath: /health
+        healthCheckInterval: 15s
+
+ribbon:
+  ServerListRefreshInterval: 1000
+
+endpoints:
+  health:
+    sensitive: false
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true

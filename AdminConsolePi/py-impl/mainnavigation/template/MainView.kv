@@ -1,0 +1,60 @@
+<ContainerBox>:
+    canvas:
+        Rectangle:
+            size: self.size
+            source: '../assets/background.png'
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        ScreenManager:
+            size_hint: 1, .9
+            id: _screen_manager
+            HomeScreen:
+            ConsulScreen:
+            UserScreen:
+            UserListScreen:
+            WeatherScreen:
+            CameraScreen:
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: .7, .1
+            Button:
+                text: 'Home'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'Home'
+
+            Button:
+                text: 'Consul'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'Consul'
+            Button:
+                text: 'User'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'User'
+            Button:
+                text: 'UserList'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'UserList'
+
+            Button:
+                text: 'Weather'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'Weather'
+            Button:
+                text: 'Camera'
+                on_press:
+                    _screen_manager.transition.direction = 'up'
+                    _screen_manager.current = 'Camera'
+            Button:
+                text: 'Exit'
+                on_press: app.stop()
