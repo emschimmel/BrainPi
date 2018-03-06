@@ -23,5 +23,6 @@ MusicPi/config/config.ini
 FacePi/py-impl/FaceRecognition/Data/*
 EarPi/Java/src/main/java/nl/earpi/generated/*/*
 StatisticPi/src/main/scala/nl/statisticpi/generated/*
+StatisticPi/project/target/*
 EarPi/Java/target
 
