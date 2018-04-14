@@ -6,6 +6,7 @@ struct PersonEntry {
 	1 : required string person
 	2 : required double chance
 	3 : optional binary image
+	4 : optional string algoritm
 }
 
 struct FacePiInput {

@@ -2,7 +2,7 @@
 import sys
 import cv2
 import pickle
-from LBPH.TrainNetwork import TrainNetwork
+from .TrainNetwork import TrainNetwork
 sys.path.append('../')
 from FaceDetection.DetectFaces import DetectFaces
 
@@ -27,6 +27,7 @@ class RecognizeFace():
         print(output)
 
     def reconFaceFromImage(self, image):
+        print("reconface in lbph")
         output = dict()
         with open('./Data/namedIds.yml', 'rb') as namedIdsFile:
             self.namedIds = pickle.loads(namedIdsFile.read())

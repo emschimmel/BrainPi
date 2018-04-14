@@ -2,7 +2,7 @@
 import sys
 import cv2
 import pickle
-from Fisher.TrainNetwork import TrainNetwork
+from .TrainNetwork import TrainNetwork
 sys.path.append('../')
 from FaceDetection.DetectFaces import DetectFaces
 
