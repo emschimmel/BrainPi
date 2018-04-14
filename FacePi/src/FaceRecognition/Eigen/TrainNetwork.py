@@ -4,7 +4,7 @@ import pickle
 sys.path.append('../')
 from FaceDetection.DetectFaces import DetectFaces
 import random
-sys.path.append('../../../')
+sys.path.append('../../')
 import config
 
 

@@ -109,7 +109,7 @@ class EyePiThriftHandler:
                     person = LongTermPersonMemoryClient().get_Person(input=name)
                     if person:
                         if person.enabled:
-                            eyeOutput.personCollection.append(face)
+                            eyeOutput.personCollection += face
                 # eyeOutput.personCollection = facePiOutput
 
                 if eyeOutput.personCollection:

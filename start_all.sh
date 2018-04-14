@@ -53,3 +53,6 @@ python3 PythonMusicPiServer.py &
 #sleep 30
 #cd ${home}/ClientPi/src
 #python3 CameraSimulation.py
+
+#cd ${home}/DeviceRegistrationUI/src
+#go run main.go

@@ -33,7 +33,7 @@ class MongoImplementation():
 
     @classmethod
     def get(self, uniquename):
-        print('LongTermMemory: mongo get')
+        print('LongTermMemory: mongo get '+uniquename)
         return self.__person_db.person_collection.find_one({'uniquename': uniquename})
 
     @classmethod

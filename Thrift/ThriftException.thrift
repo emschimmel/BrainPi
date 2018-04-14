@@ -1,4 +1,5 @@
 namespace java nl.earpi.generated.exception
+namespace go generated.exception
 
 exception ExternalEndpointUnavailable {
     1 : required string serviceName;

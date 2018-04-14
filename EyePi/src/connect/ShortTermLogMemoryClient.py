@@ -116,3 +116,15 @@ class ShortTermLogMemoryClient:
         port = int(str(random.choice(dnsanswer_srv)).split()[2])
         return ip, port
 
+    @staticmethod
+    def __submit_on_que(input):
+        import pika
+
+        connection = pika.BlockingConnection(pika.ConnectionParameters(config.rabbit_service_ip))
+        channel = connection.channel()
+        channel.queue_declare(queue='logging')
+        channel.basic_publish(exchange='',
+                              routing_key='logging',
+                              body=input)
+        connection.close()
+

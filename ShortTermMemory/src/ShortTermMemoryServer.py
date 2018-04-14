@@ -89,6 +89,23 @@ class ShortTermMemoryThriftServer:
         except Exception as ex:
             print('invalid request %s' % ex)
 
+    def processLog(self, ch, method, properties, body):
+        try:
+            LogMemory().storeLog(body)
+        except Exception as ex:
+            print('invalid request %s' % ex)
+
+    def logSubscriber(self):
+        import pika
+        connection = pika.BlockingConnection(pika.ConnectionParameters(config.rabbit_service_ip))
+        channel = connection.channel()
+        channel.basic_consume(self.processLog,
+                              queue='logging',
+                              no_ack=True)
+        channel.start_consuming()
+
+
+
 
 def get_ip():
     import socket
@@ -134,6 +151,7 @@ def main(args=None):
     manager.start(interupt_manager)
     try:
         server = create_server()
+        # ShortTermMemoryThriftServer().logSubscriber() # test
         register()
         server.serve()
 

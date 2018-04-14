@@ -44,19 +44,29 @@ class FacePiThriftHandler:
             inputImage = pickle.loads(input.image, fix_imports=False, encoding="ASCII", errors="strict")
             # inputImage = input.image
             #HaarFaceDetection().detectFaceWithEyes(inputImage)
-            #faces = RecognitionManager().recon_face(inputImage)
-            faces = DetectFaces().DetectFromBinaryFromCamera(inputImage)
+            print("handling")
+            faces = RecognitionManager().recon_face(inputImage)
+            #faces = DetectFaces().DetectFromBinaryFromCamera(inputImage)
 
             personList = []
             if (faces is not None):
                 print("Found {0} faces!".format(len(faces)))
-                for face in faces:
-                    person = PersonEntry()
-                    person.person = '== Hans =='
-                    person.chance = 90.0
-                #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
-                    person.image = pickle.dumps(obj=face, protocol=None, fix_imports=False)
-                    personList.append(person)
+                for algoritm, value in faces:
+                    for name, conf in value:
+                        person = PersonEntry()
+                        person.person = name
+                        person.chance = conf
+                        person.algoritm = algoritm
+                        personList.append(person)
+                        print(person)
+                # for face in faces:
+                #     person = PersonEntry()
+                #     person.person = 'MockPerson'
+                #     person.chance = 90.0
+                #     person.algoritm = 'Mock'
+                # #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
+                #     person.image = pickle.dumps(obj=face, protocol=None, fix_imports=False)
+                #     personList.append(person)
             output = FacePiOutput()
             output.personCollection = personList
             print(output)

@@ -28,6 +28,8 @@ es_service_ip           = 'localhost'
 es_service_port         = 32770
 mongo_service_ip        = 'localhost'
 mongo_service_port      = 27017
+rabbit_service_ip       = 'localhost'
+rabbit_service_port     = 35672
 
 lightwaveRfIp           = '192.168.0.102'
 

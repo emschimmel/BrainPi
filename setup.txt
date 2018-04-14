@@ -67,3 +67,7 @@ pip install pyowm
 
 # https://www.consul.io/docs/guides/consul-containers.html
 http://blog.trifork.com/2016/12/14/service-discovery-using-consul-and-spring-cloud/
+
+brew install go
+go get git.apache.org/thrift.git/lib/go/thrift/...
+# https://thrift.apache.org/lib/go

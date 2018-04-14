@@ -11,6 +11,7 @@ import sys
 sys.path.append('../gen-py')
 
 from ConnectionHelpers.ConnectEyePi import ConnectEyePi
+from ConnectionHelpers.PasswordHelper import PasswordHelper
 
 from thrift import Thrift
 
@@ -20,7 +21,7 @@ def test1():
         input = LoginInputObject()
         input.username = 'AnyRandomString'
         input.password = None
-        input.code = '12345'
+        input.code = PasswordHelper.encryptPassword(PasswordHelper.hashPassword('12345'))
         inputDevice = DeviceTokenInput()
         inputDevice.ip = '127.0.0.1'
         inputDevice.devicetype = 'Development'
@@ -35,7 +36,7 @@ def test2():
         input = LoginInputObject()
         input.username = 'sesy'
         input.password = None
-        input.code = '12345'
+        input.code = PasswordHelper.encryptPassword(PasswordHelper.hashPassword('12345'))
         inputDevice = DeviceTokenInput()
         inputDevice.ip = '127.0.0.1'
         inputDevice.devicetype = 'Development'
@@ -50,7 +51,7 @@ def test3():
         input = LoginInputObject()
         input.username = 'sesy'
         input.password = None
-        input.code = '456'
+        input.code = PasswordHelper.encryptPassword(PasswordHelper.hashPassword('12345'))
         inputDevice = DeviceTokenInput()
         inputDevice.ip = '127.0.0.1'
         inputDevice.devicetype = 'Development'

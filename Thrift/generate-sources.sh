@@ -24,11 +24,14 @@ thrift -gen java EarPi.thrift
 thrift -gen java ThriftException.thrift
 
 thrift -gen go EarPi.thrift
+thrift -gen go GenericStruct.thrift
+thrift -gen go AutorisationStruct.thrift
+thrift -gen go ThriftException.thrift
 
 rm -rf ../AdminConsolePi/gen-py/*
 rm -rf ../AgendaPi/src/gen-py/*
 rm -rf ../1IntegrationTests/gen-py/*
-rm -rf ../DeviceRegistrationUI/src/gen-go/*
+rm -rf $HOME/go/src/generated/
 rm -rf ../EarPi/Java/src/main/java/nl/earpi/generated/*
 rm -rf ../EarPi/src/gen-py/*
 rm -rf ../EyePi/src/gen-py/*
@@ -39,6 +42,7 @@ rm -rf ../MusicPi/src/gen-py/*
 rm -rf ../PhonePi/src/gen-py/*
 rm -rf ../PhotoPi/src/gen-py/*
 rm -rf ../ShortTermMemory/src/gen-py/*
+rm -rf ../StatisticPi/src/main/scala/nl/statisticpi/generated/*
 rm -rf ../WeatherPi/src/gen-py/*
 rm -rf ../SetupDevEnv/Consul/gen-py/*
 
@@ -70,7 +74,8 @@ cp -Rf ./gen-py/MusicPi                 ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/AgendaPi                ../1IntegrationTests/gen-py/
 
 # DeviceRegistrationUI
-cp -Rf ./gen-go/EarPi                   ../DeviceRegistrationUI/gen-go/
+# GOPATH = $HOME/go
+cp -Rf ./gen-go/               $HOME/go/src/
 
 #EarPI
 cp -Rf ./gen-java/nl/earpi/generated/   ../EarPi/Java/src/main/java/nl/earpi/generated/
@@ -130,6 +135,9 @@ cp -Rf ./gen-py/PhotoPi                 ../PhotoPi/src/gen-py/
 cp -Rf ./gen-py/GenericStruct           ../ShortTermMemory/src/gen-py/
 cp -Rf ./gen-py/ShortMemory             ../ShortTermMemory/src/gen-py/
 
+# StatisticPi
+cp -Rf ./gen-py/ShortMemory             ../StatisticPi/src/main/scala/nl/statisticpi/generated/
+
 # GenericServerPi for WeatherPi
 cp -Rf ./gen-py/GenericStruct           ../WeatherPi/src/gen-py/
 cp -Rf ./gen-py/GenericServerPi         ../WeatherPi/src/gen-py/
@@ -137,5 +145,5 @@ cp -Rf ./gen-py/ThriftException         ../WeatherPi/src/gen-py/
 cp -Rf ./gen-py/WeatherPi               ../WeatherPi/src/gen-py/
 
 # SetupEnv
-cp -Rf ./gen-py/GenericStruct             ../SetupDevEnv/Consul/gen-py/
+cp -Rf ./gen-py/GenericStruct           ../SetupDevEnv/Consul/gen-py/
 cp -Rf ./gen-py/ShortMemory             ../SetupDevEnv/Consul/gen-py/

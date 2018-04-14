@@ -1,4 +1,5 @@
 namespace java nl.earpi.generated.earpi
+namespace go generated.earpi
 
 include "GenericStruct.thrift"
 include "AutorisationStruct.thrift"
