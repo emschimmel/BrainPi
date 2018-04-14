@@ -17,6 +17,7 @@ class CameraSimulation:
     cap = cv2.VideoCapture(0)
     device_token = DeviceRegistrator().register_device()
     face_connection_thread_running = False
+    names = []
 
     def testWithMacCamera(self):
         while (True):
@@ -47,6 +48,9 @@ class CameraSimulation:
             eyes = eye_cascade.detectMultiScale(roi_gray)
             for (ex, ey, ew, eh) in eyes:
                 cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+            name = self.names[0].person if 0 < len(self.names) else ""
+            confidence = "%s%%" % self.names[0].chance if 0 < len(self.names) else ""
+            cv2.putText(img, name + ' ' + str(confidence), (x - 150, y - 40), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 3)
         return img, len(faces), len(eyes)
 
     def connectToEyePi(self, image):
@@ -69,14 +73,12 @@ class CameraSimulation:
 
             input.deviceToken = self.device_token
             output =  ConnectEyePi().handleRequest(input)
-            time.sleep(10)
+            time.sleep(1)
             if output.ok:
                 print('ok, yay, I know you')
-                self.cap.release()
-                cv2.destroyAllWindows()
-                self.face_connection_thread_running = False
-            else:
-                self.face_connection_thread_running = False
+                self.names = output.personCollection
+            time.sleep(10)
+            self.face_connection_thread_running = False
         except Exception as ex:
             print('exception catched %s' % ex)
 

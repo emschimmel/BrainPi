@@ -27,6 +27,7 @@ import config
 def read_image():
     root, dirs, files=next(os.walk(config.file_path))
     imageCollection=list(filter(lambda filename:filename.endswith('.jpg'), files))
+    imageCollection+=list(filter(lambda filename:filename.endswith('.png'), files))
     return random.choice(imageCollection)
 ### end test
 

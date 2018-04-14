@@ -52,7 +52,7 @@ class FacePiThriftHandler:
                 print("Found {0} faces!".format(len(faces)))
                 for face in faces:
                     person = PersonEntry()
-                    person.person = '== Hans =='
+                    person.person = 'MockPerson'
                     person.chance = 90.0
                 #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
                     person.image = pickle.dumps(obj=face, protocol=None, fix_imports=False)
