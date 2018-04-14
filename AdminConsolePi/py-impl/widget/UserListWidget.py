@@ -1,92 +1,115 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import BooleanProperty
-from kivy.uix.recycleview import RecycleView
+from kivy.clock import Clock
 
-from random import sample
-from string import ascii_lowercase
+from kivy.app import App
+from kivy.lang import Builder
+from kivy.uix.label import Label
+from kivy.properties import ListProperty
+from kivy.uix.behaviors import ButtonBehavior
 
-root = Builder.load_string('''
-<Row@BoxLayout>:
-    canvas.before:
-        Color:
-            rgba: 0.5, 0.5, 0.5, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
-    value: ''
-    Label:
-        text: root.value
-        
-<UserListWidget>:    
-    canvas.before:    
-        Color:
-            rgba: 1, 1, 1, 0.8    
-        Line:
-            rectangle: self.x+0.015*self.width, self.y+0.02*self.height, 0.97*self.width, 0.96*self.height
-        Color:
-            rgba: 1, 1, 1, 0.3
-        Rectangle:
-            size: 0.976*self.width, 0.96*self.height
-            pos: self.x+0.012*self.width, self.y+0.022*self.height
-        
-    BoxLayout:
-        padding: 20, 20, 20, 20
-        orientation: 'vertical'
-        size_hint: .9, .9      
+import urllib.request
+import urllib.error
+import urllib.parse
+import json
 
-        rv: rv
+from ConnectionHelpers.ConnectEarPi import ConnectEarPi
 
-        Button:
-            text: 'Populate list'
-            on_press: root.populate()
-        
-        RecycleView:
-            id: rv
-            scroll_type: ['bars', 'content']
-            scroll_wheel_distance: dp(114)
-            bar_width: dp(10)
-            viewclass: 'Row'
-            RecycleBoxLayout:
-                default_size: dp(56), dp(56)
-                default_size_hint: 1, 1
-                size_hint_y: None
-                height: self.minimum_height
-                orientation: 'vertical'
-                spacing: dp(2)
-            
-''')
+from EarPi.ttypes import EarPiAuthObject
+
+from widget.ConsulDetails import ConsulDetailsApp
+from widget.ConsulDetailsModel import ConsulDetailsModel
+from widget.ConsulDetailsModel import ConsulChecksModel
+
+from thrift import Thrift
+
+Builder.load_file("widget/template/UserListWidget.kv")
+
+
+class DetailButton(ButtonBehavior, Label):
+
+    def __init__(self, **kwargs):
+        super(DetailButton, self).__init__(**kwargs)
 
 class UserListWidget(BoxLayout):
+    state = 'all'
+    data = ListProperty([])
+    rv_data = ListProperty([])
+
     def __init__(self, **kwargs):
         super(UserListWidget, self).__init__(**kwargs)
 
-    def populate(self):
-        self.rv.data = [{'value': ''.join(sample(ascii_lowercase, 6))}
-                        for x in range(50)]
+    def on_enter(self):
+        print('on_enter')
+        self.getUserList()
 
-    def sort(self):
-        self.rv.data = sorted(self.rv.data, key=lambda x: x['value'])
+    def on_leave(self):
+        print('on_leave')
 
-    def clear(self):
-        self.rv.data = []
+    # def make_data_request(self):
+    #     req = urllib.request.Request('http://localhost:8500/v1/internal/ui/services?dc=dc1&token=')
+    #     try:
+    #         response = urllib.request.urlopen(req)
+    #         self.data = json.loads(response.read().decode('utf-8'))
+    #         self.test_subset()
+    #     except urllib.error.URLError as e:
+    #         print(e.reason)
+    #
+    # def test_subset(self, state=state):
+    #     if not len(self.data):
+    #         self.make_data_request()
+    #     else:
+    #         self.state = state
+    #
+    #         self.rv_data = [{'name': str(item['Name']), 'passing' : str(item['ChecksPassing']), 'warning' : str(item['ChecksWarning']), 'critical': str(item['ChecksCritical']), 'statuscolor' : self.__setColor(item)} for item in self.data if self.__match_state(state, item)]
 
-    def insert(self, value):
-        self.rv.data.insert(0, {'value': value or 'default value'})
 
-    def update(self, value):
-        if self.rv.data:
-            self.rv.data[0]['value'] = value or 'default new value'
-            self.rv.refresh_from_data()
+    def getUserList(self):
+        try:
+            tokenInput = self.createEarPiAuthObject()
+            output = ConnectEarPi().getUserList(tokenInput)
+            app = App.get_running_app()
+            app.token = output.token
+            if output.personList:
+                print("%d items" % len(output.personList))
+            else:
+                print("test fail 0 items")
+            if self.__displayLists:
+                for item in output.personList:
+                    print(item)
+        except Thrift.TException as tx:
+            print("%s" % (tx.message))
 
-    def remove(self):
-        if self.rv.data:
-            self.rv.data.pop(0)
 
+    def createEarPiAuthObject(self):
+        app = App.get_running_app()
+
+        tokenObject = EarPiAuthObject()
+        tokenObject.token = app.token
+        tokenObject.deviceToken = app.deviceToken
+        return tokenObject
+
+    @staticmethod
+    def __match_state(state, item):
+        if state is 'all':
+            return True
+        elif state is 'failing' and item['ChecksCritical'] or item['ChecksWarning']:
+            return True
+        elif state is 'succes' and not item['ChecksCritical'] and not item['ChecksWarning']:
+            return True
+
+
+    @staticmethod
+    def __setColor(item):
+        c = [0, 1, 0.3, 0.2]
+        if item['ChecksCritical']:
+            c = [1, 0, 0, 0.2]
+        elif item['ChecksWarning']:
+            c = [1, 0.6, 0, 0.2]
+        return c
 
 class UserList(App):
 
     def build(self):
         return UserListWidget()
-

@@ -9,7 +9,11 @@ from widget.UserListWidget import UserList
 Builder.load_file("mainnavigation/template/UserListScreen.kv")
 
 class UserListScreen(Screen):
-    pass
+    def on_enter(self, *args):
+        self.ids.widget.on_enter()
+
+    def on_leave(self, *args):
+        self.ids.widget.on_leave()
 
 class UserListWidget(BoxLayout):
     pass

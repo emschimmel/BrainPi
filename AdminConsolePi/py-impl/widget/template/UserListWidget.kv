@@ -1,0 +1,110 @@
+<SelectableButton@BoxLayout>:
+    name: ''
+    passing: ''
+    warning: ''
+    critical: ''
+    statuscolor: []
+    canvas:
+        Color:
+            rgba: root.statuscolor
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    cols: 4
+    rows: 1
+    size_hint_y: None
+    height: dp(20)
+    padding: dp(10), dp(10), dp(10), dp(10)
+    name: ''
+    passing: ''
+    warning: ''
+    critical: ''
+    DetailButton:
+        text_size: self.size
+        valign: 'middle'
+        text: root.name
+        size_hint_x: .4
+        on_press: self.display_details(root.name)
+    DetailButton:
+        text: root.passing
+        size_hint_x: .1
+        on_press: self.display_details(root.name)
+    DetailButton:
+        text: root.warning
+        size_hint_x: .1
+        on_press: self.display_details(root.name)
+    DetailButton:
+        text: root.critical
+        size_hint_x: .1
+        on_press: self.display_details(root.name)
+
+<UserListWidget>:
+    padding: dp(10), dp(10), dp(10), dp(10)
+    canvas:
+        Color:
+            rgba: 0.3, 0.3, 0.3, 0.8
+        Line:
+            rectangle: self.x+0.015*self.width, self.y+0.02*self.height, 0.97*self.width, 0.96*self.height
+
+        Rectangle:
+            size: 0.976*self.width, 0.96*self.height
+            pos: self.x+0.012*self.width, self.y+0.022*self.height
+
+    orientation: 'vertical'
+    GridLayout:
+        cols: 3
+        rows: 1
+        size_hint_y: None
+        height: dp(40)
+        padding: dp(8)
+        spacing: dp(16)
+        Button:
+            text: 'All services'
+            on_press: root.test_subset('all')
+        Button:
+            text: 'Failing services'
+            on_press: root.test_subset('failing')
+        Button:
+            text: 'Success services'
+            on_press: root.test_subset('succes')
+
+    GridLayout:
+        canvas:
+            Color:
+                rgba: 1, 1, 1, 0.2
+            Rectangle:
+                size: 0.976*self.width, 0.96*self.height
+                pos: self.x+0.012*self.width, self.y+0.022*self.height
+        cols: 4
+        rows: 1
+        size_hint_y: None
+        height: dp(30)
+        Label:
+            size_hint_x: .4
+            text: "name"
+        Label:
+            size_hint_x: .1
+            text: "passing"
+        Label:
+            size_hint_x: .1
+            text: "warning"
+        Label:
+            size_hint_x: .1
+            text: "critical"
+    BoxLayout:
+        padding: dp(10), dp(0), dp(10), dp(10)
+        RecycleView:
+            id: rv
+            data: [{'name': x['name'], 'passing' : x['passing'], 'warning' : x['warning'], 'critical' : x['critical'], 'statuscolor' : x['statuscolor'] } for x in root.rv_data]
+            scroll_type: ['bars', 'content']
+            scroll_wheel_distance: dp(114)
+            bar_width: dp(10)
+            viewclass: 'SelectableButton'
+            RecycleBoxLayout:
+                default_size: None, dp(56)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+                spacing: dp(2)
+

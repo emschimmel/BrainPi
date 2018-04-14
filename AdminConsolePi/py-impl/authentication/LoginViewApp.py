@@ -38,7 +38,7 @@ class LoginView(Popup):
             if app.deviceToken!='None':
                 input.deviceToken = app.deviceToken
             else:
-                input.deviceToken = 'ABCDEFGH'
+                input.deviceToken = 'BQTPPLRJ'
 
             inputDevice = DeviceTokenInput()
             inputDevice.ip = '127.0.0.1'
@@ -59,6 +59,8 @@ class LoginView(Popup):
             if (output.token is None):
                 self.ids.message.text = app.i18n.t('admin.account_not_enabled')
                 return
+
+            app.token = output.token
 
             self.dismiss()
 
