@@ -25,6 +25,7 @@ struct ConfirmInput {
 service FacePiThriftService {
     FacePiOutput handleRequest(1: FacePiInput input) throws (1: ThriftException.ExternalEndpointUnavailable endPointUnavailiable 2: ThriftException.ThriftServiceException thriftException)
     oneway void confimFace(1: ConfirmInput input)
+    oneway void trainNetwork()
 
 }
 

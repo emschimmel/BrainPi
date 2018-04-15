@@ -45,30 +45,10 @@ class FacePiThriftHandler:
             # inputImage = input.image
             #HaarFaceDetection().detectFaceWithEyes(inputImage)
             print("handling")
-            faces = RecognitionManager().recon_face(inputImage)
             #faces = DetectFaces().DetectFromBinaryFromCamera(inputImage)
 
-            personList = []
-            if (faces is not None):
-                print("Found {0} faces!".format(len(faces)))
-                for algoritm, value in faces:
-                    for name, conf in value:
-                        person = PersonEntry()
-                        person.person = name
-                        person.chance = conf
-                        person.algoritm = algoritm
-                        personList.append(person)
-                        print(person)
-                # for face in faces:
-                #     person = PersonEntry()
-                #     person.person = 'MockPerson'
-                #     person.chance = 90.0
-                #     person.algoritm = 'Mock'
-                # #    person.image = cv2.threshold(face,127,255,cv2.THRESH_BINARY)
-                #     person.image = pickle.dumps(obj=face, protocol=None, fix_imports=False)
-                #     personList.append(person)
             output = FacePiOutput()
-            output.personCollection = personList
+            output.personCollection = RecognitionManager().recon_face(inputImage)
             print(output)
             return output
         except Exception as ex:
@@ -80,6 +60,10 @@ class FacePiThriftHandler:
         print(input)
         # train the network with the found face with name
         print(input.person)
+
+    @stat.timer("FacePi.trainNetwork")
+    def trainNetwork(self):
+        RecognitionManager().train()
 
 def get_ip():
     import socket

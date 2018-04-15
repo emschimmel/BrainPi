@@ -5,9 +5,9 @@ eigen_trainer_file      = './Data/eigen_trainer.yml'
 fisher_trainer_file     = './Data/fisher_trainer.yml'
 lbph_trainer_file       = './Data/lbph_trainer.yml'
 
-eigen_data_path         = './Data/lfw_eigen'
-fisher_data_path        = './Data/lfw_eigen'
-lbph_data_path          = './Data/lfw'
+eigen_data_path         = './Data/lfw_eigen/'
+fisher_data_path        = './Data/lfw_fisher/'
+lbph_data_path          = './Data/lfw_lbph/'
 
 eigen_name_id_file      = './Data/eigen_namedIds.yml'
 fisher_name_id_file     = './Data/fisher_namedIds.yml'

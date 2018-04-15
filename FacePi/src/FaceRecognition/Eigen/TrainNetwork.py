@@ -50,7 +50,7 @@ class TrainNetwork():
         label = 0
         for imagePath in imagePaths:
             name = imagePath.split(path+'/')
-            name = name[1].replace('_', ' ', -1)
+            name = name[0].replace('_', ' ', -1)
             print(name)
             print(label)
             imageCollection = self.__read_image(imagePath)
@@ -82,7 +82,7 @@ class TrainNetwork():
                 pickle.dump(namedIds, namedIdsFile)
 
     @staticmethod
-    def __write_to_disc(self, image, name):
+    def __write_to_disc(image, name):
         save_name = name.replace(' ', '_', -1)
         file_name = config.eigen_data_path + save_name + '/' + save_name + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '_%d' % random.randint(0,9) + '.jpg'
         print(file_name)
