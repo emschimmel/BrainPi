@@ -13,6 +13,10 @@ eigen_name_id_file      = './Data/eigen_namedIds.yml'
 fisher_name_id_file     = './Data/fisher_namedIds.yml'
 lbph_name_id_file       = './Data/lbph_namedIds.yml'
 
+tensor_model_path       = './Data/tensorflow_model/'
+tensor_data_path        = './Data/tensorflow_ids/'
+tensor_id_file          = './Data/tensorflow_saved/id_dataset.pkl'
+
 consul_interval         = '30s'
 consul_timeout          = '2s'
 consul_ip               = '127.0.0.1'
