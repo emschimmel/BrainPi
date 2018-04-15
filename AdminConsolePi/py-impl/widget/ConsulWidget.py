@@ -64,7 +64,6 @@ class ConsulWidget(BoxLayout):
     rv_data = ListProperty([])
 
     def __init__(self, **kwargs):
-        self.random_number = 'Loading data, please wait......'
         super(ConsulWidget, self).__init__(**kwargs)
 
     def on_enter(self):
