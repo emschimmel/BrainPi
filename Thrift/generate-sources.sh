@@ -49,6 +49,7 @@ rm -rf ../SetupDevEnv/Consul/gen-py/*
 # AdminConsole
 cp -Rf ./gen-py/GenericStruct           ../AdminConsolePi/gen-py/
 cp -Rf ./gen-py/EyePi                   ../AdminConsolePi/gen-py/
+cp -Rf ./gen-py/EarPi                   ../AdminConsolePi/gen-py/
 cp -Rf ./gen-py/AutorisationStruct      ../AdminConsolePi/gen-py/
 cp -Rf ./gen-py/ThriftException         ../AdminConsolePi/gen-py/
 
