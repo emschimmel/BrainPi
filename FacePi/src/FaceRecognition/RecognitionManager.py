@@ -11,28 +11,30 @@ from .TensorFlow.startTensor import StartTensor as Tensor
 class RecognitionManager():
 
     def __init__(self):
-        self.log = {}
+        pass
 
     @staticmethod
-    def train():
+    def train(tensorSession):
         LbphTrain().basicTrain()
-        Tensor().train()
+        Tensor().train(tensorSession)
         # EigenTrain().basicTrain()
         # FisherTrain().basicTrain()
         pass
 
     @staticmethod
-    def recon_face(image):
+    def recon_face(tensorSession, image):
         print('manager')
         personList = []
-        for name, conf in LbphFace().reconFaceFromImage(image):
-            person = PersonEntry()
-            person.person = name
-            person.chance = conf
-            person.algoritm = 'LBPH'
-            personList.append(person)
-            print(person)
-        personList += Tensor().loadWithoutTrainFromFrame(image)
+        # for name, conf in LbphFace().reconFaceFromImage(image):
+        #     person = PersonEntry()
+        #     person.person = name
+        #     person.chance = conf
+        #     person.algoritm = 'LBPH'
+        #     personList.append(person)
+        #     print(person)
+        print("asking tensor")
+        personList += Tensor().loadWithoutTrainFromFrame(tensorSession, image)
+        print(personList)
         # output['Eigen'] = EigenFace().reconFaceFromImage(image)
         # print(output)
         # output['Fisher'] = FisherFace().reconFaceFromImage(image)
@@ -49,7 +51,7 @@ class RecognitionManager():
 
 
 if __name__ == '__main__':
-
-    RecognitionManager().train()
+    pass
+#   RecognitionManager().train()
 #    RecognitionManager().recon_cam_face()
 #    pass

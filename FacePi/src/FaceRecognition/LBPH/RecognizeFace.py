@@ -48,7 +48,6 @@ class RecognizeFace():
         list_names = dict(list)
 
     def recon_face_with_camera(self):
-        # recognizer = cv2.face.FisherFaceRecognizer_create()
         recognizer = cv2.face.LBPHFaceRecognizer_create()
         recognizer.read(config.lbph_trainer_file)
         cam = cv2.VideoCapture(0)
@@ -78,7 +77,6 @@ class RecognizeFace():
         return recon
 
     def recon_face_with_file(self, im):
-        # recognizer = cv2.face.FisherFaceRecognizer_create()
         recognizer = cv2.face.LBPHFaceRecognizer_create()
         recognizer.read(config.lbph_trainer_file)
         recon = []
@@ -90,8 +88,4 @@ class RecognizeFace():
             if (conf < 20):
                 crop_img = im[y:y + h, x:x + w]
                 recon.append([name, conf, crop_img, Id])
-
-            cv2.rectangle(im, (x - 22, y - 90), (x + w + 22, y - 22), (0, 255, 0), -1)
-            cv2.putText(im, name+' '+str(conf), (x, y - 40), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 3)
-
         return recon
