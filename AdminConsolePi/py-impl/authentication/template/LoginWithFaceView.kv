@@ -1,0 +1,30 @@
+#:import Factory kivy.factory.Factory
+<LoginWithFaceView@Popup>:
+    title: 'Login'
+    auto_dismiss: False
+    size_hint: None, None
+    size: 500, 300
+
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            padding: dp(10), dp(10), dp(10), dp(10)
+            orientation: 'horizontal'
+
+            MyCamera:
+                id: camera
+
+        BoxLayout:
+            size_hint_y: .3
+            height: dp(20)
+            orientation: 'horizontal'
+            Button:
+                text: root.translate('admin.exit')
+                on_press: root.exit_application()
+            Button:
+                text: root.translate('admin.test')
+                on_press: root.dismiss()
+
+<MyCamera>:
+    resolution: 400, 300
+    play: True

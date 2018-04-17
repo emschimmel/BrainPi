@@ -1,7 +1,7 @@
 from kivy.app import App
 
 from mainnavigation.MainViewApp import MainView
-from authentication.LoginViewApp import LoginViewApp
+from authentication.LoginWithFaceViewApp import LoginWithFaceViewApp
 
 import i18n
 
@@ -33,7 +33,7 @@ class AdminConsoleApp(App):
             'adminconsole.ini')
 
     def on_start(self, **kwargs):
-        popup = LoginViewApp.build(self)
+        popup = LoginWithFaceViewApp.build(self)
         popup.open()
 
     def load_translations(self):
