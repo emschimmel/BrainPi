@@ -50,8 +50,8 @@ class TrainNetwork():
         label = 0
         for imagePath in imagePaths:
             name = imagePath.split(path+'/')
-            name = name[1].replace('_', ' ', -1)
             print(name)
+            name = name[0].replace('_', ' ', -1)
             print(label)
             print(imagePath)
             imageCollection = self.__read_image(path=imagePath)

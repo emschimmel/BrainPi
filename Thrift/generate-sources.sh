@@ -64,6 +64,7 @@ cp -Rf ./gen-py/GenericStruct           ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/AutorisationStruct      ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/EyePi                   ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/EarPi                   ../1IntegrationTests/gen-py/
+cp -Rf ./gen-py/FacePi                   ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/ThriftException         ../1IntegrationTests/gen-py/
 cp -Rf ./gen-py/ShortMemory             ../1IntegrationTests/gen-py/ # mock!
 cp -Rf ./gen-py/LongMemory              ../1IntegrationTests/gen-py/ # mock!

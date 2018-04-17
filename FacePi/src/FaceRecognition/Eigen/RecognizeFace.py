@@ -5,6 +5,8 @@ import pickle
 from .TrainNetwork import TrainNetwork
 sys.path.append('../')
 from FaceDetection.DetectFaces import DetectFaces
+sys.path.append('../../')
+import config
 
 class RecognizeFace():
 
@@ -13,7 +15,7 @@ class RecognizeFace():
 
     def reconFaceWithCam(self):
         output = dict()
-        with open('./Data/namedIds.yml', 'rb') as namedIdsFile:
+        with open(config.eigen_name_id_file, 'rb') as namedIdsFile:
             self.namedIds = pickle.loads(namedIdsFile.read())
         recon = self.recon_face_with_camera()
         print(recon)
@@ -28,7 +30,7 @@ class RecognizeFace():
 
     def reconFaceFromImage(self, image):
         output = dict()
-        with open('./Data/namedIds.yml', 'rb') as namedIdsFile:
+        with open(config.eigen_name_id_file, 'rb') as namedIdsFile:
             self.namedIds = pickle.loads(namedIdsFile.read())
         recon = self.recon_face_with_file(image)
         print(recon)
@@ -47,7 +49,7 @@ class RecognizeFace():
     def recon_face_with_camera(self):
         # recognizer = cv2.face.FisherFaceRecognizer_create()
         recognizer = cv2.face.LBPHFaceRecognizer_create()
-        recognizer.read('./Data/trainer.yml')
+        recognizer.read(config.eigen_trainer_file)
         cam = cv2.VideoCapture(0)
         recon = []
         loop = True
@@ -77,7 +79,7 @@ class RecognizeFace():
     def recon_face_with_file(self, im):
         # recognizer = cv2.face.FisherFaceRecognizer_create()
         recognizer = cv2.face.LBPHFaceRecognizer_create()
-        recognizer.read('./Data/trainer.yml')
+        recognizer.read(config.eigen_trainer_file)
         recon = []
         gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
         faces = DetectFaces().DetectFromBinaryFromCamera(im)
